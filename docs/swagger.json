@@ -1,0 +1,52 @@
+{
+    "swagger": "2.0",
+    "info": {
+        "description": "为了自己以后方便写点小东西，搭个模版`",
+        "title": "项目模版`",
+        "termsOfService": "[http://swagger.io/terms/](http://swagger.io/terms/)`",
+        "contact": {
+            "name": "黄日明 2313773899@qq.com`",
+            "url": "[http://www.swagger.io/support](http://www.swagger.io/support)`",
+            "email": "support@swagger.io`"
+        },
+        "license": {
+            "name": "Apache 2.0`",
+            "url": "[http://www.apache.org/licenses/LICENSE-2.0.html](http://www.apache.org/licenses/LICENSE-2.0.html)`"
+        },
+        "version": "1.0`"
+    },
+    "paths": {
+        "/api/user-auth/login": {
+            "post": {
+                "produces": [
+                    "application/json"
+                ],
+                "summary": "登陆方法",
+                "parameters": [
+                    {
+                        "type": "string",
+                        "description": "account",
+                        "name": "account",
+                        "in": "query",
+                        "required": true
+                    },
+                    {
+                        "type": "string",
+                        "description": "password",
+                        "name": "password",
+                        "in": "query",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "{\"code\":200,\"data\":{},\"msg\":\"ok\"}",
+                        "schema": {
+                            "type": "string"
+                        }
+                    }
+                }
+            }
+        }
+    }
+}
