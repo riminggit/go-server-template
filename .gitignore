@@ -1,3 +1,5 @@
-/logs/
-/docs/
-/temp/
+/logs
+/docs
+/tmp
+
+.DS_Store

@@ -6,7 +6,7 @@ import (
 	log "github.com/sirupsen/logrus"
 	"go-server-template/config"
 	// "go-server-template/middleware/global/jwt"
-	"go-server-template/cron"
+	// "go-server-template/cron"
 	"go-server-template/middleware/global/log"
 	"go-server-template/pkg/db"
 	"go-server-template/pkg/redis"
@@ -50,7 +50,8 @@ func main() {
 		MaxHeaderBytes: maxHeaderBytes,
 	}
 
-	cronTask.CronTaskInit()
+	// 定时任务
+	// cronTask.CronTaskInit()
 
 	log.Printf("开始监听端口 %s", endPoint)
 	server.ListenAndServe()
