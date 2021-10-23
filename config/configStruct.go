@@ -10,6 +10,7 @@ type Config struct {
 	LogConfig      `ini:"LOG"`
 	DatabaseConfig `ini:"DATABASE"`
 	RedisConfig    `ini:"REDIS"`
+	ElasticConfig  `ini:"ELASTIC"`
 }
 
 type ServerConfig struct {
@@ -62,3 +63,9 @@ type RedisConfig struct {
 	ReadTimeout  int
 	WriteTimeout int
 }
+
+type ElasticConfig struct {
+	HOST         string
+	PORT         string
+}
+
