@@ -41,7 +41,7 @@ require (
 	github.com/jinzhu/now v1.1.2 // indirect
 	github.com/jmoiron/sqlx v1.3.4 // indirect
 	github.com/joho/godotenv v1.3.0 // indirect
-	github.com/mattn/go-sqlite3 v1.14.8 // indirect
+	github.com/mattn/go-sqlite3 v2.0.3+incompatible // indirect
 	github.com/unknwon/com v1.0.1
 	gopkg.in/guregu/null.v4 v4.0.0 // indirect
 	gopkg.in/ini.v1 v1.63.0 // indirect
@@ -54,6 +54,7 @@ require (
 	github.com/KyleBanks/depth v1.2.1 // indirect
 	github.com/PuerkitoBio/purell v1.1.1 // indirect
 	github.com/PuerkitoBio/urlesc v0.0.0-20170810143723-de5bf2ad4578 // indirect
+	github.com/astaxie/beego v1.12.3
 	github.com/cpuguy83/go-md2man/v2 v2.0.1 // indirect
 	github.com/ghodss/yaml v1.0.0 // indirect
 	github.com/go-openapi/jsonpointer v0.19.5 // indirect
@@ -72,3 +73,5 @@ require (
 	golang.org/x/net v0.0.0-20210614182718-04defd469f4e // indirect
 	golang.org/x/tools v0.1.0 // indirect
 )
+
+require github.com/shiena/ansicolor v0.0.0-20151119151921-a422bbe96644 // indirect

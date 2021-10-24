@@ -8,33 +8,45 @@ import (
 	"path"
 )
 
-// GetSize get the file size
+// 获取文件大小
 func GetSize(f multipart.File) (int, error) {
 	content, err := ioutil.ReadAll(f)
 
 	return len(content), err
 }
 
-// GetExt get the file ext
+// 获取文件
 func GetExt(fileName string) string {
 	return path.Ext(fileName)
 }
 
-// CheckNotExist check if the file exists
+// 检查文件是否存在
 func CheckNotExist(src string) bool {
 	_, err := os.Stat(src)
 
 	return os.IsNotExist(err)
 }
 
-// CheckPermission check if the file has permission
+// 判断文件夹是否存在
+func PathExists(path string) (bool, error) {
+	_, err := os.Stat(path)
+	if err == nil {
+		return true, nil
+	}
+	if os.IsNotExist(err) {
+		return false, nil
+	}
+	return false, err
+}
+
+// 检查文件是否有权限
 func CheckPermission(src string) bool {
 	_, err := os.Stat(src)
 
 	return os.IsPermission(err)
 }
 
-// IsNotExistMkDir create a directory if it does not exist
+// 创建一个不存在的目录
 func IsNotExistMkDir(src string) error {
 	if notExist := CheckNotExist(src); notExist == true {
 		if err := MkDir(src); err != nil {
@@ -45,7 +57,7 @@ func IsNotExistMkDir(src string) error {
 	return nil
 }
 
-// MkDir create a directory
+// 创建目录
 func MkDir(src string) error {
 	err := os.MkdirAll(src, os.ModePerm)
 	if err != nil {
@@ -55,7 +67,7 @@ func MkDir(src string) error {
 	return nil
 }
 
-// Open a file according to a specific mode
+// 按照特定的模式打开文件
 func Open(name string, flag int, perm os.FileMode) (*os.File, error) {
 	f, err := os.OpenFile(name, flag, perm)
 	if err != nil {
@@ -65,7 +77,7 @@ func Open(name string, flag int, perm os.FileMode) (*os.File, error) {
 	return f, nil
 }
 
-// MustOpen maximize trying to open the file
+// 最大化尝试打开文件
 func MustOpen(fileName, filePath string) (*os.File, error) {
 	dir, err := os.Getwd()
 	if err != nil {

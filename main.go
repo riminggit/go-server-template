@@ -5,25 +5,24 @@ import (
 	"github.com/gin-gonic/gin"
 	log "github.com/sirupsen/logrus"
 	"go-server-template/config"
-	"go-server-template/middleware/global/log"
 	"go-server-template/pkg/db"
+	"go-server-template/pkg/log"
 	"go-server-template/pkg/redis"
 	"go-server-template/routers"
 	"net/http"
 	"time"
-	// "go-server-template/middleware/global/jwt"
 	// "go-server-template/cron"
 	// "go-server-template/pkg/elastic"
 )
 
 func init() {
 	projectConfig.InitConfig()
+	logging.InitLogging()
 	DB.InitDBGorm()
 	Redis.InitRedis()
+	routers.InitRouter()
 	// elastic.InitElestic()
-	r := routers.InitRouter()
-	r.Use(logMiddleware.LogerMiddleware())
-	// r.Use(JWTMiddleware.JWT())
+
 }
 
 // @title 项目模版`
