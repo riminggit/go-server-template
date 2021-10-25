@@ -3,12 +3,11 @@ package projectConfig
 import (
 	"bytes"
 	"fmt"
+	"github.com/joho/godotenv"
 	log "github.com/sirupsen/logrus"
 	"os"
 	"path/filepath"
 	"runtime"
-
-	"github.com/joho/godotenv"
 )
 
 // 创建.env文件
