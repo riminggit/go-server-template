@@ -28,7 +28,7 @@ func InitDBGorm() *gorm.DB {
 		charset,
 	)
 
-	db, err := gorm.Open(mysql.Open(args), &gorm.Config{
+	DB, err := gorm.Open(mysql.Open(args), &gorm.Config{
 		DisableForeignKeyConstraintWhenMigrating: true,
 	})
 	if err != nil {
@@ -36,8 +36,8 @@ func InitDBGorm() *gorm.DB {
 	}
 
 	// 自动同步库
-	AutoMigrateDBGorm(db)
+	AutoMigrateDBGorm(DB)
 
-	return db
+	return DB
 
 }

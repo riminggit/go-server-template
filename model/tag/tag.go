@@ -1,9 +1,5 @@
 package tagModel
 
-import (
-// "time"
-)
-
 type Tag struct {
 	ID      int    `gorm:"autoIncrement;primaryKey;type:int(11);uniqueIndex;not null"` // id
 	TagName string `gorm:"type:varchar(50);not null"`                                  // 标签名

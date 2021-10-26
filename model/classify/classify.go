@@ -1,9 +1,5 @@
 package classifyModel
 
-import (
-// "time"
-)
-
 type Classify struct {
 	ID           int    `gorm:"autoIncrement;primaryKey;type:int(11);uniqueIndex;not null"` // id
 	ClassifyName string `gorm:"type:varchar(30);not null"`                                  // 类型名：html5、css、js等
