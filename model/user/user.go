@@ -4,6 +4,8 @@ import (
 	"time"
 )
 
+// 文档https://gorm.io/zh_CN/docs/conventions.html
+
 type User struct {
 	ID        int    `gorm:"autoIncrement;primaryKey;type:int(11);not null"` // 自增
 	Account   string `gorm:"type:varchar(50);uniqueIndex;not null"`          // 唯一索引
