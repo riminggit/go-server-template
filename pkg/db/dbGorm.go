@@ -9,8 +9,10 @@ import (
 	"gorm.io/gorm"
 )
 
+var DBLivingExample *gorm.DB
+
 //数据库连接
-func InitDBGorm() *gorm.DB {
+func InitDBGorm() {
 	config := projectConfig.AppConfig
 	DatabaseConfig := config.DatabaseConfig
 	host := DatabaseConfig.HOST
@@ -28,16 +30,15 @@ func InitDBGorm() *gorm.DB {
 		charset,
 	)
 
-	DB, err := gorm.Open(mysql.Open(args), &gorm.Config{
+	db, err := gorm.Open(mysql.Open(args), &gorm.Config{
 		DisableForeignKeyConstraintWhenMigrating: true,
 	})
 	if err != nil {
 		log.Error("failed to connect database,err:" + err.Error())
 	}
+	DBLivingExample = db
 
 	// 自动同步库
-	AutoMigrateDBGorm(DB)
-
-	return DB
+	// AutoMigrateDBGorm(db)
 
 }

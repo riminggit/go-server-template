@@ -28,10 +28,8 @@ func init() {
 // @title 项目模版`
 // @version 1.0`
 // @description 为了自己以后方便写点小东西，搭个模版`
-// @termsOfService [http://swagger.io/terms/](http://swagger.io/terms/)`
 // @contact.name 黄日明`
-// @contact.url [http://www.swagger.io/support](http://www.swagger.io/support)`
-// @contact.email support@swagger.io`
+// @contact.email 2313773899@qq.com`
 // @license.name Apache 2.0`
 // @license.url [http://www.apache.org/licenses/LICENSE-2.0.html](http://www.apache.org/licenses/LICENSE-2.0.html)`
 func main() {

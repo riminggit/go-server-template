@@ -2,12 +2,14 @@ package Redis
 
 import (
 	"context"
+	"encoding/json"
 	"fmt"
 	"go-server-template/config"
 	"time"
 
+	log "go-server-template/pkg/log"
+
 	"github.com/go-redis/redis/v8"
-	log "github.com/sirupsen/logrus"
 )
 
 var rdb *redis.Client
@@ -39,15 +41,21 @@ func InitRedis() *redis.Client {
 }
 
 func SetValue(key string, value interface{}, expiration time.Duration) error {
+
+	data, jsonErr := json.Marshal(value)
+	if jsonErr != nil {
+		return jsonErr
+	}
+
 	// 0 意味着没有过期时间
-	err := rdb.Set(ctx, key, value, expiration*time.Second).Err()
+	err := rdb.Set(ctx, key, data, expiration*time.Second).Err()
 	if err != nil {
 		log.Error(err)
 	}
 	return err
 }
 
-func GetValue(key string) interface{} {
+func GetValue(key string) string {
 	val, err := rdb.Get(ctx, key).Result()
 
 	if err == redis.Nil {

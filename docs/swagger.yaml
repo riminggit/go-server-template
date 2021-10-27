@@ -1,35 +1,89 @@
+definitions:
+  userLogin.Response:
+    properties:
+      code:
+        type: integer
+      data: {}
+      msg:
+        type: string
+    type: object
 info:
   contact:
-    email: support@swagger.io`
-    name: 黄日明 2313773899@qq.com`
-    url: '[http://www.swagger.io/support](http://www.swagger.io/support)`'
+    email: 2313773899@qq.com`
+    name: 黄日明`
   description: 为了自己以后方便写点小东西，搭个模版`
   license:
     name: Apache 2.0`
     url: '[http://www.apache.org/licenses/LICENSE-2.0.html](http://www.apache.org/licenses/LICENSE-2.0.html)`'
-  termsOfService: '[http://swagger.io/terms/](http://swagger.io/terms/)`'
   title: 项目模版`
   version: 1.0`
 paths:
-  /api/user-auth/login:
+  /api/user-login/wxLogin:
     post:
+      description: 微信登陆
       parameters:
-      - description: account
-        in: query
-        name: account
-        required: true
+      - description: Bearer 31a165baebe6dec616b1f8f3207b4273
+        in: header
+        name: Authorization
         type: string
-      - description: password
+      - description: openid
         in: query
-        name: password
-        required: true
+        name: openid
+        type: string
+      - description: 微信
+        in: query
+        name: come_from
+        type: string
+      - description: 用户名
+        in: query
+        name: nick_name
+        type: string
+      - description: 用户头像
+        in: query
+        name: avatar_url
+        type: string
+      - description: 性别
+        in: query
+        name: gender
+        type: integer
+      - description: 城市
+        in: query
+        name: city
+        type: string
+      - description: 省份
+        in: query
+        name: province
+        type: string
+      - description: 国家
+        in: query
+        name: country
+        type: string
+      - description: 语言
+        in: query
+        name: language
+        type: string
+      - description: rawdata
+        in: query
+        name: rawdata
+        type: string
+      - description: signature
+        in: query
+        name: signature
+        type: string
+      - description: encrypteddata
+        in: query
+        name: encrypteddata
+        type: string
+      - description: iv
+        in: query
+        name: iv
         type: string
       produces:
       - application/json
       responses:
         "200":
-          description: '{"code":200,"data":{},"msg":"ok"}'
+          description: OK
           schema:
-            type: string
-      summary: 登陆方法
+            $ref: '#/definitions/userLogin.Response'
+      summary: 登陆相关方法
 swagger: "2.0"

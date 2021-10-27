@@ -4,6 +4,7 @@ import (
 	"github.com/dgrijalva/jwt-go"
 	"github.com/gin-gonic/gin"
 	"go-server-template/config"
+	"go-server-template/pkg/app"
 	"go-server-template/pkg/e"
 	"go-server-template/pkg/redis"
 	"go-server-template/pkg/util"
@@ -18,9 +19,15 @@ func JWT() gin.HandlerFunc {
 		var data interface{}
 
 		code = e.SUCCESS
-		token := c.Query("token")
+		token := app.GetHeaderToken(c)
+		// token := c.Query("token") // 获取链接上的参数
 		if token == "" {
-			code = e.INVALID_PARAMS
+			token = c.Query("token")
+			if token == "" {
+				code = e.ERROR_AUTH
+			} else {
+				code = verifyType(token)
+			}
 		} else {
 			code = verifyType(token)
 		}

@@ -7,7 +7,7 @@ import (
 
 // 初始化模块路由
 func UserInitRouter(r *gin.RouterGroup) {
-	userAuth := r.Group("/user-auth")
+	userLogin := r.Group("/user-login")
 	// userAuth.Use(JWTMiddleware.JWT())
-	UserAuthRouter(userAuth)
+	UserLoginRouter(userLogin)
 }

@@ -74,4 +74,7 @@ require (
 	golang.org/x/tools v0.1.0 // indirect
 )
 
-require github.com/shiena/ansicolor v0.0.0-20151119151921-a422bbe96644 // indirect
+require (
+	github.com/beego/beego/v2 v2.0.1
+	github.com/shiena/ansicolor v0.0.0-20151119151921-a422bbe96644 // indirect
+)

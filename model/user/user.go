@@ -7,25 +7,25 @@ import (
 // 文档https://gorm.io/zh_CN/docs/conventions.html
 
 type User struct {
-	ID        int    `gorm:"autoIncrement;primaryKey;type:int(11);not null"` // 自增
-	Account   string `gorm:"type:varchar(50);uniqueIndex;not null"`          // 唯一索引
-	NickName  string `gorm:"type:varchar(100)"`
-	Password  string `gorm:"type:varchar(255)"`
-	Phone     string `gorm:"type:varchar(12)"`
-	AvatarUrl string `gorm:"type:varchar(255)"`
-	ComeFrom  string `gorm:"type:varchar(20)"`
-	Openid    string `gorm:"type:varchar(50)"`
-	Gender    int    `gorm:"type:int(3)"`
-	City      string `gorm:"type:varchar(50)"`
-	Province  string `gorm:"type:varchar(50)"`
-	Country   string `gorm:"type:varchar(50)"`
-	Language  string `gorm:"type:varchar(30)"`
-	Rawdata   string `gorm:"type:varchar(255)"`
-	Signature string `gorm:"type:varchar(255)"`
-	IsAdmin   int    `gorm:"type:int(3)"`
-	Birthday  time.Time
-	CreateAt  time.Time
-	DeleteAt  time.Time
-	UpdateAt  time.Time
-	IsUse     int `gorm:"type:int(3);default:1"`
+	ID        int       `json:"id" gorm:"column:id;AUTO_INCREMENT;comment:id;not null"` // 自增
+	Account   string    `json:"account" gorm:"type:varchar(50);uniqueIndex;"`           // 唯一索引
+	NickName  string    `json:"nick_name" gorm:"type:varchar(100)"`
+	Password  string    `json:"password" gorm:"type:varchar(255)"`
+	Phone     string    `json:"phone" gorm:"type:varchar(12)"`
+	AvatarUrl string    `json:"avatar_url" gorm:"type:varchar(255)"`
+	ComeFrom  string    `json:"come_from" gorm:"type:varchar(20)"`
+	Openid    string    `json:"openid" gorm:"type:varchar(50)"`
+	Gender    int       `json:"gender" gorm:"type:int(3)"`
+	City      string    `json:"city" gorm:"type:varchar(50)"`
+	Province  string    `json:"province" gorm:"type:varchar(50)"`
+	Country   string    `json:"country" gorm:"type:varchar(50)"`
+	Language  string    `json:"language" gorm:"type:varchar(30)"`
+	Rawdata   string    `json:"rawdata" gorm:"type:varchar(255)"`
+	Signature string    `json:"signature" gorm:"type:varchar(255)"`
+	IsAdmin   int       `json:"is_admin" gorm:"type:int(3);default:0"`
+	Birthday  time.Time `json:"birthday"`
+	CreateAt  time.Time `json:"create_at"`
+	DeleteAt  time.Time `json:"delete_at"`
+	UpdateAt  time.Time `json:"update_at"`
+	IsUse     int       `json:"is_use" gorm:"type:int(3);default:1"`
 }

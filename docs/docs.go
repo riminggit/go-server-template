@@ -17,11 +17,9 @@ var doc = `{
     "info": {
         "description": "{{escape .Description}}",
         "title": "{{.Title}}",
-        "termsOfService": "[http://swagger.io/terms/](http://swagger.io/terms/)` + "`" + `",
         "contact": {
-            "name": "黄日明 2313773899@qq.com` + "`" + `",
-            "url": "[http://www.swagger.io/support](http://www.swagger.io/support)` + "`" + `",
-            "email": "support@swagger.io` + "`" + `"
+            "name": "黄日明` + "`" + `",
+            "email": "2313773899@qq.com` + "`" + `"
         },
         "license": {
             "name": "Apache 2.0` + "`" + `",
@@ -32,35 +30,120 @@ var doc = `{
     "host": "{{.Host}}",
     "basePath": "{{.BasePath}}",
     "paths": {
-        "/api/user-auth/login": {
+        "/api/user-login/wxLogin": {
             "post": {
+                "description": "微信登陆",
                 "produces": [
                     "application/json"
                 ],
-                "summary": "登陆方法",
+                "summary": "登陆相关方法",
                 "parameters": [
                     {
                         "type": "string",
-                        "description": "account",
-                        "name": "account",
-                        "in": "query",
-                        "required": true
+                        "description": "Bearer 31a165baebe6dec616b1f8f3207b4273",
+                        "name": "Authorization",
+                        "in": "header"
                     },
                     {
                         "type": "string",
-                        "description": "password",
-                        "name": "password",
-                        "in": "query",
-                        "required": true
+                        "description": "openid",
+                        "name": "openid",
+                        "in": "query"
+                    },
+                    {
+                        "type": "string",
+                        "description": "微信",
+                        "name": "come_from",
+                        "in": "query"
+                    },
+                    {
+                        "type": "string",
+                        "description": "用户名",
+                        "name": "nick_name",
+                        "in": "query"
+                    },
+                    {
+                        "type": "string",
+                        "description": "用户头像",
+                        "name": "avatar_url",
+                        "in": "query"
+                    },
+                    {
+                        "type": "integer",
+                        "description": "性别",
+                        "name": "gender",
+                        "in": "query"
+                    },
+                    {
+                        "type": "string",
+                        "description": "城市",
+                        "name": "city",
+                        "in": "query"
+                    },
+                    {
+                        "type": "string",
+                        "description": "省份",
+                        "name": "province",
+                        "in": "query"
+                    },
+                    {
+                        "type": "string",
+                        "description": "国家",
+                        "name": "country",
+                        "in": "query"
+                    },
+                    {
+                        "type": "string",
+                        "description": "语言",
+                        "name": "language",
+                        "in": "query"
+                    },
+                    {
+                        "type": "string",
+                        "description": "rawdata",
+                        "name": "rawdata",
+                        "in": "query"
+                    },
+                    {
+                        "type": "string",
+                        "description": "signature",
+                        "name": "signature",
+                        "in": "query"
+                    },
+                    {
+                        "type": "string",
+                        "description": "encrypteddata",
+                        "name": "encrypteddata",
+                        "in": "query"
+                    },
+                    {
+                        "type": "string",
+                        "description": "iv",
+                        "name": "iv",
+                        "in": "query"
                     }
                 ],
                 "responses": {
                     "200": {
-                        "description": "{\"code\":200,\"data\":{},\"msg\":\"ok\"}",
+                        "description": "OK",
                         "schema": {
-                            "type": "string"
+                            "$ref": "#/definitions/userLogin.Response"
                         }
                     }
+                }
+            }
+        }
+    },
+    "definitions": {
+        "userLogin.Response": {
+            "type": "object",
+            "properties": {
+                "code": {
+                    "type": "integer"
+                },
+                "data": {},
+                "msg": {
+                    "type": "string"
                 }
             }
         }

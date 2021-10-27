@@ -29,7 +29,7 @@ func InitLogging() *logrus.Logger {
 	// 实例化
 	Logger = logrus.New()
 
-	Logger.SetReportCaller(true) // 显示行号等信息
+	// Logger.SetReportCaller(true) // 显示行号等信息
 
 	//设置日志级别
 	Logger.SetLevel(logrus.DebugLevel)
@@ -37,7 +37,7 @@ func InitLogging() *logrus.Logger {
 	Logger.Out = src
 
 	// 设置 rotatelogs
-	logWriter, err := rotatelogs.New(
+	logWriter, _ := rotatelogs.New(
 		// 分割后的文件名称
 		fileName+".%Y%m%d.log",
 
