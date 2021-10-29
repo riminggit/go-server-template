@@ -64,7 +64,7 @@ func verifyType(token string) int {
 	} else if projectConfig.AppConfig.BaseConfig.JWT_VERIFY_TYPE == "reids" {
 		// 使用redis校验token
 		userInfo := Redis.GetValue(token)
-		if userInfo == nil {
+		if userInfo == "" {
 			code = e.ERROR_AUTH_CHECK_TOKEN_FAIL
 		}
 	}

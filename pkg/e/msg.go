@@ -15,6 +15,8 @@ var MsgFlags = map[int]string{
 	NO_DATA_EXISTS:   "不存在相关数据",
 	CREATE_DATA_FILE: "新建数据失败",
 	RECORD_FILE:      "记录失败",
+
+	WX_DNCRYPT_FAIL: "微信小程序解密失败",
 }
 
 func GetMsg(code int) string {

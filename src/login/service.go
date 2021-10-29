@@ -2,6 +2,7 @@ package userLogin
 
 import (
 	"encoding/json"
+	"github.com/gin-gonic/gin"
 	"go-server-template/model/user"
 	"go-server-template/pkg/app"
 	"go-server-template/pkg/db"
@@ -9,10 +10,9 @@ import (
 	"go-server-template/pkg/log"
 	"go-server-template/pkg/redis"
 	"go-server-template/pkg/util"
+	// "go-server-template/src/wxDispose"   // 直接拿参数解密
 	"strconv"
 	"time"
-
-	"github.com/gin-gonic/gin"
 )
 
 func UserWXLoginService(c *gin.Context, params WXUserParams) *LoginReturnData {
@@ -38,19 +38,32 @@ func UserWXLoginService(c *gin.Context, params WXUserParams) *LoginReturnData {
 		res.Code = e.INVALID_PARAMS
 		return res
 	} else {
+
+		// 将一个结构体的值给另一个
+		createParams := WXUserCreateParams{}
+		util.StructAssign(&params, &createParams)
+
+		// getDecodeDataParam := wxDispose.WXDncryptParams{}
+		// util.StructAssign(&params, &getDecodeDataParam)
+
+		// decodeData, decodeErr := wxDispose.WXDncryptService(getDecodeDataParam)
+		// if decodeErr != nil {
+		// 	res.Code = e.WX_DNCRYPT_FAIL
+		// }
+
 		// 查询用户信息
 		var userInfo userModel.User
 		// 获取第一条匹配的记录
 		err := DB.DBLivingExample.Table("user").Where("openid = ?", params.Openid).First(&userInfo).Error
 		if err != nil {
-			result := DB.DBLivingExample.Table("user").Create(params)
+			result := DB.DBLivingExample.Table("user").Create(createParams)
 			if result.Error != nil {
 				logging.Error(result.Error)
 				res.Code = e.CREATE_DATA_FILE
 				return res
 			}
 		} else {
-			DB.DBLivingExample.Table("user").Where("openid = ?", params.Openid).Updates(params)
+			DB.DBLivingExample.Table("user").Where("openid = ?", params.Openid).Updates(createParams)
 		}
 
 		// 生成token

@@ -10,4 +10,5 @@ func UserInitRouter(r *gin.RouterGroup) {
 	userLogin := r.Group("/user-login")
 	// userAuth.Use(JWTMiddleware.JWT())
 	UserLoginRouter(userLogin)
+	WXDisposeRouter(userLogin)
 }

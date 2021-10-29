@@ -9,9 +9,7 @@ import (
 	"net/http"
 )
 
-// @Title 登陆相关方法
 // @Summary 登陆相关方法
-// @Description 微信登陆
 // @Produce  json
 // @Param Authorization	header string false "Bearer 31a165baebe6dec616b1f8f3207b4273"
 // @Param openid query string false "openid"

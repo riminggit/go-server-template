@@ -1,9 +1,16 @@
 package userLogin
 
-import userModel "go-server-template/model/user"
+import (
+	userModel "go-server-template/model/user"
+)
 
 // tag想多加一个类型空格就可以了，例如 `json:"openid" valid:"Alpha"`
 type WXUserParams struct {
+	WXUserCreateParams
+	SessionKey string `json:"sessionKey"`
+}
+
+type WXUserCreateParams struct {
 	Openid    string `json:"openid"`
 	ComeFrom  string `json:"come_from"`
 	NickName  string `json:"nick_name"`
@@ -15,6 +22,8 @@ type WXUserParams struct {
 	Language  string `json:"language"`
 	Rawdata   string `json:"rawdata"`
 	Signature string `json:"signature"`
+	Iv        string `json:"iv"`
+	Phone     string `json:"phone"`
 }
 
 type Response struct {

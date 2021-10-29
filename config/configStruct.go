@@ -11,6 +11,7 @@ type Config struct {
 	DatabaseConfig `ini:"DATABASE"`
 	RedisConfig    `ini:"REDIS"`
 	ElasticConfig  `ini:"ELASTIC"`
+	WXAPPConfig    `ini:"WXAPP"`
 }
 
 type ServerConfig struct {
@@ -65,7 +66,11 @@ type RedisConfig struct {
 }
 
 type ElasticConfig struct {
-	HOST         string
-	PORT         string
+	HOST string
+	PORT string
 }
 
+type WXAPPConfig struct {
+	APPID  string
+	SECRET string
+}

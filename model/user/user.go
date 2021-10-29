@@ -22,6 +22,7 @@ type User struct {
 	Language  string    `json:"language" gorm:"type:varchar(30)"`
 	Rawdata   string    `json:"rawdata" gorm:"type:varchar(255)"`
 	Signature string    `json:"signature" gorm:"type:varchar(255)"`
+	Iv        string    `json:"iv" gorm:"type:varchar(255)"`
 	IsAdmin   int       `json:"is_admin" gorm:"type:int(3);default:0"`
 	Birthday  time.Time `json:"birthday"`
 	CreateAt  time.Time `json:"create_at"`
