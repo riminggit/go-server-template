@@ -8,10 +8,10 @@ import (
 
 type User struct {
 	ID        int       `json:"id" gorm:"column:id;AUTO_INCREMENT;comment:id;not null"` // 自增
-	Account   string    `json:"account" gorm:"type:varchar(50);uniqueIndex;"`           // 唯一索引
-	NickName  string    `json:"nick_name" gorm:"type:varchar(100)"`
+	Email     string    `json:"email" gorm:"type:varchar(50);index;"`                   // 唯一索引
+	NickName  string    `json:"nick_name" gorm:"type:varchar(100);uniqueIndex;"`
 	Password  string    `json:"password" gorm:"type:varchar(255)"`
-	Phone     string    `json:"phone" gorm:"type:varchar(12)"`
+	Phone     string    `json:"phone" gorm:"type:varchar(13);index;"`
 	AvatarUrl string    `json:"avatar_url" gorm:"type:varchar(255)"`
 	ComeFrom  string    `json:"come_from" gorm:"type:varchar(20)"`
 	Openid    string    `json:"openid" gorm:"type:varchar(50)"`

@@ -11,6 +11,11 @@ var MsgFlags = map[int]string{
 	ERROR_AUTH_CHECK_TOKEN_TIMEOUT: "Token已超时",
 	ERROR_AUTH_TOKEN:               "Token生成失败",
 	ERROR_AUTH:                     "Token错误",
+	ACCOUNT_DOES_NOT_EXIST:         "账号信息不存在",
+	EMAIL_DOES_NOT_EXIST:           "邮箱不存在",
+	NICKNAME_DOES_NOT_EXIST:        "用户名不存在",
+	PHONE_DOES_NOT_EXIST:           "手机号不存在",
+	PASSWORD_MISTAKE:               "密码错误",
 
 	NO_DATA_EXISTS:   "不存在相关数据",
 	CREATE_DATA_FILE: "新建数据失败",

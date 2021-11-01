@@ -2,14 +2,15 @@ package wxDispose
 
 import (
 	"encoding/json"
-	"github.com/gin-gonic/gin"
 	"go-server-template/pkg/app"
 	"go-server-template/pkg/e"
-	"go-server-template/pkg/log"
+	logging "go-server-template/pkg/log"
 	"net/http"
+
+	"github.com/gin-gonic/gin"
 )
 
-// @Summary 微信获取openid和session_key
+// @Summary 微信获取openid和session_key,为了数据安全，不应该把session_key返回前端
 // @Produce  json
 // @Param code query string false "openid"
 // @Success 200 {object} Response
@@ -35,7 +36,7 @@ func WXGetOpenIdController(c *gin.Context) {
 // @Summary 微信解密
 // @Produce  json
 // @Param rawData query string false "rawData"
-// @Param session_key query string false "session_key"
+// @Param sessionKey query string false "sessionKey"
 // @Param iv query string false "iv"
 // @Success 200 {object} Response
 // @Router /api/user-login/wxapp-dncrypt [post]
@@ -56,15 +57,6 @@ func WXDncryptController(c *gin.Context) {
 	}
 	appG.Response(http.StatusOK, resCode, result)
 
-	// 解密后数据
-	// {
-	// 	"phoneNumber": "13580006666",
-	// 	"purePhoneNumber": "13580006666",
-	// 	"countryCode": "86",
-	// 	"watermark":
-	// 	{
-	// 		"appid":"APPID",
-	// 		"timestamp": TIMESTAMP
-	// 	}
-	// }
+	// sessionkey不应该从客户端传过来，而是存在redis里比较好
+
 }

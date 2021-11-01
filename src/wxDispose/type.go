@@ -5,15 +5,15 @@ type WXGetOpenIdParams struct {
 }
 
 type WXDncryptParams struct {
-	SessionKey string `json:"session_key"`
-	RawData    string `json:"rawData"`
+	SessionKey string `json:"sessionKey"`
+	Rawdata    string `json:"rawdata"`
 	Iv         string `json:"iv"`
 }
 
 type WXGetOpenIdResp struct {
-	OpenId     string `json:"openid"`
-	SessionKey string `json:"session_key"`
-	UnionId    string `json:"unionid"`
-	ErrCode    int    `json:"errcode"`
-	ErrMsg     string `json:"errmsg"`
+	OpenId string `json:"openid"`
+	// SessionKey string `json:"sessionKey"`
+	UnionId string `json:"unionid"`
+	ErrCode int    `json:"errcode"`
+	ErrMsg  string `json:"errmsg"`
 }

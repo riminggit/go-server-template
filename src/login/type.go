@@ -5,11 +5,6 @@ import (
 )
 
 // tag想多加一个类型空格就可以了，例如 `json:"openid" valid:"Alpha"`
-type WXUserParams struct {
-	WXUserCreateParams
-	SessionKey string `json:"session_key"`
-}
-
 type WXUserCreateParams struct {
 	Openid    string `json:"openid"`
 	ComeFrom  string `json:"come_from"`
@@ -20,16 +15,19 @@ type WXUserCreateParams struct {
 	Province  string `json:"province"`
 	Country   string `json:"country"`
 	Language  string `json:"language"`
-	Rawdata   string `json:"rawData"`
+	Rawdata   string `json:"rawdata"`
 	Signature string `json:"signature"`
 	Iv        string `json:"iv"`
 	Phone     string `json:"phone"`
 }
 
-type Response struct {
-	Code int         `json:"code"`
-	Msg  string      `json:"msg"`
-	Data interface{} `json:"data"`
+type LoginParams struct {
+	Email     string `json:"email"`
+	Phone     string `json:"phone"`
+	NickName  string `json:"nick_name"`
+	Password  string `json:"password" valid:"Required;"`
+	ComeFrom  string `json:"come_from"`
+	LoginType string `json:"login_type"`
 }
 
 type LoginReturnData struct {

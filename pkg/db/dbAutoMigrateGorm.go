@@ -34,5 +34,5 @@ func AutoMigrateDBGorm(DB *gorm.DB) {
 	DB.Table("classify").AutoMigrate(&classifyModel.Classify{})
 	DB.Table("company").AutoMigrate(&companyModel.Company{})
 
-	// DB.Create(&userModel.User{Account: "123456789"})
+	// DB.Create(&userModel.User{Email: "123456789"})
 }

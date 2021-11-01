@@ -7,4 +7,5 @@ import (
 
 func UserLoginRouter(g *gin.RouterGroup) {
 	g.POST("/wxLogin", userLogin.UserWXLoginController)
+	g.POST("/login", userLogin.LoginController)
 }
