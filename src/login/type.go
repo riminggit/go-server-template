@@ -7,7 +7,7 @@ import (
 // tag想多加一个类型空格就可以了，例如 `json:"openid" valid:"Alpha"`
 type WXUserParams struct {
 	WXUserCreateParams
-	SessionKey string `json:"sessionKey"`
+	SessionKey string `json:"session_key"`
 }
 
 type WXUserCreateParams struct {
@@ -20,7 +20,7 @@ type WXUserCreateParams struct {
 	Province  string `json:"province"`
 	Country   string `json:"country"`
 	Language  string `json:"language"`
-	Rawdata   string `json:"rawdata"`
+	Rawdata   string `json:"rawData"`
 	Signature string `json:"signature"`
 	Iv        string `json:"iv"`
 	Phone     string `json:"phone"`

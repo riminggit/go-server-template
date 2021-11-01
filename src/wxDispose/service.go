@@ -46,6 +46,7 @@ func WXGetOpenIdService(code string) (*WXGetOpenIdResp, error) {
 * iv  向量
  */
 func WXDncryptService(param WXDncryptParams) (string, error) {
+	fmt.Println(param, "WXDncryptServiceparam")
 	data, err := base64.StdEncoding.DecodeString(param.RawData)
 	key_b, err_1 := base64.StdEncoding.DecodeString(param.SessionKey)
 	iv_b, _ := base64.StdEncoding.DecodeString(param.Iv)
@@ -55,6 +56,7 @@ func WXDncryptService(param WXDncryptParams) (string, error) {
 	if err_1 != nil {
 		return "", err_1
 	}
+	fmt.Println(data, key_b, iv_b, "data, key_b, iv_b===")
 	dnData, err := AesCBCDncrypt(data, key_b, iv_b)
 	if err != nil {
 		return "", err
