@@ -1,4 +1,4 @@
-package userLogin
+package userLoginAndLayout
 
 import (
 	"encoding/json"

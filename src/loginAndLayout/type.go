@@ -1,4 +1,4 @@
-package userLogin
+package userLoginAndLayout
 
 import (
 	userModel "go-server-template/model/user"

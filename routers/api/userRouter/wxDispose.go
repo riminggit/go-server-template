@@ -1,9 +1,8 @@
 package userRouter
 
 import (
-	"go-server-template/src/wxDispose"
-
 	"github.com/gin-gonic/gin"
+	"go-server-template/src/wxDispose"
 )
 
 func WXDisposeRouter(g *gin.RouterGroup) {
