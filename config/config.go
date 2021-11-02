@@ -32,5 +32,5 @@ func InitConfig() {
 		fmt.Println("ini文件映射出错啦，错误是:", err)
 	}
 
-	fmt.Println(AppConfig, "baseConfig")
+	// fmt.Println(AppConfig, "baseConfig")
 }

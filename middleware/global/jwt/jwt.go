@@ -1,14 +1,15 @@
 package JWTMiddleware
 
 import (
-	"github.com/dgrijalva/jwt-go"
-	"github.com/gin-gonic/gin"
 	"go-server-template/config"
 	"go-server-template/pkg/app"
 	"go-server-template/pkg/e"
 	"go-server-template/pkg/redis"
 	"go-server-template/pkg/util"
 	"net/http"
+
+	"github.com/dgrijalva/jwt-go"
+	"github.com/gin-gonic/gin"
 )
 
 // 需要校验的路由用
@@ -50,6 +51,7 @@ func JWT() gin.HandlerFunc {
 func verifyType(token string) int {
 
 	var code int
+	code = e.SUCCESS
 	if projectConfig.AppConfig.BaseConfig.JWT_VERIFY_TYPE == "token" {
 		// 解析token校验
 		_, err := util.ParseToken(token)
@@ -61,13 +63,12 @@ func verifyType(token string) int {
 				code = e.ERROR_AUTH_CHECK_TOKEN_FAIL
 			}
 		}
-	} else if projectConfig.AppConfig.BaseConfig.JWT_VERIFY_TYPE == "reids" {
+	} else if projectConfig.AppConfig.BaseConfig.JWT_VERIFY_TYPE == "redis" {
 		// 使用redis校验token
 		userInfo := Redis.GetValue(token)
 		if userInfo == "" {
 			code = e.ERROR_AUTH_CHECK_TOKEN_FAIL
 		}
 	}
-
 	return code
 }

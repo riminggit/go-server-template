@@ -1,4 +1,4 @@
-package account
+package user
 
 import (
 	"encoding/json"
@@ -9,13 +9,13 @@ import (
 	"net/http"
 )
 
-// @Summary 绑定/修改手机号
+// @Summary 查询用户信息
 // @Produce  json
 // @Param Authorization	header string false "Bearer 31a165baebe6dec616b1f8f3207b4273"
 // @Param phone query string false "手机号"
 // @Success 200 {object} Response
-// @Router /api/user/account-manage/binding-phone [post]
-func ChangePhoneController(c *gin.Context) {
+// @Router /api/user/account-manage/binding-phone [get]
+func QueryUserInfoController(c *gin.Context) {
 	appG := app.Gin{C: c}
 
 	jsonString := app.GetPostJson(c)
@@ -30,6 +30,6 @@ func ChangePhoneController(c *gin.Context) {
 		appG.Response(httpCode, errCode, nil)
 		return
 	}
-	result := ChangePhoneService(c, *jsonData)
+	result := QueryUserInfoService(c, *jsonData)
 	appG.Response(http.StatusOK, result.Code, nil)
 }

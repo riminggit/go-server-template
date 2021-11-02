@@ -56,7 +56,7 @@ func UserWXLoginController(c *gin.Context) {
 	appG.Response(http.StatusOK, result.Code, returnData)
 }
 
-// @Summary登陆相关方法,分开两个方法是为了避免以后或许想对应不同端登陆可以做一些不同的操作
+// @Summary 登陆相关方法,分开两个方法是为了避免以后或许想对应不同端登陆可以做一些不同的操作
 // @Produce  json
 // @Param Authorization	header string false "Bearer 31a165baebe6dec616b1f8f3207b4273"
 // @Param come_from query string false "登陆来源"

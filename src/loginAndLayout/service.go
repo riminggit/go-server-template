@@ -19,10 +19,10 @@ func UserWXLoginService(c *gin.Context, params WXUserCreateParams) *LoginReturnD
 	token := app.GetHeaderToken(c)
 
 	if token != "" {
-		userInfo := Redis.GetValue(token)
-		if userInfo != "" {
+		userInfoRedis := Redis.GetValue(token)
+		if userInfoRedis != "" {
 			userInfoJsonData := &userModel.User{}
-			err := json.Unmarshal([]byte(userInfo), userInfoJsonData)
+			err := json.Unmarshal([]byte(userInfoRedis), userInfoJsonData)
 			if err != nil {
 				logging.Debug(err)
 			}
@@ -64,7 +64,7 @@ func UserWXLoginService(c *gin.Context, params WXUserCreateParams) *LoginReturnD
 		}
 
 		// 将用户信息存入redis
-		Redis.SetValue(newToken, userInfo, 60)
+		Redis.SetValue(newToken, userInfo, 43200)
 
 		if strconv.Itoa(userInfo.ID) == "" {
 			queryErr := DB.DBLivingExample.Table("user").Where("openid = ?", params.Openid).First(&userInfo).Error
@@ -160,7 +160,7 @@ func LoginService(c *gin.Context, params LoginParams) *LoginReturnData {
 		}
 
 		// 将用户信息存入redis
-		Redis.SetValue(newToken, userInfo, 60)
+		Redis.SetValue(newToken, userInfo, 43200)
 
 		recordParam := &userModel.UserLoginRecord{
 			ComeFrom: params.ComeFrom,

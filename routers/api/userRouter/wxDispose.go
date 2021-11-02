@@ -8,5 +8,4 @@ import (
 func WXDisposeRouter(g *gin.RouterGroup) {
 	g.POST("/wxapp-get-openid", wxDispose.WXGetOpenIdController)
 	g.POST("/wxapp-dncrypt", wxDispose.WXGetOpenIdController)
-
 }

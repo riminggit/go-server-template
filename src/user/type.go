@@ -1,4 +1,4 @@
-package account
+package user
 
 type ChangePhoneParams struct {
 	Phone int `json:"phone" valid:"Mobile"`

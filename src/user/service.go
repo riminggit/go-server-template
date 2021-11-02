@@ -1,4 +1,4 @@
-package account
+package user
 
 import (
 	"encoding/json"
@@ -11,7 +11,7 @@ import (
 	Redis "go-server-template/pkg/redis"
 )
 
-func ChangePhoneService(c *gin.Context, params ChangePhoneParams) *ChangePhoneReturnData {
+func QueryUserInfoService(c *gin.Context, params ChangePhoneParams) *ChangePhoneReturnData {
 	res := &ChangePhoneReturnData{}
 	token := app.GetHeaderToken(c)
 
