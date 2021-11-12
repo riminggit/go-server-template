@@ -6,5 +6,5 @@ import (
 )
 
 func AccountManageRouter(g *gin.RouterGroup) {
-	g.POST("/change-phone", account.ChangePhoneController)
+	g.POST("/account-manage/change-phone", account.ChangePhoneController)
 }

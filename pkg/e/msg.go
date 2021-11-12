@@ -7,6 +7,8 @@ var MsgFlags = map[int]string{
 	UN_AUTHORIZED:  "没有权限",
 
 	IS_LOGIN:                       "已经登陆",
+	USER_NOT_LOGIN:                 "用户未登录",
+	USER_LAYOUT_SUCCESS:            "用户登出成功",
 	ERROR_AUTH_CHECK_TOKEN_FAIL:    "Token鉴权失败",
 	ERROR_AUTH_CHECK_TOKEN_TIMEOUT: "Token已超时",
 	ERROR_AUTH_TOKEN:               "Token生成失败",

@@ -2,11 +2,12 @@ package account
 
 import (
 	"encoding/json"
-	"github.com/gin-gonic/gin"
 	"go-server-template/pkg/app"
 	"go-server-template/pkg/e"
 	"go-server-template/pkg/log"
 	"net/http"
+
+	"github.com/gin-gonic/gin"
 )
 
 // @Summary 绑定/修改手机号

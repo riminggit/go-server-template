@@ -2,7 +2,6 @@ package userLoginAndLayout
 
 import (
 	"encoding/json"
-	"github.com/gin-gonic/gin"
 	userModel "go-server-template/model/user"
 	"go-server-template/pkg/app"
 	DB "go-server-template/pkg/db"
@@ -12,7 +11,29 @@ import (
 	"go-server-template/pkg/util"
 	"strconv"
 	"time"
+
+	"fmt"
+	"github.com/gin-gonic/gin"
 )
+
+func LayoutService(c *gin.Context) *LayoutReturnData {
+	res := &LayoutReturnData{}
+	token := app.GetHeaderToken(c)
+
+	fmt.Println(token, "token")
+
+	res.Code = e.USER_LAYOUT_SUCCESS
+	if token != "" {
+		err := Redis.DelValue(token)
+		if err != nil {
+			res.Code = e.USER_NOT_LOGIN
+			return res
+		}
+	} else {
+		res.Code = e.USER_NOT_LOGIN
+	}
+	return res
+}
 
 func UserWXLoginService(c *gin.Context, params WXUserCreateParams) *LoginReturnData {
 	res := &LoginReturnData{}
@@ -37,12 +58,13 @@ func UserWXLoginService(c *gin.Context, params WXUserCreateParams) *LoginReturnD
 		res.Code = e.INVALID_PARAMS
 		return res
 	} else {
-
+		params.UpdateAt = time.Now()
 		// 查询用户信息
 		var userInfo userModel.User
 		// 获取第一条匹配的记录
 		err := DB.DBLivingExample.Table("user").Where("openid = ?", params.Openid).First(&userInfo).Error
 		if err != nil {
+			params.CreateAt = time.Now()
 			result := DB.DBLivingExample.Table("user").Create(params)
 			if result.Error != nil {
 				logging.Error(result.Error)

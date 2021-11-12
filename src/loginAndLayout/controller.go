@@ -10,6 +10,16 @@ import (
 	"github.com/gin-gonic/gin"
 )
 
+// @Summary 登出
+// @Success 200 {object} Response
+// @Router /api/user-login/layout [get]
+func LayoutController(c *gin.Context) {
+	appG := app.Gin{C: c}
+	result := LayoutService(c)
+
+	appG.Response(http.StatusOK, result.Code, nil)
+}
+
 // @Summary 微信小程序登陆相关方法
 // @Produce  json
 // @Param Authorization	header string false "Bearer 31a165baebe6dec616b1f8f3207b4273"

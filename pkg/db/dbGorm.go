@@ -2,11 +2,13 @@ package DB
 
 import (
 	"fmt"
+	"go-server-template/config"
+
 	_ "github.com/go-sql-driver/mysql"
 	log "github.com/sirupsen/logrus"
-	"go-server-template/config"
 	"gorm.io/driver/mysql"
 	"gorm.io/gorm"
+	"gorm.io/gorm/schema"
 )
 
 var DBLivingExample *gorm.DB
@@ -32,6 +34,10 @@ func InitDBGorm() {
 
 	db, err := gorm.Open(mysql.Open(args), &gorm.Config{
 		DisableForeignKeyConstraintWhenMigrating: true,
+		NamingStrategy: schema.NamingStrategy{
+			// 禁用复数表名
+			SingularTable: true,
+		},
 	})
 	if err != nil {
 		log.Error("failed to connect database,err:" + err.Error())

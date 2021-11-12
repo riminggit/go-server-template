@@ -12,13 +12,13 @@ import (
 	"github.com/go-redis/redis/v8"
 )
 
-var rdb *redis.Client
+var Rdb *redis.Client
 var ctx = context.Background()
 
 //redis连接
 func InitRedis() *redis.Client {
 	config := projectConfig.AppConfig
-	rdb = redis.NewClient(&redis.Options{
+	Rdb = redis.NewClient(&redis.Options{
 		Addr:         config.RedisConfig.HOST + ":" + config.RedisConfig.PORT,
 		Password:     config.RedisConfig.PASSWORD,
 		DialTimeout:  time.Duration(config.RedisConfig.DialTimeout) * time.Second,
@@ -30,14 +30,14 @@ func InitRedis() *redis.Client {
 	})
 
 	// ping一下检查是否连通
-	_, err := rdb.Ping(ctx).Result()
+	_, err := Rdb.Ping(ctx).Result()
 	if err != nil {
 		log.Error(err)
 	}
 	// PONG
 	fmt.Println("redis 连接成功")
 
-	return rdb
+	return Rdb
 }
 
 func SetValue(key string, value interface{}, expiration time.Duration) error {
@@ -48,7 +48,7 @@ func SetValue(key string, value interface{}, expiration time.Duration) error {
 	}
 
 	// 0 意味着没有过期时间
-	err := rdb.Set(ctx, key, data, expiration*time.Second).Err()
+	err := Rdb.Set(ctx, key, data, expiration*time.Second).Err()
 	if err != nil {
 		log.Error(err)
 	}
@@ -56,7 +56,7 @@ func SetValue(key string, value interface{}, expiration time.Duration) error {
 }
 
 func GetValue(key string) string {
-	val, err := rdb.Get(ctx, key).Result()
+	val, err := Rdb.Get(ctx, key).Result()
 
 	if err == redis.Nil {
 		log.Error("key对应的值不存在")
@@ -68,7 +68,7 @@ func GetValue(key string) string {
 }
 
 func DelValue(key string) error {
-	err := rdb.Del(ctx, key).Err()
+	err := Rdb.Del(ctx, key).Err()
 	if err != nil {
 		log.Error(err)
 	}

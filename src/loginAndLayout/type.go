@@ -2,23 +2,26 @@ package userLoginAndLayout
 
 import (
 	userModel "go-server-template/model/user"
+	"time"
 )
 
 // tag想多加一个类型空格就可以了，例如 `json:"openid" valid:"Alpha"`
 type WXUserCreateParams struct {
-	Openid    string `json:"openid"`
-	ComeFrom  string `json:"come_from"`
-	NickName  string `json:"nick_name"`
-	AvatarUrl string `json:"avatar_url"`
-	Gender    int    `json:"gender"`
-	City      string `json:"city"`
-	Province  string `json:"province"`
-	Country   string `json:"country"`
-	Language  string `json:"language"`
-	Rawdata   string `json:"rawdata"`
-	Signature string `json:"signature"`
-	Iv        string `json:"iv"`
-	Phone     string `json:"phone"`
+	Openid    string    `json:"openid"`
+	ComeFrom  string    `json:"come_from"`
+	NickName  string    `json:"nick_name"`
+	AvatarUrl string    `json:"avatar_url"`
+	Gender    int       `json:"gender"`
+	City      string    `json:"city"`
+	Province  string    `json:"province"`
+	Country   string    `json:"country"`
+	Language  string    `json:"language"`
+	Rawdata   string    `json:"rawdata"`
+	Signature string    `json:"signature"`
+	Iv        string    `json:"iv"`
+	Phone     string    `json:"phone"`
+	UpdateAt  time.Time `json:"update_at"`
+	CreateAt  time.Time `json:"create_at"`
 }
 
 type LoginParams struct {
@@ -39,4 +42,8 @@ type LoginReturnData struct {
 
 type WXLoginResultData struct {
 	Token string `json:"token"`
+}
+
+type LayoutReturnData struct {
+	Code int `json:"code"`
 }

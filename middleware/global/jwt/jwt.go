@@ -1,15 +1,14 @@
 package JWTMiddleware
 
 import (
+	"github.com/dgrijalva/jwt-go"
+	"github.com/gin-gonic/gin"
 	"go-server-template/config"
 	"go-server-template/pkg/app"
 	"go-server-template/pkg/e"
 	"go-server-template/pkg/redis"
 	"go-server-template/pkg/util"
 	"net/http"
-
-	"github.com/dgrijalva/jwt-go"
-	"github.com/gin-gonic/gin"
 )
 
 // 需要校验的路由用
@@ -22,10 +21,10 @@ func JWT() gin.HandlerFunc {
 		code = e.SUCCESS
 		token := app.GetHeaderToken(c)
 		// token := c.Query("token") // 获取链接上的参数
-		if token == "" {
+		if token == "" || token == "undefined" {
 			token = c.Query("token")
-			if token == "" {
-				code = e.ERROR_AUTH
+			if token == "" || token == "undefined" {
+				code = e.USER_NOT_LOGIN
 			} else {
 				code = verifyType(token)
 			}

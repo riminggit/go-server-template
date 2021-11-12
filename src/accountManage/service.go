@@ -2,16 +2,18 @@ package account
 
 import (
 	"encoding/json"
-	"github.com/gin-gonic/gin"
 	userModel "go-server-template/model/user"
 	"go-server-template/pkg/app"
 	DB "go-server-template/pkg/db"
 	"go-server-template/pkg/e"
 	logging "go-server-template/pkg/log"
 	Redis "go-server-template/pkg/redis"
+
+	"github.com/gin-gonic/gin"
 )
 
 func ChangePhoneService(c *gin.Context, params ChangePhoneParams) *ChangePhoneReturnData {
+
 	res := &ChangePhoneReturnData{}
 	token := app.GetHeaderToken(c)
 

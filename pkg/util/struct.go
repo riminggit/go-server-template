@@ -8,22 +8,13 @@ import (
 //binding type interface 要修改的结构体
 //value type interace 有数据的结构体
 func StructAssign(binding interface{}, value interface{}) {
-	fmt.Println("进入", binding, value)
-	fmt.Println("binding", binding)
-	fmt.Println("value", value)
 	bVal := reflect.ValueOf(binding).Elem() //获取reflect.Type类型
-	fmt.Println("bVal", bVal)
-	vVal := reflect.ValueOf(value).Elem() //获取reflect.Type类型
-	fmt.Println("vVal", vVal)
+	vVal := reflect.ValueOf(value).Elem()   //获取reflect.Type类型
 	vTypeOfT := vVal.Type()
-	fmt.Println("vTypeOfT", vTypeOfT)
 	for i := 0; i < vVal.NumField(); i++ {
 		// 在要修改的结构体中查询有数据结构体中相同属性的字段，有则修改其值
 		name := vTypeOfT.Field(i).Name
-		fmt.Println("name", name)
-		fmt.Println("bVal.FieldByName(name)", bVal.FieldByName(name))
 		if ok := bVal.FieldByName(name).IsValid(); ok {
-			fmt.Println("bVal.FieldByName(name)2222", bVal.FieldByName(name))
 			bVal.FieldByName(name).Set(reflect.ValueOf(vVal.Field(i).Interface()))
 		}
 	}
