@@ -5,5 +5,6 @@ type Classify struct {
 	ClassifyName string `gorm:"type:varchar(30);not null"`                              // 类型名：html5、css、js等
 	ImgUrl       string `gorm:"type:varchar(255)"`                                      // 分类素材URL
 	ImgSvg       string `gorm:"type:text"`                                              // 素材svg
+	Rank         int    `gorm:"type:int(11);not null"`                                  // 排序
 	IsUse        int    `gorm:"type:int(3);not null;default:1"`                         // 是否删除:0 删除 1未删除
 }
