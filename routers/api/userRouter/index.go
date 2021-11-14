@@ -8,14 +8,13 @@ import (
 // 初始化模块路由
 func UserInitRouter(r *gin.RouterGroup) {
 	userLogin := r.Group("/user-login")
-	user := r.Group("/user")
+	userAccount := r.Group("/user/account-manage")
 
 	// 添加jwt校验
-	user.Use(JWTMiddleware.JWT())
+	userAccount.Use(JWTMiddleware.JWT())
 
 	UserLoginRouter(userLogin)
 	WXDisposeRouter(userLogin)
 
-	AccountManageRouter(user)
-	UserRelevantRouter(user)
+	AccountManageRouter(userAccount)
 }
