@@ -6,5 +6,5 @@ import (
 )
 
 func QueryClassifyRouter(g *gin.RouterGroup) {
-	g.POST("/query-classify", classify.QueryClassifyController)
+	g.GET("/query-classify", classify.QueryClassifyController)
 }

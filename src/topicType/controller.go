@@ -1,4 +1,4 @@
-package classify
+package topicType
 
 import (
 	"github.com/gin-gonic/gin"
@@ -8,25 +8,27 @@ import (
 	"net/http"
 )
 
-// @Summary 查询分类
+// @Summary 查询二级分类
 // @Produce  json
 // @Param Authorization	header string false "Bearer 31a165baebe6dec616b1f8f3207b4273"
 // @Param id query string false "id"
 // @Param classify_name query string false "classify_name"
-// @Param rank query string false "rank"
+// @Param type_name query string false "type_name"
+// @Param classify_id query string false "classify_id"
 // @Param is_use query number false "is_use"
 // @Success 200 {object} Response
 // @Router /api/classify/query-classify [get]
 func QueryClassifyController(c *gin.Context) {
 	appG := app.Gin{C: c}
 
-	jsonData := &queryClassifyParams{
+	jsonData := &queryTypeParams{
 		Id:           c.Query("id"),
 		ClassifyName: c.Query("classify_name"),
 		IsUse:        c.DefaultQuery("is_use", "1"),
-		Rank:         c.Query("rank"),
+		ClassifyId:   c.Query("classify_id"),
+		typeName:     c.Query("type_name"),
 	}
 
-	result := queryClassifyService(c, *jsonData)
+	result := queryTypeService(c, *jsonData)
 	appG.Response(http.StatusOK, result.Code, result.Data)
 }

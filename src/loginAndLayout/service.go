@@ -11,7 +11,7 @@ import (
 	"go-server-template/pkg/util"
 	"strconv"
 	"time"
-
+	"go-server-template/config"
 	"fmt"
 	"github.com/gin-gonic/gin"
 )
@@ -85,8 +85,9 @@ func UserWXLoginService(c *gin.Context, params WXUserCreateParams) *LoginReturnD
 			return res
 		}
 
+		userLayoutTime := projectConfig.AppConfig.UserConfig.USER_LOGIN_EXPIRATION_TIME
 		// 将用户信息存入redis
-		Redis.SetValue(newToken, userInfo, 43200)
+		Redis.SetValue(newToken, userInfo, userLayoutTime)
 
 		if strconv.Itoa(userInfo.ID) == "" {
 			queryErr := DB.DBLivingExample.Table("user").Where("openid = ?", params.Openid).First(&userInfo).Error
@@ -181,8 +182,9 @@ func LoginService(c *gin.Context, params LoginParams) *LoginReturnData {
 			return res
 		}
 
+		userLayoutTime := projectConfig.AppConfig.UserConfig.USER_LOGIN_EXPIRATION_TIME
 		// 将用户信息存入redis
-		Redis.SetValue(newToken, userInfo, 43200)
+		Redis.SetValue(newToken, userInfo, userLayoutTime)
 
 		recordParam := &userModel.UserLoginRecord{
 			ComeFrom: params.ComeFrom,

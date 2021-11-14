@@ -1,5 +1,7 @@
 package projectConfig
 
+import "time"
+
 type BaseInfo struct {
 	env string
 }
@@ -12,6 +14,7 @@ type Config struct {
 	RedisConfig    `ini:"REDIS"`
 	ElasticConfig  `ini:"ELASTIC"`
 	WXAPPConfig    `ini:"WXAPP"`
+	UserConfig     `ini:"USER_CONFIG"`
 }
 
 type ServerConfig struct {
@@ -36,6 +39,12 @@ type BaseConfig struct {
 
 	JWT_SECRET      string
 	JWT_VERIFY_TYPE string
+
+	REDIS_COMMON_EXPIRATION_TIME time.Duration
+}
+
+type UserConfig struct {
+	USER_LOGIN_EXPIRATION_TIME time.Duration
 }
 
 type LogConfig struct {

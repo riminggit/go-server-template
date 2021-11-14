@@ -2,6 +2,7 @@ package user
 
 import (
 	"encoding/json"
+	"go-server-template/config"
 	userModel "go-server-template/model/user"
 	"go-server-template/pkg/app"
 	DB "go-server-template/pkg/db"
@@ -92,7 +93,8 @@ func QueryUserDataService(c *gin.Context, params QueryUserParams) *QueryUserRetu
 	queryFun.Model(&userModel.User{}).Find(&userInfo).Count(&res.Data.PagingArgument.Total)
 
 	redisParamsJson, _ := json.Marshal(params)
-	Redis.SetValue(string(redisParamsJson), userInfo, 86400)
+	dataRxpirationTime := projectConfig.AppConfig.BaseConfig.REDIS_COMMON_EXPIRATION_TIME
+	Redis.SetValue(string(redisParamsJson), userInfo, dataRxpirationTime)
 
 	res.Data.PagingArgument.PageNum = params.PageNum
 	res.Data.PagingArgument.PageSize = params.PageSize
