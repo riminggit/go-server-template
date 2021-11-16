@@ -1,58 +1,75 @@
 package topicType
 
 import (
-	// "encoding/json"
-	// "encoding/json"
+	"encoding/json"
 	"github.com/gin-gonic/gin"
-	// "go-server-template/config"
-	// "go-server-template/model/classify"
+	"go-server-template/config"
+	"go-server-template/model/type"
+	"go-server-template/pkg/e"
 	// "go-server-template/pkg/app"
-	// DB "go-server-template/pkg/db"
-	// "go-server-template/pkg/e"
-	// logging "go-server-template/pkg/log"
-	// Redis "go-server-template/pkg/redis"
+	"go-server-template/model/classify"
+	DB "go-server-template/pkg/db"
+	logging "go-server-template/pkg/log"
+	Redis "go-server-template/pkg/redis"
 )
 
-func queryTypeService(c *gin.Context, params queryTypeParams) *queryReturn {
+func QueryTypeService(c *gin.Context, params QueryTypeParams) *queryReturn {
 	res := &queryReturn{}
 
-	// redisParamsJson, _ := json.Marshal(params)
-	// interfaceName := "query-classify:"
-	// queryRedisParams := interfaceName + string(redisParamsJson)
+	redisParamsJson, _ := json.Marshal(params)
+	interfaceName := "query-type:"
+	queryRedisParams := interfaceName + string(redisParamsJson)
 
-	// redisData := Redis.GetValue(queryRedisParams)
+	redisData := Redis.GetValue(queryRedisParams)
 
-	// var classifyInfo []classifyModel.Classify
+	dataRxpirationTime := projectConfig.AppConfig.BaseConfig.REDIS_COMMON_EXPIRATION_TIME
 
-	// if redisData != "" {
-	// 	err := json.Unmarshal([]byte(redisData), &classifyInfo)
-	// 	if err != nil {
-	// 		logging.Debug(err)
-	// 	}
-	// 	res.Code = e.SUCCESS
-	// 	res.Data = classifyInfo
-	// 	return res
-	// }
+	var queryInfo []typeModel.Type
 
-	// queryFun := DB.DBLivingExample.Where("is_use = ?", params.IsUse)
-	// if params.Id != "" {
-	// 	queryFun = queryFun.Where("id = ?", params.Id)
-	// }
+	if redisData != "" {
+		err := json.Unmarshal([]byte(redisData), &queryInfo)
+		if err != nil {
+			logging.Debug(err)
+		}
+		res.Code = e.SUCCESS
+		res.Data = queryInfo
+		return res
+	}
 
-	// if params.ClassifyName != "" {
-	// 	queryFun = queryFun.Where("classify_name = ?", params.ClassifyName)
-	// }
+	queryFun := DB.DBLivingExample
 
-	// if params.Rank != "" {
-	// 	queryFun = queryFun.Where("rank = ?", params.Rank)
-	// }
+	if params.ClassifyName != "" {
+		classifyInfo := &classifyModel.Classify{}
+		// 查classify中符合的第一条
+		DB.DBLivingExample.Where("classify_name = ?", params.ClassifyName).Model(&classifyModel.Classify{}).First(&classifyInfo)
+		queryFun = queryFun.Where("classify_id = ?", classifyInfo.ID).Model(&typeModel.Type{}).Find(&queryInfo)
+		Redis.SetValue(queryRedisParams, queryInfo, dataRxpirationTime)
+		res.Code = e.SUCCESS
+		res.Data = queryInfo
+	}
 
-	// queryFun.Model(&classifyModel.Classify{}).Find(&classifyInfo)
+	if params.ClassifyId != "" {
+		queryFun = queryFun.Where("classify_id = ?", params.ClassifyId)
+	}
 
-	// dataRxpirationTime := projectConfig.AppConfig.BaseConfig.REDIS_COMMON_EXPIRATION_TIME
-	// Redis.SetValue(queryRedisParams, classifyInfo, dataRxpirationTime)
-	// res.Code = e.SUCCESS
-	// res.Data = classifyInfo
+	if params.Id != "" {
+		queryFun = queryFun.Where("id = ?", params.Id)
+	}
+
+	if params.IsUse != "" {
+		queryFun = queryFun.Where("is_use = ?", params.IsUse)
+	}
+
+	if params.TypeName != "" {
+		queryFun = queryFun.Where("type_name = ?", params.TypeName)
+	}
+
+	queryFun.Model(&typeModel.Type{}).Find(&queryInfo)
+
+	Redis.SetValue(queryRedisParams, queryInfo, dataRxpirationTime)
+
+	res.Code = e.SUCCESS
+	res.Data = queryInfo
 
 	return res
 }

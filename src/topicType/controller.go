@@ -17,18 +17,18 @@ import (
 // @Param classify_id query string false "classify_id"
 // @Param is_use query number false "is_use"
 // @Success 200 {object} Response
-// @Router /api/classify/query-classify [get]
-func QueryClassifyController(c *gin.Context) {
+// @Router /api/type/query-type [get]
+func QueryTypeController(c *gin.Context) {
 	appG := app.Gin{C: c}
 
-	jsonData := &queryTypeParams{
+	jsonData := &QueryTypeParams{
 		Id:           c.Query("id"),
 		ClassifyName: c.Query("classify_name"),
 		IsUse:        c.DefaultQuery("is_use", "1"),
 		ClassifyId:   c.Query("classify_id"),
-		typeName:     c.Query("type_name"),
+		TypeName:     c.Query("type_name"),
 	}
 
-	result := queryTypeService(c, *jsonData)
+	result := QueryTypeService(c, *jsonData)
 	appG.Response(http.StatusOK, result.Code, result.Data)
 }
