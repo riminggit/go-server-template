@@ -15,7 +15,6 @@ import (
 // @Param classify_name query string false "classify_name"
 // @Param rank query string false "rank"
 // @Param is_use query number false "is_use"
-// @Success 200 {object} Response
 // @Router /api/classify/query-classify [get]
 func QueryClassifyController(c *gin.Context) {
 	appG := app.Gin{C: c}
@@ -40,7 +39,6 @@ func QueryClassifyController(c *gin.Context) {
 // @Param classify_name query string false "classify_name"
 // @Param rank query string false "rank"
 // @Param is_use query number false "is_use"
-// @Success 200 {object} Response
 // @Router /api/classify/query-classify-type [get]
 func QueryClassifyAndTypeController(c *gin.Context) {
 	appG := app.Gin{C: c}

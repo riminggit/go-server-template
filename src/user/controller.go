@@ -30,7 +30,6 @@ import (
 // @Param is_use query string false "is_use"
 // @Param pageNum query int false "pageNum"
 // @Param pageSize query int false "pageSize"
-// @Success 200 {object} Response
 // @Router /api/user/account-manage/binding-phone [post]
 func QueryUserDataController(c *gin.Context) {
 	appG := app.Gin{C: c}

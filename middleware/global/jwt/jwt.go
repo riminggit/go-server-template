@@ -7,7 +7,7 @@ import (
 	"go-server-template/pkg/app"
 	"go-server-template/pkg/e"
 	"go-server-template/pkg/redis"
-	"go-server-template/pkg/util"
+	"go-server-template/pkg/utils"
 	"net/http"
 )
 

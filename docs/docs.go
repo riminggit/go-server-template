@@ -30,13 +30,12 @@ var doc = `{
     "host": "{{.Host}}",
     "basePath": "{{.BasePath}}",
     "paths": {
-        "/api/user-login/wxLogin": {
-            "post": {
-                "description": "微信登陆",
+        "/api/classify/query-classify": {
+            "get": {
                 "produces": [
                     "application/json"
                 ],
-                "summary": "登陆相关方法",
+                "summary": "查询分类",
                 "parameters": [
                     {
                         "type": "string",
@@ -46,14 +45,179 @@ var doc = `{
                     },
                     {
                         "type": "string",
-                        "description": "openid",
-                        "name": "openid",
+                        "description": "id",
+                        "name": "id",
                         "in": "query"
                     },
                     {
                         "type": "string",
-                        "description": "微信",
+                        "description": "classify_name",
+                        "name": "classify_name",
+                        "in": "query"
+                    },
+                    {
+                        "type": "string",
+                        "description": "rank",
+                        "name": "rank",
+                        "in": "query"
+                    },
+                    {
+                        "type": "number",
+                        "description": "is_use",
+                        "name": "is_use",
+                        "in": "query"
+                    }
+                ]
+            }
+        },
+        "/api/classify/query-classify-type": {
+            "get": {
+                "produces": [
+                    "application/json"
+                ],
+                "summary": "查询分类以及对应二级分类",
+                "parameters": [
+                    {
+                        "type": "string",
+                        "description": "Bearer 31a165baebe6dec616b1f8f3207b4273",
+                        "name": "Authorization",
+                        "in": "header"
+                    },
+                    {
+                        "type": "string",
+                        "description": "id",
+                        "name": "id",
+                        "in": "query"
+                    },
+                    {
+                        "type": "string",
+                        "description": "classify_name",
+                        "name": "classify_name",
+                        "in": "query"
+                    },
+                    {
+                        "type": "string",
+                        "description": "rank",
+                        "name": "rank",
+                        "in": "query"
+                    },
+                    {
+                        "type": "number",
+                        "description": "is_use",
+                        "name": "is_use",
+                        "in": "query"
+                    }
+                ]
+            }
+        },
+        "/api/company/query-company": {
+            "get": {
+                "produces": [
+                    "application/json"
+                ],
+                "summary": "查询公司",
+                "parameters": [
+                    {
+                        "type": "string",
+                        "description": "Bearer 31a165baebe6dec616b1f8f3207b4273",
+                        "name": "Authorization",
+                        "in": "header"
+                    },
+                    {
+                        "type": "string",
+                        "description": "id",
+                        "name": "id",
+                        "in": "query"
+                    },
+                    {
+                        "type": "string",
+                        "description": "company_name",
+                        "name": "company_name",
+                        "in": "query"
+                    },
+                    {
+                        "type": "number",
+                        "description": "is_use",
+                        "name": "is_use",
+                        "in": "query"
+                    }
+                ]
+            }
+        },
+        "/api/type/query-type": {
+            "get": {
+                "produces": [
+                    "application/json"
+                ],
+                "summary": "查询二级分类",
+                "parameters": [
+                    {
+                        "type": "string",
+                        "description": "Bearer 31a165baebe6dec616b1f8f3207b4273",
+                        "name": "Authorization",
+                        "in": "header"
+                    },
+                    {
+                        "type": "string",
+                        "description": "id",
+                        "name": "id",
+                        "in": "query"
+                    },
+                    {
+                        "type": "string",
+                        "description": "classify_name",
+                        "name": "classify_name",
+                        "in": "query"
+                    },
+                    {
+                        "type": "string",
+                        "description": "type_name",
+                        "name": "type_name",
+                        "in": "query"
+                    },
+                    {
+                        "type": "string",
+                        "description": "classify_id",
+                        "name": "classify_id",
+                        "in": "query"
+                    },
+                    {
+                        "type": "number",
+                        "description": "is_use",
+                        "name": "is_use",
+                        "in": "query"
+                    }
+                ]
+            }
+        },
+        "/api/user-login/layout": {
+            "get": {
+                "summary": "登出"
+            }
+        },
+        "/api/user-login/wxLogin": {
+            "post": {
+                "produces": [
+                    "application/json"
+                ],
+                "summary": "登陆相关方法,分开两个方法是为了避免以后或许想对应不同端登陆可以做一些不同的操作",
+                "parameters": [
+                    {
+                        "type": "string",
+                        "description": "Bearer 31a165baebe6dec616b1f8f3207b4273",
+                        "name": "Authorization",
+                        "in": "header"
+                    },
+                    {
+                        "type": "string",
+                        "description": "登陆来源",
                         "name": "come_from",
+                        "in": "query"
+                    },
+                    {
+                        "type": "string",
+                        "description": "登陆方式",
+                        "name": "login_type",
                         "in": "query"
                     },
                     {
@@ -64,56 +228,42 @@ var doc = `{
                     },
                     {
                         "type": "string",
-                        "description": "用户头像",
-                        "name": "avatar_url",
-                        "in": "query"
-                    },
-                    {
-                        "type": "integer",
-                        "description": "性别",
-                        "name": "gender",
+                        "description": "手机号",
+                        "name": "phone",
                         "in": "query"
                     },
                     {
                         "type": "string",
-                        "description": "城市",
-                        "name": "city",
+                        "description": "邮箱",
+                        "name": "email",
                         "in": "query"
                     },
                     {
                         "type": "string",
-                        "description": "省份",
-                        "name": "province",
+                        "description": "密码",
+                        "name": "password",
+                        "in": "query"
+                    }
+                ]
+            }
+        },
+        "/api/user-login/wxapp-dncrypt": {
+            "post": {
+                "produces": [
+                    "application/json"
+                ],
+                "summary": "微信解密",
+                "parameters": [
+                    {
+                        "type": "string",
+                        "description": "rawData",
+                        "name": "rawData",
                         "in": "query"
                     },
                     {
                         "type": "string",
-                        "description": "国家",
-                        "name": "country",
-                        "in": "query"
-                    },
-                    {
-                        "type": "string",
-                        "description": "语言",
-                        "name": "language",
-                        "in": "query"
-                    },
-                    {
-                        "type": "string",
-                        "description": "rawdata",
-                        "name": "rawdata",
-                        "in": "query"
-                    },
-                    {
-                        "type": "string",
-                        "description": "signature",
-                        "name": "signature",
-                        "in": "query"
-                    },
-                    {
-                        "type": "string",
-                        "description": "encrypteddata",
-                        "name": "encrypteddata",
+                        "description": "sessionKey",
+                        "name": "sessionKey",
                         "in": "query"
                     },
                     {
@@ -122,29 +272,165 @@ var doc = `{
                         "name": "iv",
                         "in": "query"
                     }
-                ],
-                "responses": {
-                    "200": {
-                        "description": "OK",
-                        "schema": {
-                            "$ref": "#/definitions/userLogin.Response"
-                        }
-                    }
-                }
+                ]
             }
-        }
-    },
-    "definitions": {
-        "userLogin.Response": {
-            "type": "object",
-            "properties": {
-                "code": {
-                    "type": "integer"
-                },
-                "data": {},
-                "msg": {
-                    "type": "string"
-                }
+        },
+        "/api/user-login/wxapp-get-openid": {
+            "post": {
+                "produces": [
+                    "application/json"
+                ],
+                "summary": "微信获取openid和session_key,为了数据安全，不应该把session_key返回前端",
+                "parameters": [
+                    {
+                        "type": "string",
+                        "description": "openid",
+                        "name": "code",
+                        "in": "query"
+                    }
+                ]
+            }
+        },
+        "/api/user/account-manage/binding-phone": {
+            "post": {
+                "produces": [
+                    "application/json"
+                ],
+                "summary": "查询用户信息",
+                "parameters": [
+                    {
+                        "type": "string",
+                        "description": "Bearer 31a165baebe6dec616b1f8f3207b4273",
+                        "name": "Authorization",
+                        "in": "header"
+                    },
+                    {
+                        "type": "string",
+                        "description": "手机号",
+                        "name": "phone",
+                        "in": "query"
+                    },
+                    {
+                        "type": "string",
+                        "description": "email",
+                        "name": "email",
+                        "in": "query"
+                    },
+                    {
+                        "type": "string",
+                        "description": "nick_name",
+                        "name": "nick_name",
+                        "in": "query"
+                    },
+                    {
+                        "type": "string",
+                        "description": "come_from",
+                        "name": "come_from",
+                        "in": "query"
+                    },
+                    {
+                        "type": "string",
+                        "description": "gender",
+                        "name": "gender",
+                        "in": "query"
+                    },
+                    {
+                        "type": "array",
+                        "items": {
+                            "type": "string"
+                        },
+                        "description": "city",
+                        "name": "city",
+                        "in": "query"
+                    },
+                    {
+                        "type": "array",
+                        "items": {
+                            "type": "string"
+                        },
+                        "description": "province",
+                        "name": "province",
+                        "in": "query"
+                    },
+                    {
+                        "type": "array",
+                        "items": {
+                            "type": "string"
+                        },
+                        "description": "country",
+                        "name": "country",
+                        "in": "query"
+                    },
+                    {
+                        "type": "array",
+                        "items": {
+                            "type": "string"
+                        },
+                        "description": "language",
+                        "name": "language",
+                        "in": "query"
+                    },
+                    {
+                        "type": "string",
+                        "description": "is_admin",
+                        "name": "is_admin",
+                        "in": "query"
+                    },
+                    {
+                        "type": "array",
+                        "items": {
+                            "type": "string"
+                        },
+                        "description": "birthday",
+                        "name": "birthday",
+                        "in": "query"
+                    },
+                    {
+                        "type": "array",
+                        "items": {
+                            "type": "string"
+                        },
+                        "description": "create_at",
+                        "name": "create_at",
+                        "in": "query"
+                    },
+                    {
+                        "type": "array",
+                        "items": {
+                            "type": "string"
+                        },
+                        "description": "delete_at",
+                        "name": "delete_at",
+                        "in": "query"
+                    },
+                    {
+                        "type": "array",
+                        "items": {
+                            "type": "string"
+                        },
+                        "description": "update_at",
+                        "name": "update_at",
+                        "in": "query"
+                    },
+                    {
+                        "type": "string",
+                        "description": "is_use",
+                        "name": "is_use",
+                        "in": "query"
+                    },
+                    {
+                        "type": "integer",
+                        "description": "pageNum",
+                        "name": "pageNum",
+                        "in": "query"
+                    },
+                    {
+                        "type": "integer",
+                        "description": "pageSize",
+                        "name": "pageSize",
+                        "in": "query"
+                    }
+                ]
             }
         }
     }
@@ -201,5 +487,5 @@ func (s *s) ReadDoc() string {
 }
 
 func init() {
-	swag.Register(swag.Name, &s{})
+	swag.Register("swagger", &s{})
 }

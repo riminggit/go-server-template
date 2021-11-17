@@ -13,7 +13,6 @@ import (
 // @Summary 微信获取openid和session_key,为了数据安全，不应该把session_key返回前端
 // @Produce  json
 // @Param code query string false "openid"
-// @Success 200 {object} Response
 // @Router /api/user-login/wxapp-get-openid [post]
 func WXGetOpenIdController(c *gin.Context) {
 	appG := app.Gin{C: c}
@@ -38,7 +37,6 @@ func WXGetOpenIdController(c *gin.Context) {
 // @Param rawData query string false "rawData"
 // @Param sessionKey query string false "sessionKey"
 // @Param iv query string false "iv"
-// @Success 200 {object} Response
 // @Router /api/user-login/wxapp-dncrypt [post]
 func WXDncryptController(c *gin.Context) {
 	appG := app.Gin{C: c}

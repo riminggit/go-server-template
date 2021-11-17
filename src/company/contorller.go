@@ -1,4 +1,4 @@
-package topicType
+package company
 
 import (
 	"github.com/gin-gonic/gin"
@@ -8,26 +8,25 @@ import (
 	"net/http"
 )
 
-// @Summary 查询二级分类
+// @Summary 查询公司
 // @Produce  json
 // @Param Authorization	header string false "Bearer 31a165baebe6dec616b1f8f3207b4273"
 // @Param id query string false "id"
-// @Param classify_name query string false "classify_name"
-// @Param type_name query string false "type_name"
-// @Param classify_id query string false "classify_id"
+// @Param company_name query string false "company_name"
 // @Param is_use query number false "is_use"
-// @Router /api/type/query-type [get]
-func QueryTypeController(c *gin.Context) {
+// @Router /api/company/query-company [get]
+func QueryCompanyController(c *gin.Context) {
 	appG := app.Gin{C: c}
 
-	jsonData := &QueryTypeParams{
+	jsonData := &queryCompanyParams{
 		Id:           c.Query("id"),
-		ClassifyName: c.Query("classify_name"),
+		CompanyName: c.Query("company_name"),
 		IsUse:        c.DefaultQuery("is_use", "1"),
-		ClassifyId:   c.Query("classify_id"),
-		TypeName:     c.Query("type_name"),
 	}
 
-	result := QueryTypeService(c, *jsonData)
+	result := queryCompanyService(c, *jsonData)
 	appG.Response(http.StatusOK, result.Code, result.Data)
 }
+
+
+

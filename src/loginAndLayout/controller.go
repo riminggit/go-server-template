@@ -11,7 +11,6 @@ import (
 )
 
 // @Summary 登出
-// @Success 200 {object} Response
 // @Router /api/user-login/layout [get]
 func LayoutController(c *gin.Context) {
 	appG := app.Gin{C: c}
@@ -36,7 +35,6 @@ func LayoutController(c *gin.Context) {
 // @Param signature query string false "signature"
 // @Param encrypteddata query string false "encrypteddata"
 // @Param iv query string false "iv"
-// @Success 200 {object} Response
 // @Router /api/user-login/wxLogin [post]
 func UserWXLoginController(c *gin.Context) {
 	appG := app.Gin{C: c}
@@ -75,7 +73,6 @@ func UserWXLoginController(c *gin.Context) {
 // @Param phone query string false "手机号"
 // @Param email query string false "邮箱"
 // @Param password query string false "密码"
-// @Success 200 {object} Response
 // @Router /api/user-login/wxLogin [post]
 func LoginController(c *gin.Context) {
 	appG := app.Gin{C: c}

@@ -8,7 +8,7 @@ import (
 
 	"go-server-template/config"
 	"go-server-template/pkg/file"
-	"go-server-template/pkg/util"
+	"go-server-template/pkg/utils"
 	"strconv"
 )
 

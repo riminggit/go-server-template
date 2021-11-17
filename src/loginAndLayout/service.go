@@ -8,7 +8,7 @@ import (
 	"go-server-template/pkg/e"
 	logging "go-server-template/pkg/log"
 	Redis "go-server-template/pkg/redis"
-	"go-server-template/pkg/util"
+	"go-server-template/pkg/utils"
 	"strconv"
 	"time"
 	"go-server-template/config"

@@ -14,7 +14,6 @@ import (
 // @Produce  json
 // @Param Authorization	header string false "Bearer 31a165baebe6dec616b1f8f3207b4273"
 // @Param phone query string false "手机号"
-// @Success 200 {object} Response
 // @Router /api/user/account-manage/binding-phone [post]
 func ChangePhoneController(c *gin.Context) {
 	appG := app.Gin{C: c}
