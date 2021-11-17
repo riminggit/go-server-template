@@ -4,7 +4,7 @@ import (
 	"encoding/json"
 	"go-server-template/config"
 	userModel "go-server-template/model/user"
-	"go-server-template/pkg/app"
+	// "go-server-template/pkg/app"
 	DB "go-server-template/pkg/db"
 	"go-server-template/pkg/e"
 	logging "go-server-template/pkg/log"
@@ -15,20 +15,26 @@ import (
 
 func QueryUserDataService(c *gin.Context, params QueryUserParams) *QueryUserReturnData {
 	res := &QueryUserReturnData{}
-	token := app.GetHeaderToken(c)
+	var userInfo []QueryUserData
+	var RGetData UserReturnData
 
-	var userInfoRedis userModel.User
-	if token != "" {
-		getUserInfoerr := json.Unmarshal([]byte(Redis.GetValue(token)), &userInfoRedis)
-		if getUserInfoerr != nil {
-			logging.Debug(getUserInfoerr)
+	dataRxpirationTime := projectConfig.AppConfig.BaseConfig.REDIS_COMMON_EXPIRATION_TIME
+
+	redisParamsJson, _ := json.Marshal(params)
+	interfaceName := "query-user-info:"
+	queryRedisParams := interfaceName + string(redisParamsJson)
+
+	redisData := Redis.GetValue(queryRedisParams)
+
+	if redisData != "" {
+		err := json.Unmarshal([]byte(redisData), &RGetData)
+		if err != nil {
+			logging.Debug(err)
 		}
-	} else if token == "" {
-		res.Code = e.NO_DATA_EXISTS
+		res.Code = e.SUCCESS
+		res.Data = RGetData
 		return res
 	}
-
-	var userInfo []QueryUserData
 
 	queryFun := DB.DBLivingExample.Where("is_use = ?", params.IsUse)
 
@@ -92,14 +98,14 @@ func QueryUserDataService(c *gin.Context, params QueryUserParams) *QueryUserRetu
 
 	queryFun.Model(&userModel.User{}).Find(&userInfo).Count(&res.Data.PagingArgument.Total)
 
-	redisParamsJson, _ := json.Marshal(params)
-	dataRxpirationTime := projectConfig.AppConfig.BaseConfig.REDIS_COMMON_EXPIRATION_TIME
-	Redis.SetValue(string(redisParamsJson), userInfo, dataRxpirationTime)
-
 	res.Data.PagingArgument.PageNum = params.PageNum
 	res.Data.PagingArgument.PageSize = params.PageSize
-	res.Code = e.SUCCESS
 	res.Data.Data = userInfo
+
+	RSetData := res.Data
+	Redis.SetValue(queryRedisParams, RSetData, dataRxpirationTime)
+
+	res.Code = e.SUCCESS
 
 	return res
 }

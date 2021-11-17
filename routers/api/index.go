@@ -7,6 +7,7 @@ import (
 	"go-server-template/routers/api/typeRouter"
 	"go-server-template/routers/api/companyRouter"
 	"go-server-template/routers/api/tagRouter"
+	"go-server-template/routers/api/userTopicRouter"
 )
 
 func InitApi(r *gin.Engine) {
@@ -16,4 +17,5 @@ func InitApi(r *gin.Engine) {
 	typeRouter.TypeInitRouter(api)
 	companyRouter.CompanyInitRouter(api)
 	tagRouter.TagInitRouter(api)
+	userTopicRouter.UserTopicInitRouter(api)
 }

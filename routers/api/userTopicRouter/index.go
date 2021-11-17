@@ -7,7 +7,7 @@ import (
 
 // 初始化模块路由
 func UserTopicInitRouter(r *gin.RouterGroup) {
-	userTopic := r.Group("/userTopic")
+	userTopic := r.Group("/user-topic")
 	// userAuth.Use(JWTMiddleware.JWT())
 	QueryUserTopicRouter(userTopic)
 }

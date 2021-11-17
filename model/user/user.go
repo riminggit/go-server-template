@@ -15,7 +15,7 @@ type User struct {
 	AvatarUrl string    `json:"avatar_url" gorm:"type:varchar(255)"`
 	ComeFrom  string    `json:"come_from" gorm:"type:varchar(20)"`
 	Openid    string    `json:"openid" gorm:"type:varchar(50)"`
-	Gender    int       `json:"gender" gorm:"type:int(3)"`
+	Gender    int       `json:"gender" gorm:"type:int(3)"` // 1时是男性，值为2时是女性，值为0时是未知
 	City      string    `json:"city" gorm:"type:varchar(50)"`
 	Province  string    `json:"province" gorm:"type:varchar(50)"`
 	Country   string    `json:"country" gorm:"type:varchar(50)"`
