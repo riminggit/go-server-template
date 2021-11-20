@@ -2,6 +2,7 @@ package userAnswerTopic
 
 import (
 	"encoding/json"
+	"fmt"
 	"go-server-template/config"
 	"go-server-template/model/user"
 	DB "go-server-template/pkg/db"
@@ -9,6 +10,7 @@ import (
 	logging "go-server-template/pkg/log"
 	Redis "go-server-template/pkg/redis"
 	"go-server-template/pkg/utils"
+	"go-server-template/src/topicSet"
 	"strconv"
 
 	"github.com/gin-gonic/gin"
@@ -44,7 +46,18 @@ func queryUserAnswerTopicService(c *gin.Context, params queryUserAnswerTopicPara
 	}
 
 	queryFun := DB.DBLivingExample.Where("is_use = ?", params.IsUse).Where("user_id = ?", userInfoRes.Data.ID)
-	if params.Id != "" {
+
+	if params.TopicSetName != "" {
+		queryParams := &topicSet.QueryTopicSetParams{
+			Name: params.TopicSetName,
+			IsUse: "1",
+		}
+		resTopicSetName := topicSet.QueryTopicSetService(c, *queryParams)
+		fmt.Println(resTopicSetName.Data[0].ID,"resTopicSetName.Data==========")
+		queryFun = queryFun.Where("topic_set_id = ?", resTopicSetName.Data[0].ID)
+	}
+
+	if params.Id != ""  {
 		queryFun = queryFun.Where("id = ?", params.Id)
 	}
 
@@ -52,7 +65,7 @@ func queryUserAnswerTopicService(c *gin.Context, params queryUserAnswerTopicPara
 		queryFun = queryFun.Where("topic_id_list = ?", params.TopicIdList)
 	}
 
-	if params.TopicSetId != "" {
+	if params.TopicSetId != "" && params.TopicSetName == "" {
 		queryFun = queryFun.Where("topic_set_id = ?", params.TopicSetId)
 	}
 
@@ -98,7 +111,7 @@ func queryUserAnswerTopicService(c *gin.Context, params queryUserAnswerTopicPara
 
 	queryFun = queryFun.Limit(params.PageSize).Offset((params.PageNum - 1) * params.PageSize)
 
-	queryFun.Model(&userModel.UserAddTopic{}).Find(&queryInfo).Count(&res.Data.PagingArgument.Total)
+	queryFun.Model(&userModel.UserAnswerTopicRecord{}).Find(&queryInfo).Count(&res.Data.PagingArgument.Total)
 
 	res.Data.PagingArgument.PageNum = params.PageNum
 	res.Data.PagingArgument.PageSize = params.PageSize
