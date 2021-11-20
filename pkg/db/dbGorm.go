@@ -46,5 +46,4 @@ func InitDBGorm() {
 
 	// 自动同步库
 	// AutoMigrateDBGorm(db)
-
 }

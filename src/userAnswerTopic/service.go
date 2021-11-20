@@ -1,4 +1,4 @@
-package userTopic
+package userAnswerTopic
 
 import (
 	"encoding/json"
@@ -14,10 +14,10 @@ import (
 	"github.com/gin-gonic/gin"
 )
 
-func queryUserTopicService(c *gin.Context, params queryUserTopicParams) *queryUserTopicReturn {
-	res := &queryUserTopicReturn{}
-	var queryInfo []userModel.UserAddTopic
-	var RGetData UserTopicReturnData
+func queryUserAnswerTopicService(c *gin.Context, params queryUserAnswerTopicParams) *queryUserAnswerTopicReturn {
+	res := &queryUserAnswerTopicReturn{}
+	var queryInfo []userModel.UserAnswerTopicRecord
+	var RGetData UserAnswerTopicReturnData
 
 	userInfoRes := util.GetUserInfo(c)
 	if userInfoRes.Code != e.SUCCESS {
@@ -27,7 +27,7 @@ func queryUserTopicService(c *gin.Context, params queryUserTopicParams) *queryUs
 
 	dataRxpirationTime := projectConfig.AppConfig.BaseConfig.REDIS_COMMON_EXPIRATION_TIME
 	redisParamsJson, _ := json.Marshal(params)
-	interfaceName := "query-user-topic:"
+	interfaceName := "query-user-answer-topic:"
 	userPrefix := userInfoRes.Data.NickName + "/" + strconv.Itoa(userInfoRes.Data.ID) + "/"
 	queryRedisParams := userPrefix + interfaceName + string(redisParamsJson)
 
@@ -48,48 +48,32 @@ func queryUserTopicService(c *gin.Context, params queryUserTopicParams) *queryUs
 		queryFun = queryFun.Where("id = ?", params.Id)
 	}
 
-	if params.Title != "" {
-		queryFun = queryFun.Where("title = ?", params.Title)
+	if params.TopicIdList != "" {
+		queryFun = queryFun.Where("topic_id_list = ?", params.TopicIdList)
 	}
 
-	if params.QuestionType != "" {
-		queryFun = queryFun.Where("question_type = ?", params.QuestionType)
+	if params.TopicSetId != "" {
+		queryFun = queryFun.Where("topic_set_id = ?", params.TopicSetId)
 	}
 
-	if params.Degree != "" {
-		queryFun = queryFun.Where("degree = ?", params.Degree)
+	if params.AnswerNum != "" {
+		queryFun = queryFun.Where("answer_num = ?", params.AnswerNum)
 	}
 
-	if params.Level != "" {
-		queryFun = queryFun.Where("level = ?", params.Level)
+	if params.AnswerCorrectNum != "" {
+		queryFun = queryFun.Where("answer_correct_num = ?", params.AnswerCorrectNum)
 	}
 
-	if params.IsBaseTopic != "" {
-		queryFun = queryFun.Where("is_base_topic = ?", params.IsBaseTopic)
+	if params.IsAchieve != "" {
+		queryFun = queryFun.Where("is_achieve = ?", params.IsAchieve)
 	}
 
-	if params.IsImportantTopic != "" {
-		queryFun = queryFun.Where("is_important_topic = ?", params.IsImportantTopic)
+	if params.TopicDifficulty != "" {
+		queryFun = queryFun.Where("topic_difficulty = ?", params.TopicDifficulty)
 	}
 
-	if params.ComeFrom != "" {
-		queryFun = queryFun.Where("come_from = ?", params.ComeFrom)
-	}
-
-	if params.ClassifyId != "" {
-		queryFun = queryFun.Where("classify_id = ?", params.ClassifyId)
-	}
-
-	if params.CompanyId != "" {
-		queryFun = queryFun.Where("company_id = ?", params.CompanyId)
-	}
-
-	if params.TagId != "" {
-		queryFun = queryFun.Where("tag_id = ?", params.TagId)
-	}
-
-	if params.TypeId != "" {
-		queryFun = queryFun.Where("type_id = ?", params.TypeId)
+	if params.TopicLevel != "" {
+		queryFun = queryFun.Where("topic_level = ?", params.TopicLevel)
 	}
 
 	if len(params.CreateAt) > 0 {
@@ -102,6 +86,14 @@ func queryUserTopicService(c *gin.Context, params queryUserTopicParams) *queryUs
 
 	if len(params.UpdateAt) > 0 {
 		queryFun = queryFun.Where("update_at between ? and ?", params.UpdateAt[0], params.UpdateAt[1])
+	}
+
+	if len(params.AnswerStart) > 0 {
+		queryFun = queryFun.Where("answer_start between ? and ?", params.AnswerStart[0], params.AnswerStart[1])
+	}
+
+	if len(params.AnswerEnd) > 0 {
+		queryFun = queryFun.Where("answer_end between ? and ?", params.AnswerEnd[0], params.AnswerEnd[1])
 	}
 
 	queryFun = queryFun.Limit(params.PageSize).Offset((params.PageNum - 1) * params.PageSize)

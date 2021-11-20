@@ -1,4 +1,4 @@
-package topicType
+package classifyType
 
 import "go-server-template/model/type"
 

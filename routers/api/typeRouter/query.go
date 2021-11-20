@@ -2,9 +2,9 @@ package typeRouter
 
 import (
 	"github.com/gin-gonic/gin"
-	"go-server-template/src/topicType"
+	"go-server-template/src/classifyType"
 )
 
 func QueryTypeRouter(g *gin.RouterGroup) {
-	g.GET("/query-type", topicType.QueryTypeController)
+	g.GET("/query-type", classifyType.QueryTypeController)
 }

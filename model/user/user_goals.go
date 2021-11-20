@@ -12,8 +12,9 @@ type UserGoals struct {
 	ClassifyIdList string    `gorm:"type:varchar(255);"`                                     // 方向目标id 数组
 	TypeIdList     string    `gorm:"type:varchar(255);"`                                     // 模块目标id 数组
 	TopicIdList    string    `gorm:"type:varchar(255);"`                                     // 题目id 数组
-	CreateAt       time.Time // 创建时间
-	UpdataAt       time.Time // 更新时间
+	CreateAt   time.Time `json:"create_at"`                                               // 创建时间
+	DeleteAt   time.Time `json:"delete_at"`
+	UpdateAt   time.Time `json:"update_at"`
 	StartAt        time.Time // 目标设定开始时间
 	EndAt          time.Time // 目标设定结束时间
 	Progress       int       `gorm:"type:int(3);not null"`           // 进度，最大100

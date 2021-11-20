@@ -21,6 +21,8 @@ type UserAddTopic struct {
 	CompanyId        int       `json:"company_id" gorm:"type:int(11);"`                        // 公司名
 	TagId            int       `json:"tag_id" gorm:"type:int(11);"`                            // 标签id
 	TypeId           int       `json:"type_id" gorm:"type:int(11);"`                           // 分类id
-	CreateAt         time.Time `json:"create_at"`                                              // 创建时间
+	CreateAt   time.Time `json:"create_at"`                                               // 创建时间
+	DeleteAt   time.Time `json:"delete_at"`
+	UpdateAt   time.Time `json:"update_at"`
 	IsUse            int       `json:"is_use" gorm:"type:int(3);not null;default:1"`           // 是否删除:0 删除 1未删除
 }

@@ -24,16 +24,18 @@ type queryUserTopicParams struct {
 	TagId            string   `json:"tag_id"`              // 标签id
 	TypeId           string   `json:"type_id"`             // 分类id
 	CreateAt         []string `json:"create_at"`
+	DeleteAt         []string `json:"delete_at"`
+	UpdateAt         []string `json:"update_at"`
 	IsUse            string   `json:"is_use"`
 	PageNum          int      `json:"pageNum"`
 	PageSize         int      `json:"pageSize"`
 }
 type queryUserTopicReturn struct {
-	Code int `json:"code"`
-	Data UserTopivReturnData `json:"data"`
+	Code int                 `json:"code"`
+	Data UserTopicReturnData `json:"data"`
 }
 
-type UserTopivReturnData struct {
+type UserTopicReturnData struct {
 	Data           []userModel.UserAddTopic `json:"data"`
-	PagingArgument PageArgument    `json:"pageArgument"`
+	PagingArgument PageArgument             `json:"pageArgument"`
 }

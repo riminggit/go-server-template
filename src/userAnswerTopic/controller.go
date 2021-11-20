@@ -1,4 +1,4 @@
-package userTopic
+package userAnswerTopic
 
 import (
 	"github.com/gin-gonic/gin"
@@ -10,33 +10,32 @@ import (
 	"net/http"
 )
 
-// @Summary 查询用户新增题目
+// @Summary 查询用户答题记录
 // @Produce  json
 // @Param Authorization	header string false "Bearer 31a165baebe6dec616b1f8f3207b4273"
 // @Param id query string false "id"
-// @Param title query string false "title"
-// @Param question_type query string false "question_type"
-// @Param degree query string false "degree"
-// @Param level query string false "level"
-// @Param is_base_topic query string false "is_base_topic"
-// @Param is_important_topic query string false "is_important_topic"
-// @Param come_from query string false "come_from"
-// @Param classify_id query string false "classify_id"
-// @Param company_id query string false "company_id"
-// @Param tag_id query string false "tag_id"
-// @Param type_id query string false "type_id"
+// @Param topic_id_list query string false "topic_id_list"
+// @Param topic_set_id query string false "topic_set_id"
+// @Param topic_set_name query string false "topic_set_name"
+// @Param answer_start query string false "answer_start"
+// @Param answer_end query 	[]string false "answer_end"
+// @Param answer_num query []string false "answer_num"
+// @Param answer_correct_num query string false "answer_correct_num"
+// @Param is_achieve query string false "is_achieve"
+// @Param topic_difficulty query string false "topic_difficulty"
+// @Param topic_level query string false "topic_level"
 // @Param create_at query []string false "create_at"
 // @Param delete_at query []string false "delete_at"
 // @Param update_at query []string false "update_at"
 // @Param is_use query string false "is_use"
 // @Param pageNum query int false "pageNum"
 // @Param pageSize query int false "pageSize"
-// @Router /api/user-topic/query-user-topic [post]
-func QueryUserTopicController(c *gin.Context) {
+// @Router /api/user-topic/query-user-answer-topic [post]
+func QueryUserAnswerTopicController(c *gin.Context) {
 	appG := app.Gin{C: c}
 
 	jsonString := app.GetPostJson(c)
-	jsonData := &queryUserTopicParams{}
+	jsonData := &queryUserAnswerTopicParams{}
 
 	// 如果是里面包含数组得用这个解析
 	err := codec.NewDecoderBytes([]byte(jsonString), new(codec.JsonHandle)).Decode(jsonData)
@@ -60,6 +59,6 @@ func QueryUserTopicController(c *gin.Context) {
 		jsonData.PageSize = projectConfig.AppConfig.BaseConfig.PAGE_SIZE
 	}
 
-	result := queryUserTopicService(c, *jsonData)
+	result := queryUserAnswerTopicService(c, *jsonData)
 	appG.Response(http.StatusOK, result.Code, result.Data)
 }

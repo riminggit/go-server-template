@@ -12,7 +12,8 @@ type UserInterview struct {
 	InterviewSchedule string    `gorm:"type:varchar(50);"` // 面试阶段
 	InterviewStatus   int       `gorm:"type:int(3);"`      // 0 未开始 1进行中 2已完成
 	InterviewResult   string    `gorm:"type:varchar(50);"` // 面试结果
-	CreateAt          time.Time // 创建时间
-	UpdataAt          time.Time // 更新时间
+	CreateAt   time.Time `json:"create_at"`                                               // 创建时间
+	DeleteAt   time.Time `json:"delete_at"`
+	UpdateAt   time.Time `json:"update_at"`
 	IsUse             int       `gorm:"type:int(3);not null;default:1"` // 是否删除:0 删除 1未删除
 }

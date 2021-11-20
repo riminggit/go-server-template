@@ -15,6 +15,8 @@ type UserTestRecord struct {
 	TypeIdList     string    `gorm:"type:varchar(255);"` // 涉及的type数组
 	CorrectNum     int       `gorm:"type:int(3);"`       // 正确数量
 	MistakeNum     int       `gorm:"type:int(3);"`       // 错误数量
-	CreateAt       time.Time // 创建时间
+	CreateAt       time.Time `json:"create_at"`          // 创建时间
+	DeleteAt       time.Time `json:"delete_at"`
+	UpdateAt       time.Time `json:"update_at"`
 	IsUse          int       `json:"is_use" gorm:"type:int(3);not null;default:1"` // 是否删除:0 删除 1未删除
 }

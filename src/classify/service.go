@@ -4,7 +4,7 @@ import (
 	"encoding/json"
 	"go-server-template/config"
 	"go-server-template/model/classify"
-	"go-server-template/src/topicType"
+	"go-server-template/src/classifyType"
 	"strconv"
 	"github.com/gin-gonic/gin"
 	DB "go-server-template/pkg/db"
@@ -83,10 +83,10 @@ func queryClassifyAndTypeService(c *gin.Context, params queryClassifyParams) *qu
 	result := queryClassifyService(c, params)
 
 	for _, item := range result.Data {
-		rParams := topicType.QueryTypeParams{
+		rParams := classifyType.QueryTypeParams{
 			ClassifyId: strconv.Itoa(item.ID),
 		}
-		queryTypeResult := topicType.QueryTypeService(c, rParams)
+		queryTypeResult := classifyType.QueryTypeService(c, rParams)
 		resData := queryClassifyAndTypeReturnData{
 			ID:           item.ID,
 			ClassifyName: item.ClassifyName,

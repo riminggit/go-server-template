@@ -74,3 +74,28 @@ func DelValue(key string) error {
 	}
 	return err
 }
+
+func PrefixDel(prefix string) {
+	iter := Rdb.Scan(ctx, 0, prefix+"*", 0).Iterator()
+	for iter.Next(ctx) {
+		err := Rdb.Del(ctx, iter.Val()).Err()
+		if err != nil {
+			panic(err)
+		}
+	}
+	if err := iter.Err(); err != nil {
+		panic(err)
+	}
+}
+
+func PrefixGetValue(prefix string) string {
+	val, err := Rdb.Get(ctx, prefix+"*").Result()
+
+	if err == redis.Nil {
+		log.Error("key对应的值不存在")
+	} else if err != nil {
+		log.Error(err)
+	}
+
+	return val
+}

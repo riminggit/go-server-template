@@ -4,6 +4,7 @@ import (
 	_ "github.com/go-sql-driver/mysql"
 	"go-server-template/model/classify"
 	"go-server-template/model/company"
+	"go-server-template/model/knowledge"
 	"go-server-template/model/tag"
 	"go-server-template/model/topic"
 	"go-server-template/model/type"
@@ -30,9 +31,15 @@ func AutoMigrateDBGorm(DB *gorm.DB) {
 	DB.Table("topic_company").AutoMigrate(&topicModel.TopicCompany{})
 	DB.Table("topic_tag").AutoMigrate(&topicModel.TopicTag{})
 	DB.Table("topic_type").AutoMigrate(&topicModel.TopicType{})
+	DB.Table("topic_set").AutoMigrate(&topicModel.TopicSet{})
 	DB.Table("tag").AutoMigrate(&tagModel.Tag{})
 	DB.Table("classify").AutoMigrate(&classifyModel.Classify{})
 	DB.Table("company").AutoMigrate(&companyModel.Company{})
+	DB.Table("knowledge").AutoMigrate(&knowledgeModel.Knowledge{})
+	DB.Table("knowledge_tag").AutoMigrate(&knowledgeModel.KnowledgeTag{})
+	DB.Table("knowledge_calssify").AutoMigrate(&knowledgeModel.KnowledgeClassify{})
+	DB.Table("knowledge_topic").AutoMigrate(&knowledgeModel.KnowledgeTopic{})
+	DB.Table("knowledge_type").AutoMigrate(&knowledgeModel.KnowledgeType{})
 
 	// DB.Create(&userModel.User{Email: "123456789"})
 }
