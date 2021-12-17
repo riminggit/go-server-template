@@ -2,9 +2,9 @@ package tagRouter
 
 import (
 	"github.com/gin-gonic/gin"
-	"go-server-template/src/tag"
+	"go-server-template/src/tag/query"
 )
 
 func QueryTagRouter(g *gin.RouterGroup) {
-	g.GET("/query-tag", tag.QueryTagController)
+	g.GET("/query-tag", tagQuery.QueryTagController)
 }

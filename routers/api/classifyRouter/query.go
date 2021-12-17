@@ -2,10 +2,10 @@ package classifyRouter
 
 import (
 	"github.com/gin-gonic/gin"
-	"go-server-template/src/classify"
+	"go-server-template/src/classify/query"
 )
 
 func QueryClassifyRouter(g *gin.RouterGroup) {
-	g.GET("/query-classify", classify.QueryClassifyController)
-	g.GET("/query-classify-type", classify.QueryClassifyAndTypeController)
+	g.GET("/query-classify", classifyQuery.QueryClassifyController)
+	g.GET("/query-classify-type", classifyQuery.QueryClassifyAndTypeController)
 }

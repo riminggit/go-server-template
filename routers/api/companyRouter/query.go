@@ -2,9 +2,9 @@ package companyRouter
 
 import (
 	"github.com/gin-gonic/gin"
-	"go-server-template/src/company"
+	"go-server-template/src/company/query"
 )
 
 func QueryCompanyRouter(g *gin.RouterGroup) {
-	g.GET("/query-company", company.QueryCompanyController)
+	g.GET("/query-company", companyQuery.QueryCompanyController)
 }
