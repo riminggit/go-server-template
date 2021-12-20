@@ -33,8 +33,8 @@ func QueryTopicSetService(c *gin.Context, params QueryTopicSetParams) *queryTopi
 	}
 
 	queryFun := DB.DBLivingExample.Where("is_use = ?", params.IsUse)
-	if params.Id != "" {
-		queryFun = queryFun.Where("id = ?", params.Id)
+	if len(params.Id) > 0 {
+		queryFun = queryFun.Where("id IN (?)", params.Id)
 	}
 
 	if params.Name != "" {

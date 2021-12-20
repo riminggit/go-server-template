@@ -13,3 +13,9 @@ type queryTagReturn struct {
 	Code int `json:"code"`
 	Data []tagModel.Tag
 }
+
+type queryTagMultipleParams struct {
+	Id      []string `json:"id"`
+	TagName []string `json:"tag_name"`
+	IsUse   string `json:"is_use"`
+}

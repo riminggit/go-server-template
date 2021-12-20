@@ -6,7 +6,7 @@ import (
 
 
 type QueryTopicSetParams struct {
-	Id                 string   `json:"id"`
+	Id                 []string   `json:"id"`
 	Name               string   `json:"name"`
 	TopicSetIdList     string   `json:"topic_set_id_list"`
 	TopicSetDifficulty string   `json:"topic_set_difficulty"`

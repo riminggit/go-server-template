@@ -13,8 +13,8 @@ import (
 // @Summary 查询用户答题记录
 // @Produce  json
 // @Param Authorization	header string false "Bearer 31a165baebe6dec616b1f8f3207b4273"
-// @Param id query string false "id"
-// @Param name query string false "name"
+// @Param id query []string false "id"
+// @Param name query []string false "name"
 // @Param topic_set_id_list query string false "topic_set_id_list"
 // @Param topic_set_difficulty query string false "topic_set_difficulty"
 // @Param topic_set_level query string false "topic_set_level"

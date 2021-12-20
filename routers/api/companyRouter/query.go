@@ -7,4 +7,5 @@ import (
 
 func QueryCompanyRouter(g *gin.RouterGroup) {
 	g.GET("/query-company", companyQuery.QueryCompanyController)
+	g.POST("/query-company", companyQuery.QueryCompanyMultipleController)
 }

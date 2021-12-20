@@ -7,4 +7,5 @@ import (
 
 func QueryTagRouter(g *gin.RouterGroup) {
 	g.GET("/query-tag", tagQuery.QueryTagController)
+	g.POST("/query-tag", tagQuery.QueryTagMultipleController)
 }

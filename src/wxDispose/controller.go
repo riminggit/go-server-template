@@ -25,7 +25,7 @@ func WXGetOpenIdController(c *gin.Context) {
 	}
 
 	resCode := e.SUCCESS
-	result, err := WXGetOpenIdService(jsonData.Code)
+	result, err := WXGetOpenIdService(jsonData.Code)                                              
 	if err != nil {
 		resCode = e.ERROR
 	}

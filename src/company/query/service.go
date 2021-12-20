@@ -2,9 +2,9 @@ package companyQuery
 
 import (
 	"encoding/json"
+	"github.com/gin-gonic/gin"
 	"go-server-template/config"
 	"go-server-template/model/company"
-	"github.com/gin-gonic/gin"
 	DB "go-server-template/pkg/db"
 	"go-server-template/pkg/e"
 	logging "go-server-template/pkg/log"
@@ -41,6 +41,47 @@ func queryCompanyService(c *gin.Context, params queryCompanyParams) *queryCompan
 
 	if params.CompanyName != "" {
 		queryFun = queryFun.Where("company_name = ?", params.CompanyName)
+	}
+
+	queryFun.Model(&companyModel.Company{}).Find(&queryInfo)
+
+	Redis.SetValue(queryRedisParams, queryInfo, dataRxpirationTime)
+	res.Code = e.SUCCESS
+	res.Data = queryInfo
+
+	return res
+}
+
+func queryCompanyMultipleService(c *gin.Context, params queryCompanyMultipleParams) *queryCompanyReturn {
+	res := &queryCompanyReturn{}
+
+	dataRxpirationTime := projectConfig.AppConfig.BaseConfig.REDIS_COMMON_EXPIRATION_TIME
+
+	redisParamsJson, _ := json.Marshal(params)
+	interfaceName := "query-company-multiple:"
+	queryRedisParams := interfaceName + string(redisParamsJson)
+
+	redisData := Redis.GetValue(queryRedisParams)
+
+	var queryInfo []companyModel.Company
+
+	if redisData != "" {
+		err := json.Unmarshal([]byte(redisData), &queryInfo)
+		if err != nil {
+			logging.Debug(err)
+		}
+		res.Code = e.SUCCESS
+		res.Data = queryInfo
+		return res
+	}
+
+	queryFun := DB.DBLivingExample.Where("is_use = ?", params.IsUse)
+	if len(params.Id) > 0 {
+		queryFun = queryFun.Where("id IN (?)", params.Id)
+	}
+
+	if len(params.CompanyName) > 0 {
+		queryFun = queryFun.Where("company_name IN (?)", params.CompanyName)
 	}
 
 	queryFun.Model(&companyModel.Company{}).Find(&queryInfo)
