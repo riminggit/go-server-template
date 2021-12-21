@@ -10,7 +10,6 @@ import (
 	Redis "go-server-template/pkg/redis"
 	"go-server-template/src/classifyType/query"
 	"strconv"
-
 	"github.com/gin-gonic/gin"
 )
 

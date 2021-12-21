@@ -1,1 +1,1 @@
-package midTopictypeUpdate
+package midTopicTypeUpdate

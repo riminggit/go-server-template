@@ -10,7 +10,7 @@ import (
 	"net/http"
 )
 
-// @Summary 查询用户新增题目
+// @Summary 查询题目
 // @Produce  json
 // @Param Authorization	header string false "Bearer 31a165baebe6dec616b1f8f3207b4273"
 // @Param id query []string false "id"
@@ -27,7 +27,7 @@ import (
 // @Param is_use query string false "is_use"
 // @Param pageNum query int false "pageNum"
 // @Param pageSize query int false "pageSize"
-// @Router /api/user-topic/query-user-topic [post]
+// @Router /api/topic/query-topic [post]
 func QueryTopicController(c *gin.Context) {
 	// 做一下判断不允许传参过多
 	appG := app.Gin{C: c}
@@ -63,7 +63,7 @@ func QueryTopicController(c *gin.Context) {
 
 
 
-// @Summary 查询用户新增题目-classify
+// @Summary 查询题目-classify
 // @Produce  json
 // @Param Authorization	header string false "Bearer 31a165baebe6dec616b1f8f3207b4273"
 // @Param classify_id query []string false "classify_id"
@@ -73,7 +73,7 @@ func QueryTopicController(c *gin.Context) {
 // @Param is_use query string false "is_use"
 // @Param pageNum query int false "pageNum"
 // @Param pageSize query int false "pageSize"
-// @Router /api/user-topic/query-user-topic/classify [post]
+// @Router /api/topic/query-topic/classify [post]
 func QueryTopicClassifyController(c *gin.Context) {
 	// 做一下判断不允许传参过多
 	appG := app.Gin{C: c}
@@ -110,7 +110,7 @@ func QueryTopicClassifyController(c *gin.Context) {
 
 
 
-// @Summary 查询用户新增题目-company
+// @Summary 查询题目-company
 // @Produce  json
 // @Param Authorization	header string false "Bearer 31a165baebe6dec616b1f8f3207b4273"
 // @Param company_id query []string false "company_id"
@@ -120,7 +120,7 @@ func QueryTopicClassifyController(c *gin.Context) {
 // @Param is_use query string false "is_use"
 // @Param pageNum query int false "pageNum"
 // @Param pageSize query int false "pageSize"
-// @Router /api/user-topic/query-user-topic/company [post]
+// @Router /api/topic/query-topic/company [post]
 func QueryTopicCompanyController(c *gin.Context) {
 	// 做一下判断不允许传参过多
 	appG := app.Gin{C: c}
@@ -156,7 +156,7 @@ func QueryTopicCompanyController(c *gin.Context) {
 
 
 
-// @Summary 查询用户新增题目-tag
+// @Summary 查询题目-tag
 // @Produce  json
 // @Param Authorization	header string false "Bearer 31a165baebe6dec616b1f8f3207b4273"
 // @Param tag_id query []string false "tag_id"
@@ -166,7 +166,7 @@ func QueryTopicCompanyController(c *gin.Context) {
 // @Param is_use query string false "is_use"
 // @Param pageNum query int false "pageNum"
 // @Param pageSize query int false "pageSize"
-// @Router /api/user-topic/query-user-topic/tag [post]
+// @Router /api/topic/query-topic/tag [post]
 func QueryTopicTagController(c *gin.Context) {
 	// 做一下判断不允许传参过多
 	appG := app.Gin{C: c}
@@ -205,7 +205,7 @@ func QueryTopicTagController(c *gin.Context) {
 
 
 
-// @Summary 查询用户新增题目-type
+// @Summary 查询题目-type
 // @Produce  json
 // @Param Authorization	header string false "Bearer 31a165baebe6dec616b1f8f3207b4273"
 // @Param type_id query []string false "type_id"
@@ -215,7 +215,7 @@ func QueryTopicTagController(c *gin.Context) {
 // @Param is_use query string false "is_use"
 // @Param pageNum query int false "pageNum"
 // @Param pageSize query int false "pageSize"
-// @Router /api/user-topic/query-user-topic/type [post]
+// @Router /api/topic/query-topic/type [post]
 func QueryTopicTypeController(c *gin.Context) {
 	// 做一下判断不允许传参过多
 	appG := app.Gin{C: c}

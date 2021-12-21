@@ -1,1 +1,1 @@
-package midTopictypeDelete
+package midTopicTypeDelete

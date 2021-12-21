@@ -1,1 +1,1 @@
-package midTopictypeCreate
+package midTopicTypeCreate
