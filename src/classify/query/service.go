@@ -14,7 +14,7 @@ import (
 	"github.com/gin-gonic/gin"
 )
 
-func queryClassifyService(c *gin.Context, params queryClassifyParams) *queryClassifyReturn {
+func QueryClassifyService(c *gin.Context, params queryClassifyParams) *queryClassifyReturn {
 	res := &queryClassifyReturn{}
 
 	redisParamsJson, _ := json.Marshal(params)
@@ -84,7 +84,7 @@ func queryClassifyAndTypeService(c *gin.Context, params queryClassifyParams) *qu
 		return res
 	}
 
-	result := queryClassifyService(c, params)
+	result := QueryClassifyService(c, params)
 
 	for _, item := range result.Data {
 		rParams := classifyTypeQuery.QueryTypeParams{

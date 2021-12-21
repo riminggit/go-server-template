@@ -9,6 +9,8 @@ import (
 	logging "go-server-template/pkg/log"
 	Redis "go-server-template/pkg/redis"
 	"github.com/gin-gonic/gin"
+	// "go-server-template/src/classify/query"
+	// "go-server-template/model/classify"
 )
 
 
@@ -21,7 +23,6 @@ func queryTopicService(c *gin.Context, params queryTopicParams) *queryTopicRetur
 	redisParamsJson, _ := json.Marshal(params)
 	interfaceName := "query-topic:"
 	queryRedisParams := interfaceName + string(redisParamsJson)
-
 
 	redisData := Redis.GetValue(queryRedisParams)
 
@@ -80,25 +81,14 @@ func queryTopicService(c *gin.Context, params queryTopicParams) *queryTopicRetur
 		queryFun = queryFun.Where("update_at between ? and ?", params.UpdateAt[0], params.UpdateAt[1])
 	}
 
-	// if params.ClassifyId != "" {
-	// 	queryFun = queryFun.Where("classify_id = ?", params.ClassifyId)
-	// }
-
-	// if params.CompanyId != "" {
-	// 	queryFun = queryFun.Where("company_id = ?", params.CompanyId)
-	// }
-
-	// if params.TagId != "" {
-	// 	queryFun = queryFun.Where("tag_id = ?", params.TagId)
-	// }
-
-	// if params.TypeId != "" {
-	// 	queryFun = queryFun.Where("type_id = ?", params.TypeId)
-	// }
 
 	queryFun = queryFun.Limit(params.PageSize).Offset((params.PageNum - 1) * params.PageSize)
 
 	queryFun.Model(&topicModel.Topic{}).Find(&queryInfo).Count(&res.Data.PagingArgument.Total)
+
+	// for  _, item := range queryInfo {
+	// 	queryClassifyData := classifyQuery.QueryClassifyService(c, rParams)
+	// }
 
 	res.Data.PagingArgument.PageNum = params.PageNum
 	res.Data.PagingArgument.PageSize = params.PageSize

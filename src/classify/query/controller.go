@@ -27,7 +27,7 @@ func QueryClassifyController(c *gin.Context) {
 		Rank:         c.Query("rank"),
 	}
 
-	result := queryClassifyService(c, *jsonData)
+	result := QueryClassifyService(c, *jsonData)
 	appG.Response(http.StatusOK, result.Code, result.Data)
 }
 
