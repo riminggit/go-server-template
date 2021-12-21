@@ -50,15 +50,24 @@ func QueryTopicController(c *gin.Context) {
 	if jsonData.IsUse == "" {
 		jsonData.IsUse = "1"
 	}
+	
 	if jsonData.PageNum == 0 {
 		jsonData.PageNum = 1
 	}
 	if jsonData.PageSize == 0 {
 		jsonData.PageSize = projectConfig.AppConfig.BaseConfig.PAGE_SIZE
 	}
+	
+	if jsonData.Relation == "" || jsonData.Relation == "0"{
+		jsonData.Relation = "0"
+		result := QueryTopicService(c, *jsonData)
+	    appG.Response(http.StatusOK, result.Code, result.Data)
+	}
+	if jsonData.Relation == "1" {
+		result := QueryTopicRelationService(c, *jsonData)
+	    appG.Response(http.StatusOK, result.Code, result.Data)
+	}
 
-	result := queryTopicService(c, *jsonData)
-	appG.Response(http.StatusOK, result.Code, result.Data)
 }
 
 
@@ -103,7 +112,7 @@ func QueryTopicClassifyController(c *gin.Context) {
 		jsonData.PageSize = projectConfig.AppConfig.BaseConfig.PAGE_SIZE
 	}
 
-	result := queryTopicService(c, *jsonData)
+	result := QueryTopicService(c, *jsonData)
 	appG.Response(http.StatusOK, result.Code, result.Data)
 }
 
@@ -150,7 +159,7 @@ func QueryTopicCompanyController(c *gin.Context) {
 		jsonData.PageSize = projectConfig.AppConfig.BaseConfig.PAGE_SIZE
 	}
 
-	result := queryTopicService(c, *jsonData)
+	result := QueryTopicService(c, *jsonData)
 	appG.Response(http.StatusOK, result.Code, result.Data)
 }
 
@@ -196,7 +205,7 @@ func QueryTopicTagController(c *gin.Context) {
 		jsonData.PageSize = projectConfig.AppConfig.BaseConfig.PAGE_SIZE
 	}
 
-	result := queryTopicService(c, *jsonData)
+	result := QueryTopicService(c, *jsonData)
 	appG.Response(http.StatusOK, result.Code, result.Data)
 }
 
@@ -245,6 +254,6 @@ func QueryTopicTypeController(c *gin.Context) {
 		jsonData.PageSize = projectConfig.AppConfig.BaseConfig.PAGE_SIZE
 	}
 
-	result := queryTopicService(c, *jsonData)
+	result := QueryTopicService(c, *jsonData)
 	appG.Response(http.StatusOK, result.Code, result.Data)
 }

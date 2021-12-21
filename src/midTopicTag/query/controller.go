@@ -26,7 +26,7 @@ func QueryTopicTagMidController(c *gin.Context) {
 	appG := app.Gin{C: c}
 
 	jsonString := app.GetPostJson(c)
-	jsonData := &queryTopicTagMidParams{}
+	jsonData := &QueryTopicTagMidParams{}
 
 	// 如果是里面包含数组得用这个解析
 	err := codec.NewDecoderBytes([]byte(jsonString), new(codec.JsonHandle)).Decode(jsonData)

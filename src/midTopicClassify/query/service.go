@@ -11,9 +11,9 @@ import (
 	"github.com/gin-gonic/gin"
 )
 
-func QueryTopicClassifyMid(c *gin.Context, params queryTopicClassifyMidParams) *queryTopicClassifyMidReturn {
+func QueryTopicClassifyMid(c *gin.Context, params QueryTopicClassifyMidParams) *QueryTopicClassifyMidReturn {
 
-	res := &queryTopicClassifyMidReturn{}
+	res := &QueryTopicClassifyMidReturn{}
 	var queryInfo []topicModel.TopicClassify
 
 	dataRxpirationTime := projectConfig.AppConfig.BaseConfig.REDIS_COMMON_EXPIRATION_TIME

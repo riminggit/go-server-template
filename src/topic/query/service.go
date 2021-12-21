@@ -6,15 +6,25 @@ import (
 	"go-server-template/model/topic"
 	DB "go-server-template/pkg/db"
 	"go-server-template/pkg/e"
+	"strconv"
+	"go-server-template/model/classify"
+	"go-server-template/model/company"
+	"go-server-template/model/tag"
+	"go-server-template/model/type"
 	logging "go-server-template/pkg/log"
 	Redis "go-server-template/pkg/redis"
+	"go-server-template/src/classify/query"
+	"go-server-template/src/company/query"
+	"go-server-template/src/midTopicClassify/query"
+	"go-server-template/src/midTopicCompany/query"
+	"go-server-template/src/midTopicTag/query"
+	"go-server-template/src/midTopicType/query"
+	"go-server-template/src/tag/query"
+	"go-server-template/src/classifyType/query"
 	"github.com/gin-gonic/gin"
-	// "go-server-template/src/classify/query"
-	// "go-server-template/model/classify"
 )
 
-
-func queryTopicService(c *gin.Context, params queryTopicParams) *queryTopicReturn {
+func QueryTopicService(c *gin.Context, params queryTopicParams) *queryTopicReturn {
 	res := &queryTopicReturn{}
 	var queryInfo []topicModel.Topic
 	var RGetData TopicReturnData
@@ -81,14 +91,8 @@ func queryTopicService(c *gin.Context, params queryTopicParams) *queryTopicRetur
 		queryFun = queryFun.Where("update_at between ? and ?", params.UpdateAt[0], params.UpdateAt[1])
 	}
 
-
 	queryFun = queryFun.Limit(params.PageSize).Offset((params.PageNum - 1) * params.PageSize)
-
 	queryFun.Model(&topicModel.Topic{}).Find(&queryInfo).Count(&res.Data.PagingArgument.Total)
-
-	// for  _, item := range queryInfo {
-	// 	queryClassifyData := classifyQuery.QueryClassifyService(c, rParams)
-	// }
 
 	res.Data.PagingArgument.PageNum = params.PageNum
 	res.Data.PagingArgument.PageSize = params.PageSize
@@ -102,4 +106,119 @@ func queryTopicService(c *gin.Context, params queryTopicParams) *queryTopicRetur
 	return res
 }
 
+func QueryTopicRelationService(c *gin.Context, params queryTopicParams) *queryTopicReturnRelation {
+	res := &queryTopicReturnRelation{}
 
+	dataRxpirationTime := projectConfig.AppConfig.BaseConfig.REDIS_COMMON_EXPIRATION_TIME
+
+	redisParamsJson, _ := json.Marshal(params)
+	interfaceName := "query-topic-relaction:"
+	queryRedisParams := interfaceName + string(redisParamsJson)
+
+	redisData := Redis.GetValue(queryRedisParams)
+
+	var topicInfo TopicReturnDataRelation
+
+	if redisData != "" {
+		err := json.Unmarshal([]byte(redisData), &topicInfo)
+		if err != nil {
+			logging.Debug(err)
+		}
+		res.Code = e.SUCCESS
+		res.Data = topicInfo
+		return res
+	}
+
+	result := QueryTopicService(c, params)
+
+	for _, item := range result.Data.Data {
+		var classifyInfo []classifyModel.Classify
+		var companyInfo []companyModel.Company
+		var tagInfo []tagModel.Tag
+		var typeInfo []typeModel.Type
+		itemReturnData := TopicData{
+			item,
+			classifyInfo,
+			companyInfo,
+			tagInfo,
+			typeInfo,
+		}
+
+		// classify
+		CParams := midTopicClassifyQuery.QueryTopicClassifyMidParams{
+			TopicId: strconv.Itoa(item.ID),
+		}
+		queryClassifyMidData := midTopicClassifyQuery.QueryTopicClassifyMid(c, CParams).Data
+		if len(queryClassifyMidData) > 0 {
+			for _, classifyItem := range queryClassifyMidData {
+				classifyParams := classifyQuery.QueryClassifyParams{
+					Id:    strconv.Itoa(classifyItem.ClassifyId),
+					IsUse: "1",
+				}
+				queryClassifyData := classifyQuery.QueryClassifyService(c, classifyParams).Data
+				itemReturnData.ClassifyInfo = append(itemReturnData.ClassifyInfo, queryClassifyData...)
+			}
+		}
+
+		// company
+		CompanyParams := midTopicCompanyQuery.QueryTopicCompanyMidParams{
+			TopicId: strconv.Itoa(item.ID),
+		}
+		queryCompanyMidData := midTopicCompanyQuery.QueryTopicCompanyMid(c, CompanyParams).Data
+		if len(queryCompanyMidData) > 0 {
+			for _, companyItem := range queryCompanyMidData {
+				companyParams := companyQuery.QueryCompanyParams{
+					Id:    strconv.Itoa(companyItem.CompanyId),
+					IsUse: "1",
+				}
+				queryCompanyData := companyQuery.QueryCompanyService(c, companyParams).Data
+				itemReturnData.CompanyInfo = append(itemReturnData.CompanyInfo, queryCompanyData...)
+			}
+		}
+
+		// tag
+		TagParams := midTopicTagQuery.QueryTopicTagMidParams{
+			TopicId: strconv.Itoa(item.ID),
+		}
+		queryTagMidData := midTopicTagQuery.QueryTopicTagMid(c, TagParams).Data
+		if len(queryTagMidData) > 0 {
+			for _, tagItem := range queryTagMidData {
+				tagParams := tagQuery.QueryTagParams{
+					Id:    strconv.Itoa(tagItem.TagId),
+					IsUse: "1",
+				}
+				queryTagData := tagQuery.QueryTagService(c, tagParams).Data
+				itemReturnData.TagInfo = append(itemReturnData.TagInfo, queryTagData...)
+			}
+		}
+
+		// type
+		TypeParams := midTopicTypeQuery.QueryTopicTypeMidParams{
+			TopicId: strconv.Itoa(item.ID),
+		}
+		queryTypeMidData := midTopicTypeQuery.QueryTopicTypeMid(c, TypeParams).Data
+		if len(queryTypeMidData) > 0 {
+			for _, typeItem := range queryTypeMidData {
+				typeParams := classifyTypeQuery.QueryTypeParams{
+					Id:    strconv.Itoa(typeItem.TypeId),
+					IsUse: "1",
+				}
+				queryTypeData := classifyTypeQuery.QueryTypeService(c, typeParams).Data
+				itemReturnData.TypeInfo = append(itemReturnData.TypeInfo, queryTypeData...)
+			}
+		}
+		topicInfo.Data = append(topicInfo.Data, itemReturnData)
+	}
+
+	topicInfo.PagingArgument.PageNum = result.Data.PagingArgument.PageNum
+	topicInfo.PagingArgument.PageSize = result.Data.PagingArgument.PageSize
+	topicInfo.PagingArgument.Total = result.Data.PagingArgument.Total
+	res.Data = topicInfo
+
+	RSetData := topicInfo
+	Redis.SetValue(queryRedisParams, RSetData, dataRxpirationTime)
+
+	res.Code = e.SUCCESS
+
+	return res
+}

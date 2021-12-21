@@ -19,13 +19,13 @@ import (
 func QueryCompanyController(c *gin.Context) {
 	appG := app.Gin{C: c}
 
-	jsonData := &queryCompanyParams{
+	jsonData := &QueryCompanyParams{
 		Id:           c.Query("id"),
 		CompanyName: c.Query("company_name"),
 		IsUse:        c.DefaultQuery("is_use", "1"),
 	}
 
-	result := queryCompanyService(c, *jsonData)
+	result := QueryCompanyService(c, *jsonData)
 	appG.Response(http.StatusOK, result.Code, result.Data)
 }
 
@@ -39,7 +39,7 @@ func QueryCompanyController(c *gin.Context) {
 func QueryCompanyMultipleController(c *gin.Context) {
 	appG := app.Gin{C: c}
 	jsonString := app.GetPostJson(c)
-	jsonData := &queryCompanyMultipleParams{}
+	jsonData := &QueryCompanyMultipleParams{}
 
 	// 如果是里面包含数组得用这个解析
 	err := codec.NewDecoderBytes([]byte(jsonString), new(codec.JsonHandle)).Decode(jsonData)
@@ -51,7 +51,7 @@ func QueryCompanyMultipleController(c *gin.Context) {
 		jsonData.IsUse = "1"
 	}
 
-	result := queryCompanyMultipleService(c, *jsonData)
+	result := QueryCompanyMultipleService(c, *jsonData)
 	appG.Response(http.StatusOK, result.Code, result.Data)
 }
 

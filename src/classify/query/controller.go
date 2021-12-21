@@ -20,7 +20,7 @@ import (
 func QueryClassifyController(c *gin.Context) {
 	appG := app.Gin{C: c}
 
-	jsonData := &queryClassifyParams{
+	jsonData := &QueryClassifyParams{
 		Id:           c.Query("id"),
 		ClassifyName: c.Query("classify_name"),
 		IsUse:        c.DefaultQuery("is_use", "1"),
@@ -43,14 +43,14 @@ func QueryClassifyController(c *gin.Context) {
 func QueryClassifyAndTypeController(c *gin.Context) {
 	appG := app.Gin{C: c}
 
-	jsonData := &queryClassifyParams{
+	jsonData := &QueryClassifyParams{
 		Id:           c.Query("id"),
 		ClassifyName: c.Query("classify_name"),
 		IsUse:        c.DefaultQuery("is_use", "1"),
 		Rank:         c.Query("rank"),
 	}
 
-	result := queryClassifyAndTypeService(c, *jsonData)
+	result := QueryClassifyAndTypeService(c, *jsonData)
 	appG.Response(http.StatusOK, result.Code, result.Data)
 }
 
@@ -67,7 +67,7 @@ func QueryClassifyAndTypeController(c *gin.Context) {
 func QueryClassifyMultipleController(c *gin.Context) {
 	appG := app.Gin{C: c}
 	jsonString := app.GetPostJson(c)
-	jsonData := &queryClassifyMultipleParams{}
+	jsonData := &QueryClassifyMultipleParams{}
 
 	// 如果是里面包含数组得用这个解析
 	err := codec.NewDecoderBytes([]byte(jsonString), new(codec.JsonHandle)).Decode(jsonData)
@@ -95,7 +95,7 @@ func QueryClassifyMultipleController(c *gin.Context) {
 func QueryClassifyAndTypeMultipleController(c *gin.Context) {
 	appG := app.Gin{C: c}
 	jsonString := app.GetPostJson(c)
-	jsonData := &queryClassifyMultipleParams{}
+	jsonData := &QueryClassifyMultipleParams{}
 
 	// 如果是里面包含数组得用这个解析
 	err := codec.NewDecoderBytes([]byte(jsonString), new(codec.JsonHandle)).Decode(jsonData)

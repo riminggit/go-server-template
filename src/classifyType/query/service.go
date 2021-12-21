@@ -16,8 +16,8 @@ import (
 	Redis "go-server-template/pkg/redis"
 )
 
-func QueryTypeService(c *gin.Context, params QueryTypeParams) *queryReturn {
-	res := &queryReturn{}
+func QueryTypeService(c *gin.Context, params QueryTypeParams) *QueryReturn {
+	res := &QueryReturn{}
 
 	redisParamsJson, _ := json.Marshal(params)
 	interfaceName := "query-type:"
@@ -77,8 +77,8 @@ func QueryTypeService(c *gin.Context, params QueryTypeParams) *queryReturn {
 	return res
 }
 
-func QueryTypeMultipleService(c *gin.Context, params QueryTypeMultipleParams) *queryReturn {
-	res := &queryReturn{}
+func QueryTypeMultipleService(c *gin.Context, params QueryTypeMultipleParams) *QueryReturn {
+	res := &QueryReturn{}
 
 	redisParamsJson, _ := json.Marshal(params)
 	interfaceName := "query-type-multiple:"

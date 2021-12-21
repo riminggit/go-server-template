@@ -19,13 +19,13 @@ import (
 func QueryTagController(c *gin.Context) {
 	appG := app.Gin{C: c}
 
-	jsonData := &queryTagParams{
+	jsonData := &QueryTagParams{
 		Id:           c.Query("id"),
 		TagName: c.Query("tag_name"),
 		IsUse:        c.DefaultQuery("is_use", "1"),
 	}
 
-	result := queryTagService(c, *jsonData)
+	result := QueryTagService(c, *jsonData)
 	appG.Response(http.StatusOK, result.Code, result.Data)
 }
 
@@ -40,7 +40,7 @@ func QueryTagController(c *gin.Context) {
 func QueryTagMultipleController(c *gin.Context) {
 	appG := app.Gin{C: c}
 	jsonString := app.GetPostJson(c)
-	jsonData := &queryTagMultipleParams{}
+	jsonData := &QueryTagMultipleParams{}
 
 	// 如果是里面包含数组得用这个解析
 	err := codec.NewDecoderBytes([]byte(jsonString), new(codec.JsonHandle)).Decode(jsonData)
@@ -52,7 +52,7 @@ func QueryTagMultipleController(c *gin.Context) {
 		jsonData.IsUse = "1"
 	}
 
-	result := queryTagMultipleService(c, *jsonData)
+	result := QueryTagMultipleService(c, *jsonData)
 	appG.Response(http.StatusOK, result.Code, result.Data)
 }
 

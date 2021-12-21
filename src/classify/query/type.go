@@ -5,14 +5,14 @@ import (
 	"go-server-template/model/type"
 )
 
-type queryClassifyParams struct {
+type QueryClassifyParams struct {
 	Id           string `json:"id"`
 	ClassifyName string `json:"classify_name"`
 	Rank         string `json:"rank"`
 	IsUse        string `json:"is_use"`
 }
 
-type queryClassifyMultipleParams struct {
+type QueryClassifyMultipleParams struct {
 	Id           []string `json:"id"`
 	ClassifyName []string `json:"classify_name"`
 	Rank         []string `json:"rank"`
@@ -20,18 +20,18 @@ type queryClassifyMultipleParams struct {
 }
 
 
-type queryClassifyReturn struct {
+type QueryClassifyReturn struct {
 	Code int `json:"code"`
 	Data []classifyModel.Classify
 }
 
 
-type queryClassifyAndTypeReturn struct {
+type QueryClassifyAndTypeReturn struct {
 	Code int `json:"code"`
-	Data []queryClassifyAndTypeReturnData
+	Data []QueryClassifyAndTypeReturnData
 }
 
-type queryClassifyAndTypeReturnData struct {
+type QueryClassifyAndTypeReturnData struct {
 	// classifyModel.Classify
 	ID           int    `json:"id"` // id
 	ClassifyName string `json:"classify_name"`                              // 类型名：html5、css、js等

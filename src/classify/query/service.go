@@ -13,8 +13,8 @@ import (
 	"github.com/gin-gonic/gin"
 )
 
-func QueryClassifyService(c *gin.Context, params queryClassifyParams) *queryClassifyReturn {
-	res := &queryClassifyReturn{}
+func QueryClassifyService(c *gin.Context, params QueryClassifyParams) *QueryClassifyReturn {
+	res := &QueryClassifyReturn{}
 
 	redisParamsJson, _ := json.Marshal(params)
 	interfaceName := "query-classify:"
@@ -60,8 +60,8 @@ func QueryClassifyService(c *gin.Context, params queryClassifyParams) *queryClas
 
 
 
-func queryClassifyAndTypeService(c *gin.Context, params queryClassifyParams) *queryClassifyAndTypeReturn {
-	res := &queryClassifyAndTypeReturn{}
+func QueryClassifyAndTypeService(c *gin.Context, params QueryClassifyParams) *QueryClassifyAndTypeReturn {
+	res := &QueryClassifyAndTypeReturn{}
 
 	dataRxpirationTime := projectConfig.AppConfig.BaseConfig.REDIS_COMMON_EXPIRATION_TIME
 
@@ -71,7 +71,7 @@ func queryClassifyAndTypeService(c *gin.Context, params queryClassifyParams) *qu
 
 	redisData := Redis.GetValue(queryRedisParams)
 
-	var classifyInfo []queryClassifyAndTypeReturnData
+	var classifyInfo []QueryClassifyAndTypeReturnData
 
 	if redisData != "" {
 		err := json.Unmarshal([]byte(redisData), &classifyInfo)
@@ -90,7 +90,7 @@ func queryClassifyAndTypeService(c *gin.Context, params queryClassifyParams) *qu
 			ClassifyId: strconv.Itoa(item.ID),
 		}
 		queryTypeResult := classifyTypeQuery.QueryTypeService(c, rParams)
-		resData := queryClassifyAndTypeReturnData{
+		resData := QueryClassifyAndTypeReturnData{
 			ID:           item.ID,
 			ClassifyName: item.ClassifyName,
 			ImgUrl:       item.ImgUrl,
@@ -114,8 +114,8 @@ func queryClassifyAndTypeService(c *gin.Context, params queryClassifyParams) *qu
 
 
 
-func queryClassifyMultipleService(c *gin.Context, params queryClassifyMultipleParams) *queryClassifyReturn {
-	res := &queryClassifyReturn{}
+func queryClassifyMultipleService(c *gin.Context, params QueryClassifyMultipleParams) *QueryClassifyReturn {
+	res := &QueryClassifyReturn{}
 
 	redisParamsJson, _ := json.Marshal(params)
 	interfaceName := "query-classify-multiple:"
@@ -163,8 +163,8 @@ func queryClassifyMultipleService(c *gin.Context, params queryClassifyMultiplePa
 
 
 
-func queryClassifyAndTypeMultipleService(c *gin.Context, params queryClassifyMultipleParams) *queryClassifyAndTypeReturn {
-	res := &queryClassifyAndTypeReturn{}
+func queryClassifyAndTypeMultipleService(c *gin.Context, params QueryClassifyMultipleParams) *QueryClassifyAndTypeReturn {
+	res := &QueryClassifyAndTypeReturn{}
 
 	dataRxpirationTime := projectConfig.AppConfig.BaseConfig.REDIS_COMMON_EXPIRATION_TIME
 
@@ -174,7 +174,7 @@ func queryClassifyAndTypeMultipleService(c *gin.Context, params queryClassifyMul
 
 	redisData := Redis.GetValue(queryRedisParams)
 
-	var classifyInfo []queryClassifyAndTypeReturnData
+	var classifyInfo []QueryClassifyAndTypeReturnData
 
 	if redisData != "" {
 		err := json.Unmarshal([]byte(redisData), &classifyInfo)
@@ -193,7 +193,7 @@ func queryClassifyAndTypeMultipleService(c *gin.Context, params queryClassifyMul
 			ClassifyId: strconv.Itoa(item.ID),
 		}
 		queryTypeResult := classifyTypeQuery.QueryTypeService(c, rParams)
-		resData := queryClassifyAndTypeReturnData{
+		resData := QueryClassifyAndTypeReturnData{
 			ID:           item.ID,
 			ClassifyName: item.ClassifyName,
 			ImgUrl:       item.ImgUrl,

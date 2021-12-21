@@ -11,8 +11,8 @@ import (
 	Redis "go-server-template/pkg/redis"
 )
 
-func queryCompanyService(c *gin.Context, params queryCompanyParams) *queryCompanyReturn {
-	res := &queryCompanyReturn{}
+func QueryCompanyService(c *gin.Context, params QueryCompanyParams) *QueryCompanyReturn {
+	res := &QueryCompanyReturn{}
 
 	dataRxpirationTime := projectConfig.AppConfig.BaseConfig.REDIS_COMMON_EXPIRATION_TIME
 
@@ -52,8 +52,8 @@ func queryCompanyService(c *gin.Context, params queryCompanyParams) *queryCompan
 	return res
 }
 
-func queryCompanyMultipleService(c *gin.Context, params queryCompanyMultipleParams) *queryCompanyReturn {
-	res := &queryCompanyReturn{}
+func QueryCompanyMultipleService(c *gin.Context, params QueryCompanyMultipleParams) *QueryCompanyReturn {
+	res := &QueryCompanyReturn{}
 
 	dataRxpirationTime := projectConfig.AppConfig.BaseConfig.REDIS_COMMON_EXPIRATION_TIME
 

@@ -9,7 +9,7 @@ type QueryTypeParams struct {
 	TypeName     string `json:"type_name"`
 	IsUse        string `json:"is_use"`
 }
-type queryReturn struct {
+type QueryReturn struct {
 	Code int `json:"code"`
 	Data []typeModel.Type
 }

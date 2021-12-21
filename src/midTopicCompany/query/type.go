@@ -4,7 +4,7 @@ import (
 	"go-server-template/model/topic"
 )
 
-type queryTopicCompanyMidParams struct {
+type QueryTopicCompanyMidParams struct {
 	Id        string   `json:"id"`
 	TopicId   string   `json:"topic_id"`
 	TopicTime string   `json:"topic_time"`
@@ -15,7 +15,7 @@ type queryTopicCompanyMidParams struct {
 	IsUse     string   `json:"is_use"`
 }
 
-type queryTopicCompanyMidReturn struct {
+type QueryTopicCompanyMidReturn struct {
 	Code int                        `json:"code"`
 	Data []topicModel.TopicCompany `json:"data"`
 }

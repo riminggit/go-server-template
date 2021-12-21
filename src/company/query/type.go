@@ -5,18 +5,18 @@ import (
 )
 
 
-type queryCompanyParams struct {
+type QueryCompanyParams struct {
 	Id           string `json:"id"`
 	CompanyName string `json:"company_name"`
 	IsUse        string `json:"is_use"`
 }
-type queryCompanyReturn struct {
+type QueryCompanyReturn struct {
 	Code int `json:"code"`
 	Data []companyModel.Company
 }
 
 
-type queryCompanyMultipleParams struct {
+type QueryCompanyMultipleParams struct {
 	Id           []string `json:"id"`
 	CompanyName  []string `json:"company_name"`
 	IsUse        string `json:"is_use"`

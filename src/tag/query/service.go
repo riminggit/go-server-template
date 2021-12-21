@@ -12,8 +12,8 @@ import (
 	Redis "go-server-template/pkg/redis"
 )
 
-func queryTagService(c *gin.Context, params queryTagParams) *queryTagReturn {
-	res := &queryTagReturn{}
+func QueryTagService(c *gin.Context, params QueryTagParams) *QueryTagReturn {
+	res := &QueryTagReturn{}
 
 	dataRxpirationTime := projectConfig.AppConfig.BaseConfig.REDIS_COMMON_EXPIRATION_TIME
 
@@ -53,8 +53,8 @@ func queryTagService(c *gin.Context, params queryTagParams) *queryTagReturn {
 	return res
 }
 
-func queryTagMultipleService(c *gin.Context, params queryTagMultipleParams) *queryTagReturn {
-	res := &queryTagReturn{}
+func QueryTagMultipleService(c *gin.Context, params QueryTagMultipleParams) *QueryTagReturn {
+	res := &QueryTagReturn{}
 
 	dataRxpirationTime := projectConfig.AppConfig.BaseConfig.REDIS_COMMON_EXPIRATION_TIME
 

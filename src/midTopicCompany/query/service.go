@@ -11,9 +11,9 @@ import (
 	"github.com/gin-gonic/gin"
 )
 
-func QueryTopicCompanyMid(c *gin.Context, params queryTopicCompanyMidParams) *queryTopicCompanyMidReturn {
+func QueryTopicCompanyMid(c *gin.Context, params QueryTopicCompanyMidParams) *QueryTopicCompanyMidReturn {
 
-	res := &queryTopicCompanyMidReturn{}
+	res := &QueryTopicCompanyMidReturn{}
 	var queryInfo []topicModel.TopicCompany
 
 	dataRxpirationTime := projectConfig.AppConfig.BaseConfig.REDIS_COMMON_EXPIRATION_TIME

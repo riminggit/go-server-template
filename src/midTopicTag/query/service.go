@@ -12,9 +12,9 @@ import (
 	"github.com/gin-gonic/gin"
 )
 
-func QueryTopicTagMid(c *gin.Context, params queryTopicTagMidParams) *queryTopicTagMidReturn {
+func QueryTopicTagMid(c *gin.Context, params QueryTopicTagMidParams) *QueryTopicTagMidReturn {
 
-	res := &queryTopicTagMidReturn{}
+	res := &QueryTopicTagMidReturn{}
 	var queryInfo []topicModel.TopicTag
 
 	dataRxpirationTime := projectConfig.AppConfig.BaseConfig.REDIS_COMMON_EXPIRATION_TIME
