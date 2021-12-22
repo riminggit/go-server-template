@@ -5,7 +5,7 @@ import (
 	"encoding/json"
 	"errors"
 	"fmt"
-	projectConfig "go-server-template/config"
+	"go-server-template/config"
 	"net/http"
 )
 

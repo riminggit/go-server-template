@@ -2,13 +2,14 @@ package companyQuery
 
 import (
 	"encoding/json"
-	"github.com/gin-gonic/gin"
 	"go-server-template/config"
 	"go-server-template/model/company"
+	"go-server-template/pkg/apiMap"
 	DB "go-server-template/pkg/db"
 	"go-server-template/pkg/e"
 	logging "go-server-template/pkg/log"
 	Redis "go-server-template/pkg/redis"
+	"github.com/gin-gonic/gin"
 )
 
 func QueryCompanyService(c *gin.Context, params QueryCompanyParams) *QueryCompanyReturn {
@@ -17,7 +18,7 @@ func QueryCompanyService(c *gin.Context, params QueryCompanyParams) *QueryCompan
 	dataRxpirationTime := projectConfig.AppConfig.BaseConfig.REDIS_COMMON_EXPIRATION_TIME
 
 	redisParamsJson, _ := json.Marshal(params)
-	interfaceName := "query-company:"
+	interfaceName := apiMap.GetRedisPrefixName(apiMap.GET_QUERY_COMPANY)
 	queryRedisParams := interfaceName + string(redisParamsJson)
 
 	redisData := Redis.GetValue(queryRedisParams)
@@ -58,7 +59,7 @@ func QueryCompanyMultipleService(c *gin.Context, params QueryCompanyMultiplePara
 	dataRxpirationTime := projectConfig.AppConfig.BaseConfig.REDIS_COMMON_EXPIRATION_TIME
 
 	redisParamsJson, _ := json.Marshal(params)
-	interfaceName := "query-company-multiple:"
+	interfaceName := apiMap.GetRedisPrefixName(apiMap.POST_QUERY_COMPANY)
 	queryRedisParams := interfaceName + string(redisParamsJson)
 
 	redisData := Redis.GetValue(queryRedisParams)

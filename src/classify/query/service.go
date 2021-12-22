@@ -11,13 +11,14 @@ import (
 	"go-server-template/src/classifyType/query"
 	"strconv"
 	"github.com/gin-gonic/gin"
+	"go-server-template/pkg/apiMap"
 )
 
 func QueryClassifyService(c *gin.Context, params QueryClassifyParams) *QueryClassifyReturn {
 	res := &QueryClassifyReturn{}
 
 	redisParamsJson, _ := json.Marshal(params)
-	interfaceName := "query-classify:"
+	interfaceName := apiMap.GetRedisPrefixName(apiMap.GET_QUERY_CLASSIFY)
 	queryRedisParams := interfaceName + string(redisParamsJson)
 
 	redisData := Redis.GetValue(queryRedisParams)
@@ -66,7 +67,7 @@ func QueryClassifyAndTypeService(c *gin.Context, params QueryClassifyParams) *Qu
 	dataRxpirationTime := projectConfig.AppConfig.BaseConfig.REDIS_COMMON_EXPIRATION_TIME
 
 	redisParamsJson, _ := json.Marshal(params)
-	interfaceName := "query-classify-type:"
+	interfaceName := apiMap.GetRedisPrefixName(apiMap.GET_QUERY_CLASSIFY_TYPE)
 	queryRedisParams := interfaceName + string(redisParamsJson)
 
 	redisData := Redis.GetValue(queryRedisParams)
@@ -118,7 +119,7 @@ func queryClassifyMultipleService(c *gin.Context, params QueryClassifyMultiplePa
 	res := &QueryClassifyReturn{}
 
 	redisParamsJson, _ := json.Marshal(params)
-	interfaceName := "query-classify-multiple:"
+	interfaceName := apiMap.GetRedisPrefixName(apiMap.POST_QUERY_CLASSIFY)
 	queryRedisParams := interfaceName + string(redisParamsJson)
 
 	redisData := Redis.GetValue(queryRedisParams)
@@ -169,7 +170,7 @@ func queryClassifyAndTypeMultipleService(c *gin.Context, params QueryClassifyMul
 	dataRxpirationTime := projectConfig.AppConfig.BaseConfig.REDIS_COMMON_EXPIRATION_TIME
 
 	redisParamsJson, _ := json.Marshal(params)
-	interfaceName := "query-classify-type-multiple:"
+	interfaceName := apiMap.GetRedisPrefixName(apiMap.POST_QUERY_CLASSIFY_TYPE)
 	queryRedisParams := interfaceName + string(redisParamsJson)
 
 	redisData := Redis.GetValue(queryRedisParams)

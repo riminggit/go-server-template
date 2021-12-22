@@ -3,9 +3,10 @@ package companyRouter
 import (
 	"github.com/gin-gonic/gin"
 	"go-server-template/src/company/query"
+	"go-server-template/pkg/apiMap"
 )
 
 func QueryCompanyRouter(g *gin.RouterGroup) {
-	g.GET("/query-company", companyQuery.QueryCompanyController)
-	g.POST("/query-company", companyQuery.QueryCompanyMultipleController)
+	g.GET(apiMap.GET_QUERY_COMPANY, companyQuery.QueryCompanyController)
+	g.POST(apiMap.POST_QUERY_COMPANY, companyQuery.QueryCompanyMultipleController)
 }

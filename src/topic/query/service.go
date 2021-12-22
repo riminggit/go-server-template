@@ -3,24 +3,25 @@ package topicQuery
 import (
 	"encoding/json"
 	"go-server-template/config"
-	"go-server-template/model/topic"
-	DB "go-server-template/pkg/db"
-	"go-server-template/pkg/e"
-	"strconv"
 	"go-server-template/model/classify"
 	"go-server-template/model/company"
 	"go-server-template/model/tag"
+	"go-server-template/model/topic"
 	"go-server-template/model/type"
+	"go-server-template/pkg/apiMap"
+	DB "go-server-template/pkg/db"
+	"go-server-template/pkg/e"
 	logging "go-server-template/pkg/log"
 	Redis "go-server-template/pkg/redis"
 	"go-server-template/src/classify/query"
+	"go-server-template/src/classifyType/query"
 	"go-server-template/src/company/query"
 	"go-server-template/src/midTopicClassify/query"
 	"go-server-template/src/midTopicCompany/query"
 	"go-server-template/src/midTopicTag/query"
 	"go-server-template/src/midTopicType/query"
 	"go-server-template/src/tag/query"
-	"go-server-template/src/classifyType/query"
+	"strconv"
 	"github.com/gin-gonic/gin"
 )
 
@@ -31,7 +32,7 @@ func QueryTopicService(c *gin.Context, params queryTopicParams) *queryTopicRetur
 
 	dataRxpirationTime := projectConfig.AppConfig.BaseConfig.REDIS_COMMON_EXPIRATION_TIME
 	redisParamsJson, _ := json.Marshal(params)
-	interfaceName := "query-topic:"
+	interfaceName := apiMap.GetRedisPrefixName(apiMap.POST_QUERY_TOPIC)
 	queryRedisParams := interfaceName + string(redisParamsJson)
 
 	redisData := Redis.GetValue(queryRedisParams)
@@ -112,7 +113,7 @@ func QueryTopicRelationService(c *gin.Context, params queryTopicParams) *queryTo
 	dataRxpirationTime := projectConfig.AppConfig.BaseConfig.REDIS_COMMON_EXPIRATION_TIME
 
 	redisParamsJson, _ := json.Marshal(params)
-	interfaceName := "query-topic-relaction:"
+	interfaceName := apiMap.GetRedisPrefixName(apiMap.POST_QUERY_TOPIC_RELACTION)
 	queryRedisParams := interfaceName + string(redisParamsJson)
 
 	redisData := Redis.GetValue(queryRedisParams)

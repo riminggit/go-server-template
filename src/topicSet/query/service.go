@@ -2,13 +2,14 @@ package topicSetQuery
 
 import (
 	"encoding/json"
-	"github.com/gin-gonic/gin"
 	"go-server-template/config"
 	"go-server-template/model/topic"
+	"go-server-template/pkg/apiMap"
 	DB "go-server-template/pkg/db"
 	"go-server-template/pkg/e"
 	logging "go-server-template/pkg/log"
 	Redis "go-server-template/pkg/redis"
+	"github.com/gin-gonic/gin"
 )
 
 func QueryTopicSetService(c *gin.Context, params QueryTopicSetParams) *queryTopicSetReturn {
@@ -17,7 +18,7 @@ func QueryTopicSetService(c *gin.Context, params QueryTopicSetParams) *queryTopi
 
 	dataRxpirationTime := projectConfig.AppConfig.BaseConfig.REDIS_COMMON_EXPIRATION_TIME
 	redisParamsJson, _ := json.Marshal(params)
-	interfaceName := "query-topic-set:"
+	interfaceName :=  apiMap.GetRedisPrefixName(apiMap.POST_QUERY_TOPIC_SET)
 	queryRedisParams := interfaceName + string(redisParamsJson)
 
 	redisData := Redis.GetValue(queryRedisParams)

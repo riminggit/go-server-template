@@ -3,9 +3,10 @@ package tagRouter
 import (
 	"github.com/gin-gonic/gin"
 	"go-server-template/src/tag/query"
+	"go-server-template/pkg/apiMap"
 )
 
 func QueryTagRouter(g *gin.RouterGroup) {
-	g.GET("/query-tag", tagQuery.QueryTagController)
-	g.POST("/query-tag", tagQuery.QueryTagMultipleController)
+	g.GET(apiMap.GET_QUERY_TAG, tagQuery.QueryTagController)
+	g.POST(apiMap.POST_QUERY_TAG, tagQuery.QueryTagMultipleController)
 }

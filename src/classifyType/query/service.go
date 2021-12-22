@@ -4,11 +4,10 @@ import (
 	"encoding/json"
 	"go-server-template/config"
 	"go-server-template/model/type"
+	"go-server-template/pkg/apiMap"
 	"go-server-template/pkg/e"
 	"strconv"
-
 	"github.com/gin-gonic/gin"
-
 	// "go-server-template/pkg/app"
 	"go-server-template/model/classify"
 	DB "go-server-template/pkg/db"
@@ -20,7 +19,7 @@ func QueryTypeService(c *gin.Context, params QueryTypeParams) *QueryReturn {
 	res := &QueryReturn{}
 
 	redisParamsJson, _ := json.Marshal(params)
-	interfaceName := "query-type:"
+	interfaceName := apiMap.GetRedisPrefixName(apiMap.GET_QUERY_TYPE)
 	queryRedisParams := interfaceName + string(redisParamsJson)
 
 	redisData := Redis.GetValue(queryRedisParams)
@@ -81,7 +80,7 @@ func QueryTypeMultipleService(c *gin.Context, params QueryTypeMultipleParams) *Q
 	res := &QueryReturn{}
 
 	redisParamsJson, _ := json.Marshal(params)
-	interfaceName := "query-type-multiple:"
+	interfaceName := apiMap.GetRedisPrefixName(apiMap.POST_QUERY_TYPE)
 	queryRedisParams := interfaceName + string(redisParamsJson)
 
 	redisData := Redis.GetValue(queryRedisParams)

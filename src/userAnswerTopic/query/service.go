@@ -4,6 +4,7 @@ import (
 	"encoding/json"
 	"go-server-template/config"
 	"go-server-template/model/user"
+	"go-server-template/pkg/apiMap"
 	DB "go-server-template/pkg/db"
 	"go-server-template/pkg/e"
 	logging "go-server-template/pkg/log"
@@ -11,7 +12,6 @@ import (
 	"go-server-template/pkg/utils"
 	"go-server-template/src/topicSet/query"
 	"strconv"
-
 	"github.com/gin-gonic/gin"
 )
 
@@ -28,7 +28,7 @@ func queryUserAnswerTopicService(c *gin.Context, params queryUserAnswerTopicPara
 
 	dataRxpirationTime := projectConfig.AppConfig.BaseConfig.REDIS_COMMON_EXPIRATION_TIME
 	redisParamsJson, _ := json.Marshal(params)
-	interfaceName := "query-user-answer-topic:"
+	interfaceName := apiMap.GetRedisPrefixName(apiMap.POST_USER_ANSWER_TOPIC_QUERY)
 	userPrefix := userInfoRes.Data.NickName + "/" + strconv.Itoa(userInfoRes.Data.ID) + "/"
 	queryRedisParams := userPrefix + interfaceName + string(redisParamsJson)
 

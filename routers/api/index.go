@@ -9,10 +9,11 @@ import (
 	"go-server-template/routers/api/tagRouter"
 	"go-server-template/routers/api/userTopicRouter"
 	"go-server-template/routers/api/topicRouter"
+	"go-server-template/pkg/apiMap"
 )
 
 func InitApi(r *gin.Engine) {
-	api := r.Group("/api")
+	api := r.Group(apiMap.API_PREFIX)
 	userRouter.UserInitRouter(api)
 	classifyRouter.ClassifyInitRouter(api)
 	typeRouter.TypeInitRouter(api)

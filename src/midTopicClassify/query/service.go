@@ -4,6 +4,7 @@ import (
 	"encoding/json"
 	"go-server-template/config"
 	"go-server-template/model/topic"
+	"go-server-template/pkg/apiMap"
 	DB "go-server-template/pkg/db"
 	"go-server-template/pkg/e"
 	logging "go-server-template/pkg/log"
@@ -18,7 +19,7 @@ func QueryTopicClassifyMid(c *gin.Context, params QueryTopicClassifyMidParams) *
 
 	dataRxpirationTime := projectConfig.AppConfig.BaseConfig.REDIS_COMMON_EXPIRATION_TIME
 	redisParamsJson, _ := json.Marshal(params)
-	interfaceName := "query-mid-topic-classify:"
+	interfaceName := apiMap.GetRedisPrefixName(apiMap.POST_QUERY_TOPIC_CLASSIFY_MID)
 	queryRedisParams := interfaceName + string(redisParamsJson)
 
 	redisData := Redis.GetValue(queryRedisParams)

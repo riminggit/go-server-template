@@ -3,13 +3,14 @@ package tagQuery
 import (
 	"encoding/json"
 
-	"github.com/gin-gonic/gin"
 	"go-server-template/config"
 	"go-server-template/model/tag"
+	"go-server-template/pkg/apiMap"
 	DB "go-server-template/pkg/db"
 	"go-server-template/pkg/e"
 	logging "go-server-template/pkg/log"
 	Redis "go-server-template/pkg/redis"
+	"github.com/gin-gonic/gin"
 )
 
 func QueryTagService(c *gin.Context, params QueryTagParams) *QueryTagReturn {
@@ -18,7 +19,7 @@ func QueryTagService(c *gin.Context, params QueryTagParams) *QueryTagReturn {
 	dataRxpirationTime := projectConfig.AppConfig.BaseConfig.REDIS_COMMON_EXPIRATION_TIME
 
 	redisParamsJson, _ := json.Marshal(params)
-	interfaceName := "query-tag:"
+	interfaceName := apiMap.GetRedisPrefixName(apiMap.GET_QUERY_TAG)
 	queryRedisParams := interfaceName + string(redisParamsJson)
 
 	redisData := Redis.GetValue(queryRedisParams)
@@ -59,7 +60,7 @@ func QueryTagMultipleService(c *gin.Context, params QueryTagMultipleParams) *Que
 	dataRxpirationTime := projectConfig.AppConfig.BaseConfig.REDIS_COMMON_EXPIRATION_TIME
 
 	redisParamsJson, _ := json.Marshal(params)
-	interfaceName := "query-tag-multiple:"
+	interfaceName := apiMap.GetRedisPrefixName(apiMap.POST_QUERY_TAG)
 	queryRedisParams := interfaceName + string(redisParamsJson)
 
 	redisData := Redis.GetValue(queryRedisParams)
