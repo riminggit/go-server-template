@@ -48,7 +48,7 @@ func QueryTopicTypeMid(c *gin.Context, params QueryTopicTypeMidParams) *QueryTop
 	}
 
 	if params.TypeId != "" {
-		queryFun = queryFun.Where("tag_id = ?", params.TypeId)
+		queryFun = queryFun.Where("type_id = ?", params.TypeId)
 	}
 
 	if len(params.CreateAt) > 0 {
