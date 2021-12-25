@@ -1,10 +1,11 @@
 package e
 
 var MsgFlags = map[int]string{
-	SUCCESS:        "成功",
-	ERROR:          "失败",
-	INVALID_PARAMS: "请求参数错误",
-	UN_AUTHORIZED:  "没有权限",
+	SUCCESS:                 "成功",
+	ERROR:                   "失败",
+	INVALID_PARAMS:          "请求参数错误",
+	UN_AUTHORIZED:           "没有权限",
+	UN_AUTHORIZED_NOT_ADMIN: "没有管理员权限",
 
 	IS_LOGIN:                       "已经登陆",
 	USER_NOT_LOGIN:                 "用户未登录",

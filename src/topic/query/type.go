@@ -31,7 +31,7 @@ type queryTopicParams struct {
 	CreateAt         []string `json:"create_at"`
 	DeleteAt         []string `json:"delete_at"`
 	UpdateAt         []string `json:"update_at"`
-	Relation         string   `json:"relation"` // 是否查询对应关系，1是，0否，默认为0
+	Relation         []string `json:"relation"` // 是否查询对应关系，参数有classify、tag、type、company
 	IsUse            string   `json:"is_use"`
 	PageNum          int      `json:"pageNum"`
 	PageSize         int      `json:"pageSize"`
@@ -47,17 +47,15 @@ type TopicReturnData struct {
 	PagingArgument PageArgument       `json:"pageArgument"`
 }
 
-
 type queryTopicReturnRelation struct {
-	Code int             `json:"code"`
+	Code int                     `json:"code"`
 	Data TopicReturnDataRelation `json:"data"`
 }
 
 type TopicReturnDataRelation struct {
-	Data           []TopicData `json:"data"`
-	PagingArgument PageArgument       `json:"pageArgument"`
+	Data           []TopicData  `json:"data"`
+	PagingArgument PageArgument `json:"pageArgument"`
 }
-
 
 type TopicData struct {
 	topicModel.Topic
@@ -65,4 +63,55 @@ type TopicData struct {
 	CompanyInfo  []companyModel.Company   `json:"companyInfo"`
 	TagInfo      []tagModel.Tag           `json:"tagInfo"`
 	TypeInfo     []typeModel.Type         `json:"typeInfo"`
+}
+
+type queryTopicFromClassifyParams struct {
+	ClassifyId []string `json:"classify_id"`
+	CreateAt   []string `json:"create_at"`
+	DeleteAt   []string `json:"delete_at"`
+	UpdateAt   []string `json:"update_at"`
+	Relation   []string `json:"relation"` // 是否查询对应关系，参数有classify、tag、type、company
+	IsUse      string   `json:"is_use"`
+}
+
+type queryTopicFromCompanyParams struct {
+	CompanyId []string `json:"company_id"`
+	CreateAt  []string `json:"create_at"`
+	DeleteAt  []string `json:"delete_at"`
+	UpdateAt  []string `json:"update_at"`
+	Relation  []string `json:"relation"` // 是否查询对应关系，参数有classify、tag、type、company
+	IsUse     string   `json:"is_use"`
+}
+
+type queryTopicFromTagParams struct {
+	TagId    []string   `json:"tag_id"` // 标签id
+	CreateAt []string `json:"create_at"`
+	DeleteAt []string `json:"delete_at"`
+	UpdateAt []string `json:"update_at"`
+	Relation []string `json:"relation"` // 是否查询对应关系，参数有classify、tag、type、company
+	IsUse    string   `json:"is_use"`
+}
+
+type queryTopicFromTypeParams struct {
+	TypeId   []string   `json:"type_id"` // 分类id
+	CreateAt []string `json:"create_at"`
+	DeleteAt []string `json:"delete_at"`
+	UpdateAt []string `json:"update_at"`
+	Relation []string `json:"relation"` // 是否查询对应关系，参数有classify、tag、type、company
+	IsUse    string   `json:"is_use"`
+}
+
+type QueryTopicIdReturn struct {
+	Code        int      `json:"code"`
+	TopicIdList []string `json:"topic_id_list"` // 题目id数组
+}
+
+type queryTopicNoPadingReturn struct {
+	Code int                `json:"code"`
+	Data []topicModel.Topic `json:"data"`
+}
+
+type queryTopicNoPadingRelationReturn struct {
+	Code int         `json:"code"`
+	Data []TopicData `json:"data"`
 }

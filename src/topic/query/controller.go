@@ -20,6 +20,7 @@ import (
 // @Param level query []string false "level"
 // @Param is_base_topic query string false "is_base_topic"
 // @Param is_important_topic query string false "is_important_topic"
+// @Param relation query []string false "relation"
 // @Param come_from query []string false "come_from"
 // @Param create_at query []string false "create_at"
 // @Param delete_at query []string false "delete_at"
@@ -50,27 +51,22 @@ func QueryTopicController(c *gin.Context) {
 	if jsonData.IsUse == "" {
 		jsonData.IsUse = "1"
 	}
-	
+
 	if jsonData.PageNum == 0 {
 		jsonData.PageNum = 1
 	}
 	if jsonData.PageSize == 0 {
 		jsonData.PageSize = projectConfig.AppConfig.BaseConfig.PAGE_SIZE
 	}
-	
-	if jsonData.Relation == "" || jsonData.Relation == "0"{
-		jsonData.Relation = "0"
-		result := QueryTopicService(c, *jsonData)
-	    appG.Response(http.StatusOK, result.Code, result.Data)
-	}
-	if jsonData.Relation == "1" {
+
+	if len(jsonData.Relation) > 0 {
 		result := QueryTopicRelationService(c, *jsonData)
-	    appG.Response(http.StatusOK, result.Code, result.Data)
+		appG.Response(http.StatusOK, result.Code, result.Data)
+	} else {
+		result := QueryTopicService(c, *jsonData)
+		appG.Response(http.StatusOK, result.Code, result.Data)
 	}
-
 }
-
-
 
 // @Summary 查询题目-classify
 // @Produce  json
@@ -88,7 +84,7 @@ func QueryTopicClassifyController(c *gin.Context) {
 	appG := app.Gin{C: c}
 
 	jsonString := app.GetPostJson(c)
-	jsonData := &queryTopicParams{}
+	jsonData := &queryTopicFromClassifyParams{}
 
 	// 如果是里面包含数组得用这个解析
 	err := codec.NewDecoderBytes([]byte(jsonString), new(codec.JsonHandle)).Decode(jsonData)
@@ -105,19 +101,16 @@ func QueryTopicClassifyController(c *gin.Context) {
 	if jsonData.IsUse == "" {
 		jsonData.IsUse = "1"
 	}
-	if jsonData.PageNum == 0 {
-		jsonData.PageNum = 1
-	}
-	if jsonData.PageSize == 0 {
-		jsonData.PageSize = projectConfig.AppConfig.BaseConfig.PAGE_SIZE
+
+	if len(jsonData.Relation) > 0 {
+		result := QueryTopicFromClassifyRelationService(c, *jsonData)
+		appG.Response(http.StatusOK, result.Code, result.Data)
+	} else {
+		result := QueryTopicFromClassifyService(c, *jsonData)
+		appG.Response(http.StatusOK, result.Code, result.Data)
 	}
 
-	result := QueryTopicService(c, *jsonData)
-	appG.Response(http.StatusOK, result.Code, result.Data)
 }
-
-
-
 
 // @Summary 查询题目-company
 // @Produce  json
@@ -135,7 +128,7 @@ func QueryTopicCompanyController(c *gin.Context) {
 	appG := app.Gin{C: c}
 
 	jsonString := app.GetPostJson(c)
-	jsonData := &queryTopicParams{}
+	jsonData := &queryTopicFromCompanyParams{}
 
 	// 如果是里面包含数组得用这个解析
 	err := codec.NewDecoderBytes([]byte(jsonString), new(codec.JsonHandle)).Decode(jsonData)
@@ -152,18 +145,16 @@ func QueryTopicCompanyController(c *gin.Context) {
 	if jsonData.IsUse == "" {
 		jsonData.IsUse = "1"
 	}
-	if jsonData.PageNum == 0 {
-		jsonData.PageNum = 1
-	}
-	if jsonData.PageSize == 0 {
-		jsonData.PageSize = projectConfig.AppConfig.BaseConfig.PAGE_SIZE
+
+	if len(jsonData.Relation) > 0 {
+		result := QueryTopicFromCompanyRelationService(c, *jsonData)
+		appG.Response(http.StatusOK, result.Code, result.Data)
+	} else {
+		result := QueryTopicFromCompanyService(c, *jsonData)
+		appG.Response(http.StatusOK, result.Code, result.Data)
 	}
 
-	result := QueryTopicService(c, *jsonData)
-	appG.Response(http.StatusOK, result.Code, result.Data)
 }
-
-
 
 // @Summary 查询题目-tag
 // @Produce  json
@@ -181,7 +172,7 @@ func QueryTopicTagController(c *gin.Context) {
 	appG := app.Gin{C: c}
 
 	jsonString := app.GetPostJson(c)
-	jsonData := &queryTopicParams{}
+	jsonData := &queryTopicFromTagParams{}
 
 	// 如果是里面包含数组得用这个解析
 	err := codec.NewDecoderBytes([]byte(jsonString), new(codec.JsonHandle)).Decode(jsonData)
@@ -198,21 +189,15 @@ func QueryTopicTagController(c *gin.Context) {
 	if jsonData.IsUse == "" {
 		jsonData.IsUse = "1"
 	}
-	if jsonData.PageNum == 0 {
-		jsonData.PageNum = 1
-	}
-	if jsonData.PageSize == 0 {
-		jsonData.PageSize = projectConfig.AppConfig.BaseConfig.PAGE_SIZE
-	}
 
-	result := QueryTopicService(c, *jsonData)
-	appG.Response(http.StatusOK, result.Code, result.Data)
+	if len(jsonData.Relation) > 0 {
+		result := QueryTopicFromTagRelationService(c, *jsonData)
+		appG.Response(http.StatusOK, result.Code, result.Data)
+	} else {
+		result := QueryTopicFromTagService(c, *jsonData)
+		appG.Response(http.StatusOK, result.Code, result.Data)
+	}
 }
-
-
-
-
-
 
 // @Summary 查询题目-type
 // @Produce  json
@@ -230,7 +215,7 @@ func QueryTopicTypeController(c *gin.Context) {
 	appG := app.Gin{C: c}
 
 	jsonString := app.GetPostJson(c)
-	jsonData := &queryTopicParams{}
+	jsonData := &queryTopicFromTypeParams{}
 
 	// 如果是里面包含数组得用这个解析
 	err := codec.NewDecoderBytes([]byte(jsonString), new(codec.JsonHandle)).Decode(jsonData)
@@ -247,13 +232,12 @@ func QueryTopicTypeController(c *gin.Context) {
 	if jsonData.IsUse == "" {
 		jsonData.IsUse = "1"
 	}
-	if jsonData.PageNum == 0 {
-		jsonData.PageNum = 1
-	}
-	if jsonData.PageSize == 0 {
-		jsonData.PageSize = projectConfig.AppConfig.BaseConfig.PAGE_SIZE
-	}
 
-	result := QueryTopicService(c, *jsonData)
-	appG.Response(http.StatusOK, result.Code, result.Data)
+	if len(jsonData.Relation) > 0 {
+		result := QueryTopicFromTypeRelationService(c, *jsonData)
+		appG.Response(http.StatusOK, result.Code, result.Data)
+	} else {
+		result := QueryTopicFromTypeService(c, *jsonData)
+		appG.Response(http.StatusOK, result.Code, result.Data)
+	}
 }

@@ -2,6 +2,7 @@ package topicQuery
 
 import (
 	"encoding/json"
+	"github.com/gin-gonic/gin"
 	"go-server-template/config"
 	"go-server-template/model/classify"
 	"go-server-template/model/company"
@@ -22,7 +23,6 @@ import (
 	"go-server-template/src/midTopicType/query"
 	"go-server-template/src/tag/query"
 	"strconv"
-	"github.com/gin-gonic/gin"
 )
 
 func QueryTopicService(c *gin.Context, params queryTopicParams) *queryTopicReturn {
@@ -145,69 +145,81 @@ func QueryTopicRelationService(c *gin.Context, params queryTopicParams) *queryTo
 			typeInfo,
 		}
 
-		// classify
-		CParams := midTopicClassifyQuery.QueryTopicClassifyMidParams{
-			TopicId: strconv.Itoa(item.ID),
-		}
-		queryClassifyMidData := midTopicClassifyQuery.QueryTopicClassifyMid(c, CParams).Data
-		if len(queryClassifyMidData) > 0 {
-			for _, classifyItem := range queryClassifyMidData {
-				classifyParams := classifyQuery.QueryClassifyParams{
-					Id:    strconv.Itoa(classifyItem.ClassifyId),
-					IsUse: "1",
+		for _, judgeItem := range params.Relation {
+			if judgeItem == "classify" {
+				// classify
+				CParams := midTopicClassifyQuery.QueryTopicClassifyMidParams{
+					TopicId: strconv.Itoa(item.ID),
 				}
-				queryClassifyData := classifyQuery.QueryClassifyService(c, classifyParams).Data
-				itemReturnData.ClassifyInfo = append(itemReturnData.ClassifyInfo, queryClassifyData...)
+				queryClassifyMidData := midTopicClassifyQuery.QueryTopicClassifyMid(c, CParams).Data
+				if len(queryClassifyMidData) > 0 {
+					for _, classifyItem := range queryClassifyMidData {
+						classifyParams := classifyQuery.QueryClassifyParams{
+							Id:    strconv.Itoa(classifyItem.ClassifyId),
+							IsUse: "1",
+						}
+						queryClassifyData := classifyQuery.QueryClassifyService(c, classifyParams).Data
+						itemReturnData.ClassifyInfo = append(itemReturnData.ClassifyInfo, queryClassifyData...)
+					}
+				}
 			}
+
+			if judgeItem == "company" {
+				// company
+				CompanyParams := midTopicCompanyQuery.QueryTopicCompanyMidParams{
+					TopicId: strconv.Itoa(item.ID),
+				}
+				queryCompanyMidData := midTopicCompanyQuery.QueryTopicCompanyMid(c, CompanyParams).Data
+				if len(queryCompanyMidData) > 0 {
+					for _, companyItem := range queryCompanyMidData {
+						companyParams := companyQuery.QueryCompanyParams{
+							Id:    strconv.Itoa(companyItem.CompanyId),
+							IsUse: "1",
+						}
+						queryCompanyData := companyQuery.QueryCompanyService(c, companyParams).Data
+						itemReturnData.CompanyInfo = append(itemReturnData.CompanyInfo, queryCompanyData...)
+					}
+				}
+			}
+
+			if judgeItem == "tag" {
+				// tag
+				TagParams := midTopicTagQuery.QueryTopicTagMidParams{
+					TopicId: strconv.Itoa(item.ID),
+				}
+				queryTagMidData := midTopicTagQuery.QueryTopicTagMid(c, TagParams).Data
+				if len(queryTagMidData) > 0 {
+					for _, tagItem := range queryTagMidData {
+						tagParams := tagQuery.QueryTagParams{
+							Id:    strconv.Itoa(tagItem.TagId),
+							IsUse: "1",
+						}
+						queryTagData := tagQuery.QueryTagService(c, tagParams).Data
+						itemReturnData.TagInfo = append(itemReturnData.TagInfo, queryTagData...)
+					}
+				}
+			}
+
+			if judgeItem == "type" {
+				// type
+				TypeParams := midTopicTypeQuery.QueryTopicTypeMidParams{
+					TopicId: strconv.Itoa(item.ID),
+				}
+				queryTypeMidData := midTopicTypeQuery.QueryTopicTypeMid(c, TypeParams).Data
+				if len(queryTypeMidData) > 0 {
+					for _, typeItem := range queryTypeMidData {
+						typeParams := classifyTypeQuery.QueryTypeParams{
+							Id:    strconv.Itoa(typeItem.TypeId),
+							IsUse: "1",
+						}
+						queryTypeData := classifyTypeQuery.QueryTypeService(c, typeParams).Data
+						itemReturnData.TypeInfo = append(itemReturnData.TypeInfo, queryTypeData...)
+					}
+				}
+			}
+
 		}
 
-		// company
-		CompanyParams := midTopicCompanyQuery.QueryTopicCompanyMidParams{
-			TopicId: strconv.Itoa(item.ID),
-		}
-		queryCompanyMidData := midTopicCompanyQuery.QueryTopicCompanyMid(c, CompanyParams).Data
-		if len(queryCompanyMidData) > 0 {
-			for _, companyItem := range queryCompanyMidData {
-				companyParams := companyQuery.QueryCompanyParams{
-					Id:    strconv.Itoa(companyItem.CompanyId),
-					IsUse: "1",
-				}
-				queryCompanyData := companyQuery.QueryCompanyService(c, companyParams).Data
-				itemReturnData.CompanyInfo = append(itemReturnData.CompanyInfo, queryCompanyData...)
-			}
-		}
-
-		// tag
-		TagParams := midTopicTagQuery.QueryTopicTagMidParams{
-			TopicId: strconv.Itoa(item.ID),
-		}
-		queryTagMidData := midTopicTagQuery.QueryTopicTagMid(c, TagParams).Data
-		if len(queryTagMidData) > 0 {
-			for _, tagItem := range queryTagMidData {
-				tagParams := tagQuery.QueryTagParams{
-					Id:    strconv.Itoa(tagItem.TagId),
-					IsUse: "1",
-				}
-				queryTagData := tagQuery.QueryTagService(c, tagParams).Data
-				itemReturnData.TagInfo = append(itemReturnData.TagInfo, queryTagData...)
-			}
-		}
-
-		// type
-		TypeParams := midTopicTypeQuery.QueryTopicTypeMidParams{
-			TopicId: strconv.Itoa(item.ID),
-		}
-		queryTypeMidData := midTopicTypeQuery.QueryTopicTypeMid(c, TypeParams).Data
-		if len(queryTypeMidData) > 0 {
-			for _, typeItem := range queryTypeMidData {
-				typeParams := classifyTypeQuery.QueryTypeParams{
-					Id:    strconv.Itoa(typeItem.TypeId),
-					IsUse: "1",
-				}
-				queryTypeData := classifyTypeQuery.QueryTypeService(c, typeParams).Data
-				itemReturnData.TypeInfo = append(itemReturnData.TypeInfo, queryTypeData...)
-			}
-		}
 		topicInfo.Data = append(topicInfo.Data, itemReturnData)
 	}
 
@@ -223,3 +235,4 @@ func QueryTopicRelationService(c *gin.Context, params queryTopicParams) *queryTo
 
 	return res
 }
+

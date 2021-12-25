@@ -54,7 +54,7 @@ func queryUserAnswerTopicService(c *gin.Context, params queryUserAnswerTopicPara
 		resTopicSetName := topicSetQuery.QueryTopicSetService(c, *queryParams)
 		queryFun = queryFun.Where("topic_set_id = ?", resTopicSetName.Data[0].ID)
 	}
-
+	
 	if params.Id != ""  {
 		queryFun = queryFun.Where("id = ?", params.Id)
 	}
