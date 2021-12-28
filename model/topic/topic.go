@@ -6,7 +6,7 @@ import (
 
 type Topic struct {
 	ID               int       `json:"id" gorm:"column:id;AUTO_INCREMENT;comment:id;not null"` // id
-	Title            string    `gorm:"type:varchar(255);not null"`                             // 题目标题
+	Title            string    `gorm:"type:varchar(255);not null;unique"`                             // 题目标题
 	QuestionType     int       `gorm:"type:int(3);"`                                           // 题目类型，1为选择题，2为解析题，3既是选择又是解析
 	Analysis         string    `gorm:"type:text"`                                              // 题解，内容为富文本
 	SelectAnalysis   string    `gorm:"type:text"`                                              // 选择题答案，对象字符串

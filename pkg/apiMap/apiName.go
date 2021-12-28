@@ -7,6 +7,9 @@ var ApiName = map[string]string{
 	GET_QUERY_CLASSIFY_TYPE:  "查询分类关联二级分类_单个参数",
 	POST_QUERY_CLASSIFY:      "查询分类_多个参数",
 	POST_QUERY_CLASSIFY_TYPE: "查询二类关联二级分类级分类_多个参数",
+	POST_CREATE_CLASSIFY:     "批量新增标签",
+	POST_UPDATE_CLASSIFY:     "批量修改标签",
+	POST_DELETE_CLASSIFY:     "批量删除标签",
 
 	TYPE_PREFIX:     "二级分类接口前缀",
 	GET_QUERY_TYPE:  "查询二级分类_单个参数",

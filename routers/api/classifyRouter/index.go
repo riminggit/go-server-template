@@ -11,4 +11,7 @@ func ClassifyInitRouter(r *gin.RouterGroup) {
 	clssify := r.Group(apiMap.CLASSIFY_PREFIX)
 	clssify.Use(JWTMiddleware.JWT())
 	QueryClassifyRouter(clssify)
+	CreateClassifyRouter(clssify)
+	UpdateClassifyRouter(clssify)
+	DeleteClassifyRouter(clssify)
 }

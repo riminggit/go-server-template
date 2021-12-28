@@ -6,9 +6,7 @@ import (
 	"fmt"
 	"go-server-template/config"
 	"time"
-
 	log "go-server-template/pkg/log"
-
 	"github.com/go-redis/redis/v8"
 )
 

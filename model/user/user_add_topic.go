@@ -7,7 +7,7 @@ import (
 type UserAddTopic struct {
 	ID               int       `json:"id" gorm:"column:id;AUTO_INCREMENT;comment:id;not null"` // id
 	UserId           int       `json:"user_id" gorm:"type:int(11);not null"`                   // 用户id
-	Title            string    `json:"title" gorm:"type:varchar(255);not null"`                // 题目标题
+	Title            string    `json:"title" gorm:"type:varchar(255);not null;unique"`                // 题目标题
 	QuestionType     int       `json:"question_type" gorm:"type:int(3);"`                      // 题目类型，1为选择题，2为解析题，3既是选择又是解析
 	Analysis         string    `json:"analysis" gorm:"type:text"`                              // 题解，内容为富文本
 	SelectAnalysis   string    `json:"select_analysis" gorm:"type:text"`                       // 选择题答案，对象字符串

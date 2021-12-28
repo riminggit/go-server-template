@@ -59,14 +59,14 @@ func verifyType(token string) int {
 			case jwt.ValidationErrorExpired:
 				code = e.ERROR_AUTH_CHECK_TOKEN_TIMEOUT
 			default:
-				code = e.ERROR_AUTH_CHECK_TOKEN_FAIL
+				code = e.USER_NOT_LOGIN
 			}
 		}
 	} else if projectConfig.AppConfig.BaseConfig.JWT_VERIFY_TYPE == "redis" {
 		// 使用redis校验token
 		userInfo := Redis.GetValue(token)
 		if userInfo == "" {
-			code = e.ERROR_AUTH_CHECK_TOKEN_FAIL
+			code = e.USER_NOT_LOGIN
 		}
 	}
 	return code

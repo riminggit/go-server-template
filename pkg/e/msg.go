@@ -25,6 +25,8 @@ var MsgFlags = map[int]string{
 	RECORD_FILE:      "记录失败",
 
 	WX_DNCRYPT_FAIL: "微信小程序解密失败",
+
+
 }
 
 func GetMsg(code int) string {
