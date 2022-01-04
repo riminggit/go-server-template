@@ -27,3 +27,4 @@ func QueryTopicRouter(g *gin.RouterGroup) {
 	g.POST(apiMap.POST_QUERY_TOPIC_TAG_MID_PADING, midTopicTagQuery.QueryTopicTagMidPadingController)
 	g.POST(apiMap.POST_QUERY_TOPIC_TYPE_MID_PADING, midTopicTypeQuery.QueryTopicTypeMidPadingController)
 }
+ 

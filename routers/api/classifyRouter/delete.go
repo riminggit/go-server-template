@@ -8,6 +8,6 @@ import (
 )
 
 func DeleteClassifyRouter(g *gin.RouterGroup) {
-	auth := authMiddleware.UserAuth()
-	g.POST(apiMap.POST_DELETE_CLASSIFY,auth,classifyDelete.DeleteClassifyController)
+	adminAuth := authMiddleware.UserAuth()
+	g.POST(apiMap.POST_DELETE_CLASSIFY,adminAuth,classifyDelete.DeleteClassifyController)
 }

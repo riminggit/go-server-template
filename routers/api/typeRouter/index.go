@@ -11,4 +11,7 @@ func TypeInitRouter(r *gin.RouterGroup) {
 	typeRouter := r.Group(apiMap.TYPE_PREFIX)
 	typeRouter.Use(JWTMiddleware.JWT())
 	QueryTypeRouter(typeRouter)
+	CreateTypeRouter(typeRouter)
+	DeleteTypeRouter(typeRouter)
+	UpdateTypeRouter(typeRouter)
 }

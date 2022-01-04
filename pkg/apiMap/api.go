@@ -14,14 +14,20 @@ const (
 	POST_DELETE_CLASSIFY     = "/delete-classify-multiple"
 
 	// 二级分类
-	TYPE_PREFIX     = "/type"
-	GET_QUERY_TYPE  = "/query-type"
-	POST_QUERY_TYPE = "/query-type-multiple"
+	TYPE_PREFIX      = "/type"
+	GET_QUERY_TYPE   = "/query-type"
+	POST_QUERY_TYPE  = "/query-type-multiple"
+	POST_CREATE_TYPE = "/create-type-multiple"
+	POST_UPDATE_TYPE = "/update-type-multiple"
+	POST_DELETE_TYPE = "/delete-type-multiple"
 
 	// 公司信息
 	COMPANY_PREFIX     = "/company"
 	GET_QUERY_COMPANY  = "/query-company"
 	POST_QUERY_COMPANY = "/query-company-multiple"
+	POST_CREATE_COMPANY = "/create-company-multiple"
+	POST_UPDATE_COMPANY = "/update-company-multiple"
+	POST_DELETE_COMPANY = "/delete-company-multiple"
 
 	// 反馈
 	FEEDBACK_PREFIX = "/feedback"
@@ -30,6 +36,9 @@ const (
 	TAG_PREFIX     = "/tag"
 	GET_QUERY_TAG  = "/query-tag"
 	POST_QUERY_TAG = "/query-tag-multiple"
+	POST_CREATE_TAG = "/create-tag-multiple"
+	POST_UPDATE_TAG = "/update-tag-multiple"
+	POST_DELETE_TAG = "/delete-tag-multiple"
 
 	// 题目
 	TOPIC_PREFIX                                = "/topic"

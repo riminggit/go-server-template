@@ -8,6 +8,6 @@ import (
 )
 
 func CreateClassifyRouter(g *gin.RouterGroup) {
-	auth := authMiddleware.UserAuth()
-	g.POST(apiMap.POST_CREATE_CLASSIFY,auth,classifyCreate.CreateClassifyController)
+	adminAuth := authMiddleware.UserAuth()
+	g.POST(apiMap.POST_CREATE_CLASSIFY,adminAuth,classifyCreate.CreateClassifyController)
 }

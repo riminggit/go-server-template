@@ -6,7 +6,7 @@ import (
 	"go-server-template/pkg/e"
 	"strconv"
 	"time"
-
+	"go-server-template/src/classify/helper"
 	"github.com/gin-gonic/gin"
 )
 
@@ -17,11 +17,19 @@ func UpdateClassifyService(c *gin.Context, params UpdateParams) *UpdateReturn {
 	for index, item := range params.Data {
 		if item.ID != 0 {
 			setData := classifyModel.Classify{
-				ClassifyName: item.ClassifyName,
-				ImgUrl:       item.ImgUrl,
-				ImgSvg:       item.ImgSvg,
-				Rank:         item.Rank,
-				UpdateAt:     time.Now().Add(8 * time.Hour),
+				UpdateAt: time.Now().Add(8 * time.Hour),
+			}
+			if item.ClassifyName != "" {
+				setData.ClassifyName = item.ClassifyName
+			}
+			if item.ImgUrl != "" {
+				setData.ImgUrl = item.ImgUrl
+			}
+			if item.ImgSvg != "" {
+				setData.ImgSvg = item.ImgSvg
+			}
+			if item.Rank != 0 {
+				setData.Rank = item.Rank
 			}
 			res := DB.DBLivingExample.Model(&classifyModel.Classify{}).Where("id = ?", item.ID).Updates(setData)
 			if res.Error != nil {
@@ -33,12 +41,14 @@ func UpdateClassifyService(c *gin.Context, params UpdateParams) *UpdateReturn {
 			}
 		} else {
 			msg := "第" + strconv.Itoa((index + 1)) + "条数据缺少id"
-		    resData = append(resData, msg)
+			resData = append(resData, msg)
 		}
 
 	}
+	// 清除查询的redis缓存
+	classifyHelper.CleanRedisQuery()
+
 	res.Data = resData
 	res.Code = e.SUCCESS
 	return res
 }
-

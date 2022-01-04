@@ -11,4 +11,7 @@ func CompanyInitRouter(r *gin.RouterGroup) {
 	company := r.Group(apiMap.COMPANY_PREFIX)
 	company.Use(JWTMiddleware.JWT())
 	QueryCompanyRouter(company)
+	CreateCompanyRouter(company)
+	DeleteCompanyRouter(company)
+	UpdateCompanyRouter(company)
 }
