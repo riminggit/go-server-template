@@ -11,7 +11,6 @@ type QueryTopicTypeMidParams struct {
 	CreateAt []string `json:"create_at"`
 	DeleteAt []string `json:"delete_at"`
 	UpdateAt []string `json:"update_at"`
-	IsUse    string   `json:"is_use"`
 }
 
 type QueryTopicTypeMidReturn struct {
@@ -32,7 +31,6 @@ type QueryTopicTypeMidPadingParams struct {
 	CreateAt []string `json:"create_at"`
 	DeleteAt []string `json:"delete_at"`
 	UpdateAt []string `json:"update_at"`
-	IsUse    string   `json:"is_use"`
 	PageNum  int      `json:"pageNum"`
 	PageSize int      `json:"pageSize"`
 }

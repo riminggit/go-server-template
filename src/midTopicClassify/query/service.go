@@ -34,11 +34,9 @@ func QueryTopicClassifyMid(c *gin.Context, params QueryTopicClassifyMidParams) *
 		return res
 	}
 
-	if params.IsUse == "" {
-		params.IsUse = "1"
-	}
 
-	queryFun := DB.DBLivingExample.Where("is_use = ?", params.IsUse)
+
+	queryFun := DB.DBLivingExample
 	if len(params.Id) > 0 {
 		queryFun = queryFun.Where("id IN (?)", params.Id)
 	}
@@ -97,9 +95,7 @@ func QueryTopicClassifyMidPading(c *gin.Context, params QueryTopicClassifyMidPad
 		return res
 	}
 
-	if params.IsUse == "" {
-		params.IsUse = "1"
-	}
+
 	if params.PageNum == 0 {
 		params.PageNum = 1
 	}
@@ -107,7 +103,7 @@ func QueryTopicClassifyMidPading(c *gin.Context, params QueryTopicClassifyMidPad
 		params.PageSize = projectConfig.AppConfig.BaseConfig.PAGE_SIZE
 	}
 
-	queryFun := DB.DBLivingExample.Where("is_use = ?", params.IsUse)
+	queryFun := DB.DBLivingExample
 
 	if len(params.TopicId) > 0 {
 		queryFun = queryFun.Where("topic_id IN (?)", params.TopicId)

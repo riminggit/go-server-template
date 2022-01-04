@@ -1,1 +1,15 @@
 package tagUpdate
+
+type UpdateParams struct {
+	Data []DataParams `json:"data"`
+}
+
+type UpdateReturn struct {
+	Code int      `json:"code"`
+	Data []string `json:"data"`
+}
+
+type DataParams struct {
+	ID      int    `json:"id"`
+	TagName string `json:"tag_name"`
+}

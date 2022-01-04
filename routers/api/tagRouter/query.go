@@ -6,7 +6,7 @@ import (
 	"go-server-template/pkg/apiMap"
 )
 
-func QueryTagRouter(g *gin.RouterGroup) {
+func QueryRouter(g *gin.RouterGroup) {
 	g.GET(apiMap.GET_QUERY_TAG, tagQuery.QueryTagController)
 	g.POST(apiMap.POST_QUERY_TAG, tagQuery.QueryTagMultipleController)
 }

@@ -12,7 +12,7 @@ import (
 // @Produce  json
 // @Param Authorization	header string false "Bearer 31a165baebe6dec616b1f8f3207b4273"
 // @Param data query []st.DeleteParams false "data"
-// @Router /api/company/delete-company-multiple [post]]
+// @Router /api/company/delete-company-multiple [post]
 func DeleteController(c *gin.Context) {
 	appG := app.Gin{C: c}
 	jsonString := app.GetPostJson(c)

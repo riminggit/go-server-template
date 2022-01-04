@@ -10,5 +10,8 @@ import (
 func TagInitRouter(r *gin.RouterGroup) {
 	tag := r.Group(apiMap.TAG_PREFIX)
 	tag.Use(JWTMiddleware.JWT())
-	QueryTagRouter(tag)
+	QueryRouter(tag)
+	CreateRouter(tag)
+	DeleteRouter(tag)
+	UpdateRouter(tag)
 }
