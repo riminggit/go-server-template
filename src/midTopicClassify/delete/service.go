@@ -2,67 +2,52 @@ package midTopicClassifyDelete
 
 import (
 	"go-server-template/model/topic"
-	DB "go-server-template/pkg/db"
-	"go-server-template/pkg/e"
 	"go-server-template/src/midTopicClassify/helper"
+	"gorm.io/gorm"
 )
 
-func DeleteService(params DeleteParams) *DeleteReturn {
-	res := &DeleteReturn{}
+func DeleteService(params DeleteParams, db *gorm.DB) error {
 
+	var delErr error
 	if params.ID != "" {
-		delErr := DB.DBLivingExample.Delete(&topicModel.TopicClassify{}, "id = ?", params.ID).Error
-		if delErr != nil {
-			res.Data = append(res.Data, "id条件删除失败")
-		}
+		delErr = db.Delete(&topicModel.TopicClassify{}, "id = ?", params.ID).Error
+		// 清除查询的redis缓存
+		thisHelper.CleanRedisQuery()
+		return delErr
 	}
 
-	if params.TopicId != "" {
-		delErr := DB.DBLivingExample.Delete(&topicModel.TopicClassify{}, "topic_id = ?", params.TopicId).Error
-		if delErr != nil {
-			res.Data = append(res.Data, "题目id条件删除失败")
-		}
+	if params.TopicId != "" && params.ClassifyId == "" {
+		delErr = db.Delete(&topicModel.TopicClassify{}, "topic_id = ?", params.TopicId).Error
+		// 清除查询的redis缓存
+		thisHelper.CleanRedisQuery()
+		return delErr
 	}
 
-	if params.ClassifyId != "" {
-		delErr := DB.DBLivingExample.Delete(&topicModel.TopicClassify{}, "classify_id = ?", params.ClassifyId).Error
-		if delErr != nil {
-			res.Data = append(res.Data, "分类id条件删除失败")
-		}
+	if params.TopicId != "" && params.ClassifyId != "" {
+		delErr = db.Where("topic_id = ?", params.TopicId).Delete(&topicModel.TopicClassify{}, "classify_id = ?", params.ClassifyId).Error
+		// 清除查询的redis缓存
+		thisHelper.CleanRedisQuery()
+		return delErr
 	}
 
-	// 清除查询的redis缓存
-	thisHelper.CleanRedisQuery()
-
-	res.Code = e.SUCCESS
-	return res
+	return delErr
 }
 
-func DeleteMultipleService(params DeleteMultiple) *DeleteReturn {
-	res := &DeleteReturn{}
+func DeleteMultipleService(params DeleteMultiple, db *gorm.DB) error {
+	var delErr error
 
 	if len(params.IDList) > 0 {
-		delErr := DB.DBLivingExample.Delete(&topicModel.TopicClassify{}, "id IN ?", params.IDList).Error
-		if delErr != nil {
-			res.Data = append(res.Data, "id条件删除失败")
-		}
+		delErr = db.Delete(&topicModel.TopicClassify{}, "id IN ?", params.IDList).Error
+		// 清除查询的redis缓存
+		thisHelper.CleanRedisQuery()
+		return delErr
 	}
-	if len(params.TopicIdList) > 0 {
-		delErr := DB.DBLivingExample.Delete(&topicModel.TopicClassify{}, "topic_id IN ?", params.TopicIdList).Error
-		if delErr != nil {
-			res.Data = append(res.Data, "题目id条件删除失败")
-		}
-	}
-	if len(params.ClassifyIdList) > 0 {
-		delErr := DB.DBLivingExample.Delete(&topicModel.TopicClassify{}, "classify_id IN ?", params.ClassifyIdList).Error
-		if delErr != nil {
-			res.Data = append(res.Data, "分类id条件删除失败")
-		}
+	if len(params.TopicIdList) > 0  {
+		delErr = db.Delete(&topicModel.TopicClassify{}, "topic_id IN ?", params.TopicIdList).Error
+		// 清除查询的redis缓存
+		thisHelper.CleanRedisQuery()
+		return delErr
 	}
 
-	// 清除查询的redis缓存
-	thisHelper.CleanRedisQuery()
-
-	res.Code = e.SUCCESS
-	return res
+	return delErr
 }

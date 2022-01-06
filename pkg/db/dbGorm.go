@@ -3,7 +3,6 @@ package DB
 import (
 	"fmt"
 	"go-server-template/config"
-
 	_ "github.com/go-sql-driver/mysql"
 	log "github.com/sirupsen/logrus"
 	"gorm.io/driver/mysql"

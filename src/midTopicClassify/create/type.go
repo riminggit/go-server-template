@@ -8,8 +8,3 @@ type CreateParams struct {
 type CreateParamsMultiple struct {
 	Data []CreateParams
 }
-
-type CreateReturn struct {
-	Code int      `json:"code"`
-	Data []string `json:"data"`
-}
