@@ -27,7 +27,7 @@ func DeleteService(params DeleteParams) *DeleteReturn {
 	if params.CompanyId != "" {
 		delErr := DB.DBLivingExample.Delete(&topicModel.TopicCompany{}, "company_id = ?", params.CompanyId).Error
 		if delErr != nil {
-			res.Data = append(res.Data, "分类id条件删除失败")
+			res.Data = append(res.Data, "公司id条件删除失败")
 		}
 	}
 
@@ -56,7 +56,7 @@ func DeleteMultipleService(params DeleteMultiple) *DeleteReturn {
 	if len(params.CompanyIdList) > 0 {
 		delErr := DB.DBLivingExample.Delete(&topicModel.TopicCompany{}, "company_id IN ?", params.CompanyIdList).Error
 		if delErr != nil {
-			res.Data = append(res.Data, "分类id条件删除失败")
+			res.Data = append(res.Data, "公司id条件删除失败")
 		}
 	}
 

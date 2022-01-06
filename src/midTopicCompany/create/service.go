@@ -39,7 +39,7 @@ func CreateMultipleService(params CreateParamsMultiple) *CreateReturn {
 	err := DB.DBLivingExample.Model(&topicModel.TopicCompany{}).Create(createData).Error
 	if err != nil {
 		res.Code = e.CREATE_DATA_FILE
-		res.Data = append(res.Data, "新建题目-分类关联失败")
+		res.Data = append(res.Data, "新建题目-公司关联失败")
 		return res
 	}
 	res.Code = e.SUCCESS

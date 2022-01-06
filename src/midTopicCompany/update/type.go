@@ -1,6 +1,5 @@
 package midTopicCompanyDelete
 
-
 type UpdateReturn struct {
 	Code int      `json:"code"`
 	Data []string `json:"data"`
