@@ -25,6 +25,8 @@ func CreateService(c *gin.Context, params CreateParams) *CreateReturn {
 		}
 	}()
 
+	createTime := time.Now().Add(8 * time.Hour)
+
 	createData := &topicModel.Topic{
 		Title:            params.Title,
 		QuestionType:     params.QuestionType,
@@ -35,7 +37,7 @@ func CreateService(c *gin.Context, params CreateParams) *CreateReturn {
 		IsBaseTopic:      params.IsBaseTopic,
 		IsImportantTopic: params.IsImportantTopic,
 		ComeFrom:         params.ComeFrom,
-		CreateAt:         time.Now().Add(8 * time.Hour),
+		CreateAt:         createTime,
 		IsUse:            1,
 	}
 
@@ -50,7 +52,7 @@ func CreateService(c *gin.Context, params CreateParams) *CreateReturn {
 		topicClassify := topicModel.TopicClassify{
 			TopicId:    createData.ID,
 			ClassifyId: classifyItem,
-			CreateAt:   time.Now().Add(8 * time.Hour),
+			CreateAt:   createTime,
 		}
 		createTopicClassify = append(createTopicClassify, topicClassify)
 	}
@@ -65,7 +67,7 @@ func CreateService(c *gin.Context, params CreateParams) *CreateReturn {
 		topicCompany := topicModel.TopicCompany{
 			TopicId:   createData.ID,
 			CompanyId: companyItem,
-			CreateAt:  time.Now().Add(8 * time.Hour),
+			CreateAt:  createTime,
 		}
 		createTopicCompany = append(createTopicCompany, topicCompany)
 	}
@@ -80,7 +82,7 @@ func CreateService(c *gin.Context, params CreateParams) *CreateReturn {
 		topicTag := topicModel.TopicTag{
 			TopicId:  createData.ID,
 			TagId:    tagItem,
-			CreateAt: time.Now().Add(8 * time.Hour),
+			CreateAt: createTime,
 		}
 		createTopicTag = append(createTopicTag, topicTag)
 	}
@@ -96,7 +98,7 @@ func CreateService(c *gin.Context, params CreateParams) *CreateReturn {
 		topicType := topicModel.TopicType{
 			TopicId:  createData.ID,
 			TypeId:   typeItem,
-			CreateAt: time.Now().Add(8 * time.Hour),
+			CreateAt: createTime,
 		}
 		createTopicType = append(createTopicType, topicType)
 	}

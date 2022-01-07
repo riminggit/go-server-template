@@ -10,8 +10,8 @@ type UpdateReturn struct {
 }
 
 type DataParams struct {
-	ID         int    `json:"id"` 
+	ID          int    `json:"id"`
 	CompanyName string `json:"company_name"`
-	ImgUrl      string    `json:"img_url"`
-	ImgSvg      string    `json:"img_svg"`
+	ImgUrl      string `json:"img_url"`
+	ImgSvg      string `json:"img_svg"`
 }

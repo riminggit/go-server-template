@@ -1,37 +1,37 @@
-package midTopicCompanyDelete
+package midTopicCompanyUpdate
 
 import (
 	"go-server-template/model/topic"
 	"go-server-template/src/midTopicCompany/create"
-	"go-server-template/src/midTopicCompany/helper"
-	"time"
+	"go-server-template/src/midTopicCompany/delete"
 	"gorm.io/gorm"
+	"strconv"
 )
 
-func UpdateService(params UpdateParams, db *gorm.DB) error {
+func UpdateService(params UpdateParams, tx *gorm.DB) error {
+	var Err error
 
-	var queryInfo []topicModel.TopicCompany
-
-	queryFun := db
-	queryFun = queryFun.Where("topic_id = ?", params.TopicId)
-	queryFun = queryFun.Where("company_id = ?", params.CompanyId)
-	queryFun.Model(&topicModel.TopicCompany{}).Find(&queryInfo)
-
-	if len(queryInfo) > 0 {
-		setData := topicModel.TopicCompany{
-			UpdateAt:  time.Now().Add(8 * time.Hour),
-			CompanyId: params.NewCompanyId,
-		}
-		res := queryFun.Updates(setData)
-		thisHelper.CleanRedisQuery()
-		return res.Error
-	} else {
-		createData := topicModel.TopicCompany{
-			CompanyId: params.NewCompanyId,
-			TopicId:   params.TopicId,
-		}
-		return midTopicCompanyCreate.CreateService(createData, db)
-		
+	companyParams := midTopicCompanyDelete.DeleteParams{
+		TopicId: strconv.Itoa(params.TopicId),
 	}
-}
+	delCompanyErr := midTopicCompanyDelete.DeleteService(companyParams, tx)
+	if delCompanyErr != nil {
+		return delCompanyErr
+	}
 
+	var createTopicCompany []topicModel.TopicCompany
+	for _, companyItem := range params.CompanyId {
+		topicCompany := topicModel.TopicCompany{
+			TopicId:   params.TopicId,
+			CompanyId: companyItem,
+			CreateAt:  params.UpdateAt,
+		}
+		createTopicCompany = append(createTopicCompany, topicCompany)
+	}
+	TCErr := midTopicCompanyCreate.CreateMultipleService(createTopicCompany, tx)
+	if TCErr != nil {
+		return delCompanyErr
+	}
+
+	return Err
+}

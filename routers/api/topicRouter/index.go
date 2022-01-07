@@ -12,4 +12,6 @@ func TopicInitRouter(r *gin.RouterGroup) {
 	topic.Use(JWTMiddleware.JWT())
 	QueryTopicRouter(topic)
 	CreateTopicRouter(topic)
+	DeleteTopicRouter(topic)
+	UpdateTopicRouter(topic)
 }

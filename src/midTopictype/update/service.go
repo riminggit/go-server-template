@@ -3,34 +3,35 @@ package midTopicTypeUpdate
 import (
 	"go-server-template/model/topic"
 	"go-server-template/src/midTopicType/create"
-	"go-server-template/src/midTopicType/helper"
-	"time"
+	"go-server-template/src/midTopicType/delete"
 	"gorm.io/gorm"
+	"strconv"
 )
 
-func UpdateService(params UpdateParams, db *gorm.DB) error {
+func UpdateService(params UpdateParams, tx *gorm.DB) error {
+	var Err error
 
-	var queryInfo []topicModel.TopicType
-	queryFun := db
-	queryFun = queryFun.Where("topic_id = ?", params.TopicId)
-	queryFun = queryFun.Where("type_id = ?", params.TypeId)
-	queryFun.Model(&topicModel.TopicType{}).Find(&queryInfo)
-
-	if len(queryInfo) > 0 {
-		setData := topicModel.TopicType{
-			UpdateAt: time.Now().Add(8 * time.Hour),
-			TypeId:   params.NewTypeId,
-		}
-		res := queryFun.Updates(setData)
-		thisHelper.CleanRedisQuery()
-		return res.Error
-	} else {
-		createData := topicModel.TopicType{
-			TypeId:  params.NewTypeId,
-			TopicId: params.TopicId,
-		}
-		return midTopicTypeCreate.CreateService(createData, db)
+	typeParams := midTopicTypeDelete.DeleteParams{
+		TopicId: strconv.Itoa(params.TopicId),
+	}
+	delTypeErr := midTopicTypeDelete.DeleteService(typeParams, tx)
+	if delTypeErr != nil {
+		return delTypeErr
 	}
 
-}
+	var createTopicType []topicModel.TopicType
+	for _, typeItem := range params.TypeId {
+		topicType := topicModel.TopicType{
+			TopicId:  params.TopicId,
+			TypeId:   typeItem,
+			CreateAt: params.UpdateAt,
+		}
+		createTopicType = append(createTopicType, topicType)
+	}
+	TCErr := midTopicTypeCreate.CreateMultipleService(createTopicType, tx)
+	if TCErr != nil {
+		return delTypeErr
+	}
 
+	return Err
+}

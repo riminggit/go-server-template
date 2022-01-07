@@ -1,6 +1,4 @@
 package companyDelete
-
-
 type DeleteParams struct {
 	IDList   []string `json:"id_list"`
 	NameList []string `json:"name_list"`

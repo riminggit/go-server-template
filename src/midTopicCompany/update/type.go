@@ -1,15 +1,8 @@
-package midTopicCompanyDelete
+package midTopicCompanyUpdate
 
-type UpdateReturn struct {
-	Code int      `json:"code"`
-	Data []string `json:"data"`
-}
+import "time"
 type UpdateParams struct {
-	TopicId       int    `json:"topic_id"`
-	CompanyId    string `json:"company_id"`
-	NewCompanyId int    `json:"new_company_id"`
-}
-
-type UpdateMultiple struct {
-	Data []UpdateParams
+	TopicId    int      `json:"topic_id"`
+	CompanyId []int `json:"company_id"`
+	UpdateAt   time.Time
 }

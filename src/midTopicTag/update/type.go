@@ -1,11 +1,9 @@
 package midTopicTagUpdate
 
-type UpdateParams struct {
-	TopicId  int    `json:"topic_id"`
-	TagId    string `json:"tag_id"`
-	NewTagId int    `json:"new_tag_id"`
-}
+import "time"
 
-type UpdateMultiple struct {
-	Data []UpdateParams
+type UpdateParams struct {
+	TopicId  int   `json:"topic_id"`
+	TagId    []int `json:"tag_id"`
+	UpdateAt time.Time
 }

@@ -1,7 +1,9 @@
 package midTopicTypeUpdate
 
+import "time"
+
 type UpdateParams struct {
-	TopicId   int    `json:"topic_id"`
-	TypeId    string `json:"type_id"`
-	NewTypeId int    `json:"new_type_id"`
+	TopicId  int   `json:"topic_id"`
+	TypeId   []int `json:"type_id"`
+	UpdateAt time.Time
 }

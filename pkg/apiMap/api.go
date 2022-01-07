@@ -66,6 +66,8 @@ const (
 	POST_QUERY_TOPIC_TAG_MID_PADING             = "/query-topic/tag/mid/pading"
 	POST_QUERY_TOPIC_TYPE_MID_PADING            = "/query-topic/type/mid/pading"
 	POST_CREATE_TOPIC                           = "/create-topic"
+	POST_DELETE_TOPIC                           = "/delete-topic"
+	POST_UPDATE_TOPIC                           = "/update-topic"
 
 	// 用户控制
 	USER_COLLECT_PREFIX = "/userCollect"

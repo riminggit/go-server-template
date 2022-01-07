@@ -3,33 +3,35 @@ package midTopicClassifyUpdate
 import (
 	"go-server-template/model/topic"
 	"go-server-template/src/midTopicClassify/create"
-	"go-server-template/src/midTopicClassify/helper"
-	"time"
+	"go-server-template/src/midTopicClassify/delete"
 	"gorm.io/gorm"
+	"strconv"
 )
 
-func UpdateService(params UpdateParams, db *gorm.DB) error {
-	var queryInfo []topicModel.TopicClassify
-	queryFun := db
-	queryFun = queryFun.Where("topic_id = ?", params.TopicId)
-	queryFun = queryFun.Where("classify_id = ?", params.ClassifyId)
-	queryFun.Model(&topicModel.TopicClassify{}).Find(&queryInfo)
+func UpdateService(params UpdateParams, tx *gorm.DB) error {
+	var Err error
 
-	if len(queryInfo) > 0 {
-		setData := topicModel.TopicClassify{
-			UpdateAt:   time.Now().Add(8 * time.Hour),
-			ClassifyId: params.NewClassifyId,
-		}
-		res := queryFun.Updates(setData)
-		// 清除查询的redis缓存
-		thisHelper.CleanRedisQuery()
-		return res.Error
-	} else {
-		createData := topicModel.TopicClassify{
-			ClassifyId: params.NewClassifyId,
-			TopicId:    params.TopicId,
-		}
-		return midTopicClassifyCreate.CreateService(createData, db)
+	classifyParams := midTopicClassifyDelete.DeleteParams{
+		TopicId: strconv.Itoa(params.TopicId),
 	}
-}
+	delClassifyErr := midTopicClassifyDelete.DeleteService(classifyParams, tx)
+	if delClassifyErr != nil {
+		return delClassifyErr
+	}
 
+	var createTopicClassify []topicModel.TopicClassify
+	for _, classifyItem := range params.ClassifyId {
+		topicClassify := topicModel.TopicClassify{
+			TopicId:    params.TopicId,
+			ClassifyId: classifyItem,
+			CreateAt:   params.UpdateAt,
+		}
+		createTopicClassify = append(createTopicClassify, topicClassify)
+	}
+	TCErr := midTopicClassifyCreate.CreateMultipleService(createTopicClassify, tx)
+	if TCErr != nil {
+		return delClassifyErr
+	}
+
+	return Err
+}

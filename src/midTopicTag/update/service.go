@@ -3,33 +3,35 @@ package midTopicTagUpdate
 import (
 	"go-server-template/model/topic"
 	"go-server-template/src/midTopicTag/create"
-	"go-server-template/src/midTopicTag/helper"
-	"time"
+	"go-server-template/src/midTopicTag/delete"
 	"gorm.io/gorm"
+	"strconv"
 )
 
-func UpdateService(params UpdateParams, db *gorm.DB) error {
+func UpdateService(params UpdateParams, tx *gorm.DB) error {
+	var Err error
 
-	var queryInfo []topicModel.TopicTag
-
-	queryFun := db
-	queryFun = queryFun.Where("topic_id = ?", params.TopicId)
-	queryFun = queryFun.Where("tag_id = ?", params.TagId)
-	queryFun.Model(&topicModel.TopicTag{}).Find(&queryInfo)
-
-	if len(queryInfo) > 0 {
-		setData := topicModel.TopicTag{
-			UpdateAt: time.Now().Add(8 * time.Hour),
-			TagId:    params.NewTagId,
-		}
-		res := queryFun.Updates(setData)
-		thisHelper.CleanRedisQuery()
-		return res.Error
-	} else {
-		createData := topicModel.TopicTag{
-			TagId:  params.NewTagId,
-			TopicId: params.TopicId,
-		}
-		return midTopicTagCreate.CreateService(createData, db)
+	tagParams := midTopicTagDelete.DeleteParams{
+		TopicId: strconv.Itoa(params.TopicId),
 	}
+	delTagErr := midTopicTagDelete.DeleteService(tagParams, tx)
+	if delTagErr != nil {
+		return delTagErr
+	}
+
+	var createTopicTag []topicModel.TopicTag
+	for _, tagItem := range params.TagId {
+		topicTag := topicModel.TopicTag{
+			TopicId:    params.TopicId,
+			TagId: tagItem,
+			CreateAt:   params.UpdateAt,
+		}
+		createTopicTag = append(createTopicTag, topicTag)
+	}
+	TCErr := midTopicTagCreate.CreateMultipleService(createTopicTag, tx)
+	if TCErr != nil {
+		return delTagErr
+	}
+
+	return Err
 }
