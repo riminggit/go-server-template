@@ -4,8 +4,8 @@ import (
 	"go-server-template/model/topic"
 	"go-server-template/src/midTopicCompany/create"
 	"go-server-template/src/midTopicCompany/helper"
-	"gorm.io/gorm"
 	"time"
+	"gorm.io/gorm"
 )
 
 func UpdateService(params UpdateParams, db *gorm.DB) error {
@@ -26,7 +26,7 @@ func UpdateService(params UpdateParams, db *gorm.DB) error {
 		thisHelper.CleanRedisQuery()
 		return res.Error
 	} else {
-		createData := midTopicCompanyCreate.CreateParams{
+		createData := topicModel.TopicCompany{
 			CompanyId: params.NewCompanyId,
 			TopicId:   params.TopicId,
 		}

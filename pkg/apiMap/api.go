@@ -22,9 +22,9 @@ const (
 	POST_DELETE_TYPE = "/delete-type-multiple"
 
 	// 公司信息
-	COMPANY_PREFIX     = "/company"
-	GET_QUERY_COMPANY  = "/query-company"
-	POST_QUERY_COMPANY = "/query-company-multiple"
+	COMPANY_PREFIX      = "/company"
+	GET_QUERY_COMPANY   = "/query-company"
+	POST_QUERY_COMPANY  = "/query-company-multiple"
 	POST_CREATE_COMPANY = "/create-company-multiple"
 	POST_UPDATE_COMPANY = "/update-company-multiple"
 	POST_DELETE_COMPANY = "/delete-company-multiple"
@@ -33,9 +33,9 @@ const (
 	FEEDBACK_PREFIX = "/feedback"
 
 	// 标签
-	TAG_PREFIX     = "/tag"
-	GET_QUERY_TAG  = "/query-tag"
-	POST_QUERY_TAG = "/query-tag-multiple"
+	TAG_PREFIX      = "/tag"
+	GET_QUERY_TAG   = "/query-tag"
+	POST_QUERY_TAG  = "/query-tag-multiple"
 	POST_CREATE_TAG = "/create-tag-multiple"
 	POST_UPDATE_TAG = "/update-tag-multiple"
 	POST_DELETE_TAG = "/delete-tag-multiple"
@@ -65,6 +65,7 @@ const (
 	POST_QUERY_TOPIC_COMPANY_MID_PADING         = "/query-topic/company/mid/pading"
 	POST_QUERY_TOPIC_TAG_MID_PADING             = "/query-topic/tag/mid/pading"
 	POST_QUERY_TOPIC_TYPE_MID_PADING            = "/query-topic/type/mid/pading"
+	POST_CREATE_TOPIC                           = "/create-topic"
 
 	// 用户控制
 	USER_COLLECT_PREFIX = "/userCollect"

@@ -1,1 +1,115 @@
 package topicCreate
+
+import (
+	"go-server-template/model/topic"
+	DB "go-server-template/pkg/db"
+	"go-server-template/pkg/e"
+	"go-server-template/src/midTopicClassify/create"
+	"go-server-template/src/midTopicCompany/create"
+	"go-server-template/src/midTopicTag/create"
+	"go-server-template/src/midTopicType/create"
+	"time"
+	"github.com/gin-gonic/gin"
+)
+
+func CreateService(c *gin.Context, params CreateParams) *CreateReturn {
+	res := &CreateReturn{}
+	res.Code = e.SUCCESS
+
+	tx := DB.DBLivingExample.Begin()
+	defer func() {
+		if r := recover(); r != nil {
+			tx.Rollback()
+			res.Code = e.CREATE_DATA_FILE
+			res.Data = append(res.Data, "题目新增失败")
+		}
+	}()
+
+	createData := &topicModel.Topic{
+		Title:            params.Title,
+		QuestionType:     params.QuestionType,
+		Analysis:         params.Analysis,
+		SelectAnalysis:   params.SelectAnalysis,
+		Degree:           params.Degree,
+		Level:            params.Level,
+		IsBaseTopic:      params.IsBaseTopic,
+		IsImportantTopic: params.IsImportantTopic,
+		ComeFrom:         params.ComeFrom,
+		CreateAt:         time.Now().Add(8 * time.Hour),
+		IsUse:            1,
+	}
+
+	err := tx.Model(&topicModel.Topic{}).Create(createData).Error
+	if err != nil {
+		tx.Rollback()
+		res.Code = e.CREATE_DATA_FILE
+	}
+
+	var createTopicClassify []topicModel.TopicClassify
+	for _, classifyItem := range params.ClassifyId {
+		topicClassify := topicModel.TopicClassify{
+			TopicId:    createData.ID,
+			ClassifyId: classifyItem,
+			CreateAt:   time.Now().Add(8 * time.Hour),
+		}
+		createTopicClassify = append(createTopicClassify, topicClassify)
+	}
+	TCErr := midTopicClassifyCreate.CreateMultipleService(createTopicClassify, tx)
+	if TCErr != nil {
+		tx.Rollback()
+		res.Code = e.CREATE_DATA_FILE
+	}
+
+	var createTopicCompany []topicModel.TopicCompany
+	for _, companyItem := range params.CompanyId {
+		topicCompany := topicModel.TopicCompany{
+			TopicId:   createData.ID,
+			CompanyId: companyItem,
+			CreateAt:  time.Now().Add(8 * time.Hour),
+		}
+		createTopicCompany = append(createTopicCompany, topicCompany)
+	}
+	TCompanyErr := midTopicCompanyCreate.CreateMultipleService(createTopicCompany, tx)
+	if TCompanyErr != nil {
+		tx.Rollback()
+		res.Code = e.CREATE_DATA_FILE
+	}
+
+	var createTopicTag []topicModel.TopicTag
+	for _, tagItem := range params.TagId {
+		topicTag := topicModel.TopicTag{
+			TopicId:  createData.ID,
+			TagId:    tagItem,
+			CreateAt: time.Now().Add(8 * time.Hour),
+		}
+		createTopicTag = append(createTopicTag, topicTag)
+	}
+
+	TTagErr := midTopicTagCreate.CreateMultipleService(createTopicTag, tx)
+	if TTagErr != nil {
+		tx.Rollback()
+		res.Code = e.CREATE_DATA_FILE
+	}
+
+	var createTopicType []topicModel.TopicType
+	for _, typeItem := range params.TypeId {
+		topicType := topicModel.TopicType{
+			TopicId:  createData.ID,
+			TypeId:   typeItem,
+			CreateAt: time.Now().Add(8 * time.Hour),
+		}
+		createTopicType = append(createTopicType, topicType)
+	}
+	TTypeErr := midTopicTypeCreate.CreateMultipleService(createTopicType, tx)
+	if TTypeErr != nil {
+		tx.Rollback()
+		res.Code = e.CREATE_DATA_FILE
+	}
+
+	commitErr := tx.Commit().Error
+	if commitErr != nil {
+		res.Code = e.CREATE_DATA_FILE
+	}
+
+	return res
+}

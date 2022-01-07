@@ -5,7 +5,6 @@ import (
 	"github.com/gin-gonic/gin"
 	"go-server-template/pkg/app"
 	"github.com/ugorji/go/codec"
-	// "go-server-template/pkg/e"
 	"go-server-template/pkg/log"
 	"net/http"
 )

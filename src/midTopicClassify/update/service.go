@@ -4,8 +4,8 @@ import (
 	"go-server-template/model/topic"
 	"go-server-template/src/midTopicClassify/create"
 	"go-server-template/src/midTopicClassify/helper"
-	"gorm.io/gorm"
 	"time"
+	"gorm.io/gorm"
 )
 
 func UpdateService(params UpdateParams, db *gorm.DB) error {
@@ -25,7 +25,7 @@ func UpdateService(params UpdateParams, db *gorm.DB) error {
 		thisHelper.CleanRedisQuery()
 		return res.Error
 	} else {
-		createData := midTopicClassifyCreate.CreateParams{
+		createData := topicModel.TopicClassify{
 			ClassifyId: params.NewClassifyId,
 			TopicId:    params.TopicId,
 		}

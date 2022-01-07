@@ -3,29 +3,12 @@ package midTopicTagCreate
 import (
 	"go-server-template/model/topic"
 	"gorm.io/gorm"
-	"time"
 )
 
-func CreateService(params CreateParams, db *gorm.DB) error {
-	createData := topicModel.TopicTag{
-		TopicId:   params.TopicId,
-		TagId: params.TagId,
-		CreateAt:  time.Now().Add(8 * time.Hour),
-	}
-	return db.Model(&topicModel.TopicTag{}).Create(createData).Error
+func CreateService(params topicModel.TopicTag, db *gorm.DB) error {
+	return db.Model(&topicModel.TopicTag{}).Create(params).Error
 }
 
-func CreateMultipleService(params CreateParamsMultiple, db *gorm.DB) error {
-
-	createData := []topicModel.TopicTag{}
-	for _, item := range params.Data {
-		setData := topicModel.TopicTag{
-			TopicId:   item.TopicId,
-			TagId: item.TagId,
-			CreateAt:  time.Now().Add(8 * time.Hour),
-		}
-		createData = append(createData, setData)
-	}
-	return db.Model(&topicModel.TopicTag{}).Create(createData).Error
-	
+func CreateMultipleService(params []topicModel.TopicTag, db *gorm.DB) error {
+	return db.Model(&topicModel.TopicTag{}).Create(params).Error
 }

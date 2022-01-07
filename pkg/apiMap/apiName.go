@@ -50,6 +50,7 @@ var ApiName = map[string]string{
 	POST_QUERY_TOPIC_COMPANY_MID_PADING:  "查询题目关系表_公司_分页",
 	POST_QUERY_TOPIC_TAG_MID_PADING:      "查询题目关系表_标签_分页",
 	POST_QUERY_TOPIC_TYPE_MID_PADING:     "查询题目关系表_二级分类_分页",
+	POST_CREATE_TOPIC:                    "新增题目",
 
 	USER_COLLECT_PREFIX: "用户控制操作接口前缀",
 

@@ -4,8 +4,8 @@ import (
 	"go-server-template/model/topic"
 	"go-server-template/src/midTopicTag/create"
 	"go-server-template/src/midTopicTag/helper"
-	"gorm.io/gorm"
 	"time"
+	"gorm.io/gorm"
 )
 
 func UpdateService(params UpdateParams, db *gorm.DB) error {
@@ -26,11 +26,10 @@ func UpdateService(params UpdateParams, db *gorm.DB) error {
 		thisHelper.CleanRedisQuery()
 		return res.Error
 	} else {
-		createData := midTopicTagCreate.CreateParams{
-			TagId:   params.NewTagId,
+		createData := topicModel.TopicTag{
+			TagId:  params.NewTagId,
 			TopicId: params.TopicId,
 		}
 		return midTopicTagCreate.CreateService(createData, db)
 	}
 }
-
