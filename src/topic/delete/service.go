@@ -1,14 +1,15 @@
 package topicDelete
 
 import (
-	"github.com/gin-gonic/gin"
-	"go-server-template/model/topic"
+	topicModel "go-server-template/model/topic"
 	DB "go-server-template/pkg/db"
 	"go-server-template/pkg/e"
-	"go-server-template/src/midTopicClassify/delete"
-	"go-server-template/src/midTopicCompany/delete"
-	"go-server-template/src/midTopicTag/delete"
-	"go-server-template/src/midTopicType/delete"
+	midTopicClassifyDelete "go-server-template/src/midTopicClassify/delete"
+	midTopicCompanyDelete "go-server-template/src/midTopicCompany/delete"
+	midTopicTagDelete "go-server-template/src/midTopicTag/delete"
+	midTopicTypeDelete "go-server-template/src/midTopicType/delete"
+
+	"github.com/gin-gonic/gin"
 )
 
 func DeleteService(c *gin.Context, params DeleteParams) *DeleteReturn {
@@ -19,7 +20,7 @@ func DeleteService(c *gin.Context, params DeleteParams) *DeleteReturn {
 	defer func() {
 		if r := recover(); r != nil {
 			tx.Rollback()
-			res.Code = e.CREATE_DATA_FILE
+			res.Code = e.CREATE_DATA_FALE
 			res.Data = append(res.Data, "题目删除失败")
 		}
 	}()
@@ -28,7 +29,7 @@ func DeleteService(c *gin.Context, params DeleteParams) *DeleteReturn {
 		delErr := tx.Delete(&topicModel.Topic{}, "id IN ?", params.IDList).Error
 		if delErr != nil {
 			tx.Rollback()
-			res.Code = e.DELETE_DATA_FILE
+			res.Code = e.DELETE_DATA_FALE
 			return res
 		}
 
@@ -38,7 +39,7 @@ func DeleteService(c *gin.Context, params DeleteParams) *DeleteReturn {
 		delClassifyErr := midTopicClassifyDelete.DeleteMultipleService(classifyParams, tx)
 		if delClassifyErr != nil {
 			tx.Rollback()
-			res.Code = e.DELETE_DATA_FILE
+			res.Code = e.DELETE_DATA_FALE
 		}
 
 		companyParams := midTopicCompanyDelete.DeleteMultiple{
@@ -47,7 +48,7 @@ func DeleteService(c *gin.Context, params DeleteParams) *DeleteReturn {
 		delCompanyErr := midTopicCompanyDelete.DeleteMultipleService(companyParams, tx)
 		if delCompanyErr != nil {
 			tx.Rollback()
-			res.Code = e.DELETE_DATA_FILE
+			res.Code = e.DELETE_DATA_FALE
 		}
 
 		tagParams := midTopicTagDelete.DeleteMultiple{
@@ -56,7 +57,7 @@ func DeleteService(c *gin.Context, params DeleteParams) *DeleteReturn {
 		delTagErr := midTopicTagDelete.DeleteMultipleService(tagParams, tx)
 		if delTagErr != nil {
 			tx.Rollback()
-			res.Code = e.DELETE_DATA_FILE
+			res.Code = e.DELETE_DATA_FALE
 		}
 
 		typeParams := midTopicTypeDelete.DeleteMultiple{
@@ -65,12 +66,12 @@ func DeleteService(c *gin.Context, params DeleteParams) *DeleteReturn {
 		delTypeErr := midTopicTypeDelete.DeleteMultipleService(typeParams, tx)
 		if delTypeErr != nil {
 			tx.Rollback()
-			res.Code = e.DELETE_DATA_FILE
+			res.Code = e.DELETE_DATA_FALE
 		}
 
 		commitErr := tx.Commit().Error
 		if commitErr != nil {
-			res.Code = e.CREATE_DATA_FILE
+			res.Code = e.CREATE_DATA_FALE
 		}
 		return res
 	}

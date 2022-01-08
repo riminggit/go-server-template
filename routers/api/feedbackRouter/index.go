@@ -10,5 +10,5 @@ import (
 func FeedbackInitRouter(r *gin.RouterGroup) {
 	feedback := r.Group(apiMap.FEEDBACK_PREFIX)
 	feedback.Use(JWTMiddleware.JWT())
-	QueryFeedbackRouter(feedback)
+	userFeedbackRouter(feedback)
 }

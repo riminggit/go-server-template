@@ -1,14 +1,15 @@
 package topicCreate
 
 import (
-	"go-server-template/model/topic"
+	topicModel "go-server-template/model/topic"
 	DB "go-server-template/pkg/db"
 	"go-server-template/pkg/e"
-	"go-server-template/src/midTopicClassify/create"
-	"go-server-template/src/midTopicCompany/create"
-	"go-server-template/src/midTopicTag/create"
-	"go-server-template/src/midTopicType/create"
+	midTopicClassifyCreate "go-server-template/src/midTopicClassify/create"
+	midTopicCompanyCreate "go-server-template/src/midTopicCompany/create"
+	midTopicTagCreate "go-server-template/src/midTopicTag/create"
+	midTopicTypeCreate "go-server-template/src/midTopicType/create"
 	"time"
+
 	"github.com/gin-gonic/gin"
 )
 
@@ -20,7 +21,7 @@ func CreateService(c *gin.Context, params CreateParams) *CreateReturn {
 	defer func() {
 		if r := recover(); r != nil {
 			tx.Rollback()
-			res.Code = e.CREATE_DATA_FILE
+			res.Code = e.CREATE_DATA_FALE
 			res.Data = append(res.Data, "题目新增失败")
 		}
 	}()
@@ -44,7 +45,7 @@ func CreateService(c *gin.Context, params CreateParams) *CreateReturn {
 	err := tx.Model(&topicModel.Topic{}).Create(createData).Error
 	if err != nil {
 		tx.Rollback()
-		res.Code = e.CREATE_DATA_FILE
+		res.Code = e.CREATE_DATA_FALE
 	}
 
 	var createTopicClassify []topicModel.TopicClassify
@@ -59,7 +60,7 @@ func CreateService(c *gin.Context, params CreateParams) *CreateReturn {
 	TCErr := midTopicClassifyCreate.CreateMultipleService(createTopicClassify, tx)
 	if TCErr != nil {
 		tx.Rollback()
-		res.Code = e.CREATE_DATA_FILE
+		res.Code = e.CREATE_DATA_FALE
 	}
 
 	var createTopicCompany []topicModel.TopicCompany
@@ -74,7 +75,7 @@ func CreateService(c *gin.Context, params CreateParams) *CreateReturn {
 	TCompanyErr := midTopicCompanyCreate.CreateMultipleService(createTopicCompany, tx)
 	if TCompanyErr != nil {
 		tx.Rollback()
-		res.Code = e.CREATE_DATA_FILE
+		res.Code = e.CREATE_DATA_FALE
 	}
 
 	var createTopicTag []topicModel.TopicTag
@@ -90,7 +91,7 @@ func CreateService(c *gin.Context, params CreateParams) *CreateReturn {
 	TTagErr := midTopicTagCreate.CreateMultipleService(createTopicTag, tx)
 	if TTagErr != nil {
 		tx.Rollback()
-		res.Code = e.CREATE_DATA_FILE
+		res.Code = e.CREATE_DATA_FALE
 	}
 
 	var createTopicType []topicModel.TopicType
@@ -105,12 +106,12 @@ func CreateService(c *gin.Context, params CreateParams) *CreateReturn {
 	TTypeErr := midTopicTypeCreate.CreateMultipleService(createTopicType, tx)
 	if TTypeErr != nil {
 		tx.Rollback()
-		res.Code = e.CREATE_DATA_FILE
+		res.Code = e.CREATE_DATA_FALE
 	}
 
 	commitErr := tx.Commit().Error
 	if commitErr != nil {
-		res.Code = e.CREATE_DATA_FILE
+		res.Code = e.CREATE_DATA_FALE
 	}
 
 	return res

@@ -5,6 +5,6 @@ import (
 	// "go-server-template/pkg/apiMap"
 )
 
-func QueryFeedbackRouter(g *gin.RouterGroup) {
+func userFeedbackRouter(g *gin.RouterGroup) {
 
 }

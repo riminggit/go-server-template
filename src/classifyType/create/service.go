@@ -1,11 +1,12 @@
 package classifyTypeCreate
 
 import (
-	"go-server-template/model/type"
+	typeModel "go-server-template/model/type"
 	DB "go-server-template/pkg/db"
 	"go-server-template/pkg/e"
 	"strconv"
 	"time"
+
 	"github.com/gin-gonic/gin"
 )
 
@@ -21,10 +22,10 @@ func CreateService(c *gin.Context, params CreateParams) *CreateReturn {
 		if len(queryInfo) > 0 {
 			hasOld = true
 			updateData := typeModel.Type{
-				ClassifyId:   item.ClassifyId,
-				Rank:         item.Rank,
-				UpdateAt:     time.Now().Add(8 * time.Hour),
-				IsUse: 1,
+				ClassifyId: item.ClassifyId,
+				Rank:       item.Rank,
+				UpdateAt:   time.Now().Add(8 * time.Hour),
+				IsUse:      1,
 			}
 			updateErr := DB.DBLivingExample.Model(&typeModel.Type{}).Where("id = ?", queryInfo[0].ID).Updates(updateData).Error
 			if updateErr != nil {
@@ -37,9 +38,9 @@ func CreateService(c *gin.Context, params CreateParams) *CreateReturn {
 		} else {
 			setData := typeModel.Type{
 				ClassifyId: item.ClassifyId,
-				TypeName: item.TypeName,
-				Rank:         item.Rank,
-				CreateAt:     time.Now().Add(8 * time.Hour),
+				TypeName:   item.TypeName,
+				Rank:       item.Rank,
+				CreateAt:   time.Now().Add(8 * time.Hour),
 			}
 			createData = append(createData, setData)
 		}
@@ -50,8 +51,8 @@ func CreateService(c *gin.Context, params CreateParams) *CreateReturn {
 	err := DB.DBLivingExample.Model(&typeModel.Type{}).Create(createData).Error
 	if err != nil {
 		if !hasOld {
-			res.Code = e.CREATE_DATA_FILE
-		} 
+			res.Code = e.CREATE_DATA_FALE
+		}
 		return res
 	}
 

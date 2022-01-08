@@ -4,14 +4,11 @@ import (
 	"encoding/json"
 	projectConfig "go-server-template/config"
 	userModel "go-server-template/model/user"
-
-	// "go-server-template/pkg/app"
 	"go-server-template/pkg/apiMap"
 	DB "go-server-template/pkg/db"
 	"go-server-template/pkg/e"
 	logging "go-server-template/pkg/log"
 	Redis "go-server-template/pkg/redis"
-
 	"github.com/gin-gonic/gin"
 )
 

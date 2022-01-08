@@ -1,12 +1,13 @@
 package topicSetCreate
 
 import (
-	"go-server-template/model/topic"
+	topicModel "go-server-template/model/topic"
 	DB "go-server-template/pkg/db"
 	"go-server-template/pkg/e"
 	logging "go-server-template/pkg/log"
 	"strings"
 	"time"
+
 	"github.com/gin-gonic/gin"
 )
 
@@ -32,7 +33,7 @@ func CreateService(c *gin.Context, params CreateParams) *CreateReturn {
 
 	err := DB.DBLivingExample.Model(&topicModel.TopicSet{}).Create(createData).Error
 	if err != nil {
-		res.Code = e.CREATE_DATA_FILE
+		res.Code = e.CREATE_DATA_FALE
 		logging.Error(err)
 		return res
 	}

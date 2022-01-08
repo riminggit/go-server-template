@@ -1,12 +1,13 @@
 package topicSetUpdate
 
 import (
-	"github.com/gin-gonic/gin"
-	"go-server-template/model/topic"
+	topicModel "go-server-template/model/topic"
 	DB "go-server-template/pkg/db"
 	"go-server-template/pkg/e"
 	"strings"
 	"time"
+
+	"github.com/gin-gonic/gin"
 )
 
 func UpdateService(c *gin.Context, params UpdateParams) *UpdateReturn {
@@ -33,7 +34,7 @@ func UpdateService(c *gin.Context, params UpdateParams) *UpdateReturn {
 
 		Res := DB.DBLivingExample.Model(&topicModel.TopicSet{}).Where("id = ?", params.ID).Updates(setData)
 		if Res.Error != nil {
-			res.Code = e.UPDATE_DATA_FILE
+			res.Code = e.UPDATE_DATA_FALE
 		}
 	} else {
 		res.Code = e.NO_DATA_EXISTS

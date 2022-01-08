@@ -2,17 +2,18 @@ package userLoginAndLayout
 
 import (
 	"encoding/json"
+	"fmt"
+	projectConfig "go-server-template/config"
 	userModel "go-server-template/model/user"
 	"go-server-template/pkg/app"
 	DB "go-server-template/pkg/db"
 	"go-server-template/pkg/e"
 	logging "go-server-template/pkg/log"
 	Redis "go-server-template/pkg/redis"
-	"go-server-template/pkg/utils"
+	util "go-server-template/pkg/utils"
 	"strconv"
 	"time"
-	"go-server-template/config"
-	"fmt"
+
 	"github.com/gin-gonic/gin"
 )
 
@@ -68,7 +69,7 @@ func UserWXLoginService(c *gin.Context, params WXUserCreateParams) *LoginReturnD
 			result := DB.DBLivingExample.Table("user").Create(params)
 			if result.Error != nil {
 				logging.Error(result.Error)
-				res.Code = e.CREATE_DATA_FILE
+				res.Code = e.CREATE_DATA_FALE
 				return res
 			}
 		}

@@ -1,15 +1,16 @@
 package topicUpdate
 
 import (
-	"github.com/gin-gonic/gin"
-	"go-server-template/model/topic"
+	topicModel "go-server-template/model/topic"
 	DB "go-server-template/pkg/db"
 	"go-server-template/pkg/e"
-	"go-server-template/src/midTopicClassify/update"
-	"go-server-template/src/midTopicCompany/update"
-	"go-server-template/src/midTopicTag/update"
-	"go-server-template/src/midTopicType/update"
+	midTopicClassifyUpdate "go-server-template/src/midTopicClassify/update"
+	midTopicCompanyUpdate "go-server-template/src/midTopicCompany/update"
+	midTopicTagUpdate "go-server-template/src/midTopicTag/update"
+	midTopicTypeUpdate "go-server-template/src/midTopicType/update"
 	"time"
+
+	"github.com/gin-gonic/gin"
 )
 
 func UpdateService(c *gin.Context, params UpdateParams) *UpdateReturn {
@@ -20,7 +21,7 @@ func UpdateService(c *gin.Context, params UpdateParams) *UpdateReturn {
 	defer func() {
 		if r := recover(); r != nil {
 			tx.Rollback()
-			res.Code = e.CREATE_DATA_FILE
+			res.Code = e.CREATE_DATA_FALE
 			res.Data = append(res.Data, "题目修改失败")
 		}
 	}()
@@ -56,7 +57,7 @@ func UpdateService(c *gin.Context, params UpdateParams) *UpdateReturn {
 	err := tx.Model(&topicModel.Topic{}).Where("id = ?", params.ID).Updates(updateData).Error
 	if err != nil {
 		tx.Rollback()
-		res.Code = e.CREATE_DATA_FILE
+		res.Code = e.CREATE_DATA_FALE
 	}
 
 	classifyUpdate := midTopicClassifyUpdate.UpdateParams{
@@ -67,7 +68,7 @@ func UpdateService(c *gin.Context, params UpdateParams) *UpdateReturn {
 	TCErr := midTopicClassifyUpdate.UpdateService(classifyUpdate, tx)
 	if TCErr != nil {
 		tx.Rollback()
-		res.Code = e.UPDATE_DATA_FILE
+		res.Code = e.UPDATE_DATA_FALE
 	}
 
 	companyUpdate := midTopicCompanyUpdate.UpdateParams{
@@ -78,7 +79,7 @@ func UpdateService(c *gin.Context, params UpdateParams) *UpdateReturn {
 	TCompanyErr := midTopicCompanyUpdate.UpdateService(companyUpdate, tx)
 	if TCompanyErr != nil {
 		tx.Rollback()
-		res.Code = e.UPDATE_DATA_FILE
+		res.Code = e.UPDATE_DATA_FALE
 	}
 
 	tagUpdate := midTopicTagUpdate.UpdateParams{
@@ -89,7 +90,7 @@ func UpdateService(c *gin.Context, params UpdateParams) *UpdateReturn {
 	TTagErr := midTopicTagUpdate.UpdateService(tagUpdate, tx)
 	if TTagErr != nil {
 		tx.Rollback()
-		res.Code = e.UPDATE_DATA_FILE
+		res.Code = e.UPDATE_DATA_FALE
 	}
 
 	typeUpdate := midTopicTypeUpdate.UpdateParams{
@@ -100,12 +101,12 @@ func UpdateService(c *gin.Context, params UpdateParams) *UpdateReturn {
 	TTypeErr := midTopicTypeUpdate.UpdateService(typeUpdate, tx)
 	if TTypeErr != nil {
 		tx.Rollback()
-		res.Code = e.UPDATE_DATA_FILE
+		res.Code = e.UPDATE_DATA_FALE
 	}
 
 	commitErr := tx.Commit().Error
 	if commitErr != nil {
-		res.Code = e.CREATE_DATA_FILE
+		res.Code = e.CREATE_DATA_FALE
 	}
 
 	return res

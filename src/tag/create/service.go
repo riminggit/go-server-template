@@ -1,12 +1,13 @@
 package tagCreate
 
 import (
-	"github.com/gin-gonic/gin"
-	"go-server-template/model/tag"
+	tagModel "go-server-template/model/tag"
 	DB "go-server-template/pkg/db"
 	"go-server-template/pkg/e"
 	"strconv"
 	"time"
+
+	"github.com/gin-gonic/gin"
 )
 
 func CreateService(c *gin.Context, params CreateParams) *CreateReturn {
@@ -48,7 +49,7 @@ func CreateService(c *gin.Context, params CreateParams) *CreateReturn {
 	err := DB.DBLivingExample.Model(&tagModel.Tag{}).Create(createData).Error
 	if err != nil {
 		if !hasOld {
-			res.Code = e.CREATE_DATA_FILE
+			res.Code = e.CREATE_DATA_FALE
 		}
 		return res
 	}

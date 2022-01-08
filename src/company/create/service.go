@@ -1,12 +1,13 @@
 package companyCreate
 
 import (
-	"github.com/gin-gonic/gin"
-	"go-server-template/model/company"
+	companyModel "go-server-template/model/company"
 	DB "go-server-template/pkg/db"
 	"go-server-template/pkg/e"
 	"strconv"
 	"time"
+
+	"github.com/gin-gonic/gin"
 )
 
 func CreateService(c *gin.Context, params CreateParams) *CreateReturn {
@@ -52,7 +53,7 @@ func CreateService(c *gin.Context, params CreateParams) *CreateReturn {
 	err := DB.DBLivingExample.Model(&companyModel.Company{}).Create(createData).Error
 	if err != nil {
 		if !hasOld {
-			res.Code = e.CREATE_DATA_FILE
+			res.Code = e.CREATE_DATA_FALE
 		}
 		return res
 	}

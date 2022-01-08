@@ -1,7 +1,7 @@
 package classifyCreate
 
 import (
-	"go-server-template/model/classify"
+	classifyModel "go-server-template/model/classify"
 	DB "go-server-template/pkg/db"
 	"go-server-template/pkg/e"
 	"strconv"
@@ -22,11 +22,11 @@ func CreateClassifyService(c *gin.Context, params CreateParams) *CreateReturn {
 		if len(classifyInfo) > 0 {
 			hasOld = true
 			updateData := classifyModel.Classify{
-				ImgUrl:       item.ImgUrl,
-				ImgSvg:       item.ImgSvg,
-				Rank:         item.Rank,
-				UpdateAt:     time.Now().Add(8 * time.Hour),
-				IsUse: 1,
+				ImgUrl:   item.ImgUrl,
+				ImgSvg:   item.ImgSvg,
+				Rank:     item.Rank,
+				UpdateAt: time.Now().Add(8 * time.Hour),
+				IsUse:    1,
 			}
 			updateErr := DB.DBLivingExample.Model(&classifyModel.Classify{}).Where("id = ?", classifyInfo[0].ID).Updates(updateData).Error
 			if updateErr != nil {
@@ -53,8 +53,8 @@ func CreateClassifyService(c *gin.Context, params CreateParams) *CreateReturn {
 	err := DB.DBLivingExample.Model(&classifyModel.Classify{}).Create(createData).Error
 	if err != nil {
 		if !hasOld {
-			res.Code = e.CREATE_DATA_FILE
-		} 
+			res.Code = e.CREATE_DATA_FALE
+		}
 		return res
 	}
 
