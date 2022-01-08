@@ -14,7 +14,7 @@ type PageArgument struct {
 	PageSize int   `json:"pageSize"`
 }
 
-type queryTopicParams struct {
+type QueryTopicParams struct {
 	Id               []string `json:"id"`
 	Title            string   `json:"title"` // 题目标题
 	QuestionType     []string `json:"question_type"`
@@ -45,6 +45,17 @@ type queryTopicReturn struct {
 type TopicReturnData struct {
 	Data           []topicModel.Topic `json:"data"`
 	PagingArgument PageArgument       `json:"pageArgument"`
+}
+
+type QueryTopicSimpleParams struct {
+	Id               string `json:"id"`
+	Title            string   `json:"title"` // 题目标题
+	IsUse            string   `json:"is_use"`
+}
+
+
+type TopicSimpleReturn struct {
+	Data           []topicModel.Topic `json:"data"`
 }
 
 type queryTopicReturnRelation struct {

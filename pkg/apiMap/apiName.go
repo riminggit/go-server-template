@@ -35,8 +35,6 @@ var ApiName = map[string]string{
 	POST_DELETE_TAG: "批量删除标签",
 
 	TOPIC_PREFIX:                         "题目接口前缀",
-	POST_QUERY_TOPIC_SET:                 "查询套题",
-	POST_QUERY_TOPIC:                     "查询题目",
 	POST_QUERY_TOPIC_FROM_CLASSIFY:       "通过类型查询题目",
 	POST_QUERY_TOPIC_FROM_COMPANY:        "通过公司查询题目",
 	POST_QUERY_TOPIC_FROM_TAG:            "通过标签查询题目",
@@ -50,9 +48,14 @@ var ApiName = map[string]string{
 	POST_QUERY_TOPIC_COMPANY_MID_PADING:  "查询题目关系表_公司_分页",
 	POST_QUERY_TOPIC_TAG_MID_PADING:      "查询题目关系表_标签_分页",
 	POST_QUERY_TOPIC_TYPE_MID_PADING:     "查询题目关系表_二级分类_分页",
+	POST_QUERY_TOPIC:                     "查询题目",
 	POST_CREATE_TOPIC:                    "新增题目",
 	POST_DELETE_TOPIC:                    "删除题目",
 	POST_UPDATE_TOPIC:                    "更新题目",
+	POST_QUERY_TOPIC_SET:                 "查询套题",
+	POST_CREATE_TOPIC_SET:                "新建套题",
+	POST_DELETE_TOPIC_SET:                "删除套题",
+	POST_UPDATE_TOPIC_SET:                "更新套题",
 
 	USER_COLLECT_PREFIX: "用户控制操作接口前缀",
 

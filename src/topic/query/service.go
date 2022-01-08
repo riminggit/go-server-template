@@ -25,7 +25,7 @@ import (
 	"strconv"
 )
 
-func QueryTopicService(c *gin.Context, params queryTopicParams) *queryTopicReturn {
+func QueryTopicService(c *gin.Context, params QueryTopicParams) *queryTopicReturn {
 	res := &queryTopicReturn{}
 	var queryInfo []topicModel.Topic
 	var RGetData TopicReturnData
@@ -107,7 +107,7 @@ func QueryTopicService(c *gin.Context, params queryTopicParams) *queryTopicRetur
 	return res
 }
 
-func QueryTopicRelationService(c *gin.Context, params queryTopicParams) *queryTopicReturnRelation {
+func QueryTopicRelationService(c *gin.Context, params QueryTopicParams) *queryTopicReturnRelation {
 	res := &queryTopicReturnRelation{}
 
 	dataRxpirationTime := projectConfig.AppConfig.BaseConfig.REDIS_COMMON_EXPIRATION_TIME
@@ -237,3 +237,39 @@ func QueryTopicRelationService(c *gin.Context, params queryTopicParams) *queryTo
 }
 
 
+
+func QueryTopicSimpleService(c *gin.Context, params QueryTopicSimpleParams) *TopicSimpleReturn {
+	res := &TopicSimpleReturn{}
+	var queryInfo []topicModel.Topic
+
+	dataRxpirationTime := projectConfig.AppConfig.BaseConfig.REDIS_COMMON_EXPIRATION_TIME
+	redisParamsJson, _ := json.Marshal(params)
+	interfaceName := apiMap.GetRedisPrefixName(apiMap.POST_QUERY_TOPIC_SIMPLE)
+	queryRedisParams := interfaceName + string(redisParamsJson)
+
+	redisData := Redis.GetValue(queryRedisParams)
+
+	if redisData != "" {
+		err := json.Unmarshal([]byte(redisData), &queryInfo)
+		if err != nil {
+			logging.Debug(err)
+		}
+		res.Data = queryInfo
+		return res
+	}
+
+	queryFun := DB.DBLivingExample.Where("is_use = ?", params.IsUse)
+	if len(params.Id) > 0 {
+		queryFun = queryFun.Where("id IN (?)", params.Id)
+	}
+
+	if params.Title != "" {
+		queryFun = queryFun.Where("title = ?", params.Title)
+	}
+
+	queryFun.Model(&topicModel.Topic{}).Find(&queryInfo)
+	Redis.SetValue(queryRedisParams, queryInfo, dataRxpirationTime)
+	res.Data = queryInfo
+
+	return res
+}

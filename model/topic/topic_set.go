@@ -12,5 +12,5 @@ type TopicSet struct {
 	CreateAt           time.Time `json:"create_at"`                                              // 创建时间
 	DeleteAt           time.Time `json:"delete_at"`
 	UpdateAt           time.Time `json:"update_at"`
-	IsUse              int       `gorm:"type:int(3);not null;default:1"` // 是否删除:0 删除 1未删除
+	IsUse              int       `json:"is_use" gorm:"type:int(3);not null;default:1"` // 是否删除:0 删除 1未删除
 }

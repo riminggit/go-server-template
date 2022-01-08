@@ -7,6 +7,7 @@ import (
 	"go-server-template/pkg/app"
 	"go-server-template/pkg/e"
 	"go-server-template/pkg/log"
+	"go-server-template/config"
 	"net/http"
 )
 
@@ -41,6 +42,13 @@ func QueryTopicSetController(c *gin.Context) {
 	if errCode != e.SUCCESS {
 		appG.Response(httpCode, errCode, nil)
 		return
+	}
+
+	if jsonData.PageNum == 0 {
+		jsonData.PageNum = 1
+	}
+	if jsonData.PageSize == 0 {
+		jsonData.PageSize = projectConfig.AppConfig.BaseConfig.PAGE_SIZE
 	}
 
 	if jsonData.IsUse == "" {

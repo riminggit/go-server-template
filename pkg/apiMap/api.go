@@ -42,8 +42,6 @@ const (
 
 	// 题目
 	TOPIC_PREFIX                                = "/topic"
-	POST_QUERY_TOPIC_SET                        = "/query-topic-set"
-	POST_QUERY_TOPIC                            = "/query-topic"
 	POST_QUERY_TOPIC_FROM_CLASSIFY              = "/query-topic-from-classify"
 	POST_QUERY_TOPIC_FROM_CLASSIFY_RELATION     = "/query-topic-from-classify-relation"
 	POST_QUERY_TOPIC_FROM_CLASSIFY_GET_TOPIC_ID = "/query-topic-from-classify-get-topic-id"
@@ -65,9 +63,16 @@ const (
 	POST_QUERY_TOPIC_COMPANY_MID_PADING         = "/query-topic/company/mid/pading"
 	POST_QUERY_TOPIC_TAG_MID_PADING             = "/query-topic/tag/mid/pading"
 	POST_QUERY_TOPIC_TYPE_MID_PADING            = "/query-topic/type/mid/pading"
+	POST_QUERY_TOPIC                            = "/query-topic"
+	POST_QUERY_TOPIC_SIMPLE                     = "/query-topic-simple"
 	POST_CREATE_TOPIC                           = "/create-topic"
 	POST_DELETE_TOPIC                           = "/delete-topic"
 	POST_UPDATE_TOPIC                           = "/update-topic"
+	POST_QUERY_TOPIC_SET                        = "/query-topic-set"
+	POST_QUERY_TOPIC_SET_SIMPLE                 = "/query-topic-set-simple"
+	POST_CREATE_TOPIC_SET                       = "/create-topic-set"
+	POST_DELETE_TOPIC_SET                       = "/delete-topic-set"
+	POST_UPDATE_TOPIC_SET                       = "/update-topic-set"
 
 	// 用户控制
 	USER_COLLECT_PREFIX = "/userCollect"
