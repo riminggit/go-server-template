@@ -1,24 +1,31 @@
 package feedback
 
 import (
+	"github.com/gin-gonic/gin"
 	"go-server-template/model/user"
 	DB "go-server-template/pkg/db"
 	"go-server-template/pkg/e"
+	"go-server-template/pkg/utils"
 	"time"
-	"github.com/gin-gonic/gin"
 )
 
 func CreateService(c *gin.Context, params CreateParams) *CommonReturn {
 	res := &CommonReturn{}
 
+	userInfoRes := util.GetUserInfo(c)
+	if userInfoRes.Code != e.SUCCESS {
+		res.Code = userInfoRes.Code
+		return res
+	}
+
 	createData := &userModel.UserFeedback{
-		CreateAt: time.Now().Add(8 * time.Hour),
-		IsUse: 1,
-		TopicId:params.TopicId,
-		FeedbackType:params.FeedbackType,
-		FacebackAnswer:params.FacebackAnswer,
-		Content:params.Content,
-		Grade:params.Grade,
+		UserId:         userInfoRes.Data.ID,
+		TopicId:        params.TopicId,
+		FeedbackType:   params.FeedbackType,
+		Content:        params.Content,
+		Grade:          params.Grade,
+		CreateAt:       time.Now().Add(8 * time.Hour),
+		IsUse:          1,
 	}
 
 	err := DB.DBLivingExample.Model(&userModel.UserFeedback{}).Create(createData).Error

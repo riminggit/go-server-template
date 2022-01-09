@@ -19,6 +19,8 @@ var MsgFlags = map[int]string{
 	NICKNAME_DOES_NOT_EXIST:        "用户名不存在",
 	PHONE_DOES_NOT_EXIST:           "手机号不存在",
 	PASSWORD_MISTAKE:               "密码错误",
+	NOT_EDUIT_AUTH:                 "用户无编辑权限",
+	NOT_DELETE_AUTH:                "用户无删除权限",
 
 	NO_DATA_EXISTS:   "不存在相关数据",
 	CREATE_DATA_FALE: "新建数据失败",
@@ -28,8 +30,7 @@ var MsgFlags = map[int]string{
 
 	WX_DNCRYPT_FAIL: "微信小程序解密失败",
 
-	FEEDBACK_FALE:"反馈失败",
-
+	FEEDBACK_FALE: "反馈失败",
 }
 
 func GetMsg(code int) string {

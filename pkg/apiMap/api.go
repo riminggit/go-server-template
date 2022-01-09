@@ -30,7 +30,14 @@ const (
 	POST_DELETE_COMPANY = "/delete-company-multiple"
 
 	// 反馈
-	FEEDBACK_PREFIX = "/feedback"
+	FEEDBACK_PREFIX           = "/feedback"
+	POST_QUERY_FEEDBACK       = "/query-feedback"
+	POST_QUERY_FEEDBACK_USER  = "/query-feedback-user"
+	POST_CREATE_FEEDBACK_USER = "/create-feedback-user"
+	POST_DELETE_FEEDBACK_USER = "/delete-feedback-user"
+	POST_DELETE_FEEDBACK      = "/delete-feedback"
+	POST_UPDATE_FEEDBACK      = "/update-feedback"
+	POST_UPDATE_FEEDBACK_USER = "/update-feedback-user"
 
 	// 标签
 	TAG_PREFIX      = "/tag"

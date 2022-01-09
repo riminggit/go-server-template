@@ -9,6 +9,7 @@ import (
 	"go-server-template/routers/api/tagRouter"
 	"go-server-template/routers/api/userTopicRouter"
 	"go-server-template/routers/api/topicRouter"
+	"go-server-template/routers/api/feedbackRouter"
 	"go-server-template/pkg/apiMap"
 )
 
@@ -21,4 +22,5 @@ func InitApi(r *gin.Engine) {
 	tagRouter.TagInitRouter(api)
 	userTopicRouter.UserTopicInitRouter(api)
 	topicRouter.TopicInitRouter(api)
+	feedbackRouter.FeedbackInitRouter(api)
 }

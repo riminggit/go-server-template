@@ -25,7 +25,14 @@ var ApiName = map[string]string{
 	POST_UPDATE_COMPANY: "批量修改公司",
 	POST_DELETE_COMPANY: "批量删除公司",
 
-	FEEDBACK_PREFIX: "反馈接口前缀",
+	FEEDBACK_PREFIX:            "反馈接口前缀",
+	POST_QUERY_FEEDBACK:        "管理员查询反馈信息",
+	POST_QUERY_FEEDBACK_USER:   "用户查询反馈信息",
+	POST_CREATE_FEEDBACK_USER: "用户新增反馈信息",
+	POST_DELETE_FEEDBACK_USER:  "用户删除反馈信息",
+	POST_DELETE_FEEDBACK:       "管理员删除反馈信息",
+	POST_UPDATE_FEEDBACK:       "管理员更新反馈信息",
+	POST_UPDATE_FEEDBACK_USER:  "用户更新反馈信息",
 
 	TAG_PREFIX:      "标签接口前缀",
 	GET_QUERY_TAG:   "查询标签_单个参数",

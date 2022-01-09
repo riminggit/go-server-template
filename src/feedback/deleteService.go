@@ -112,7 +112,7 @@ func DeleteService(c *gin.Context, params DeleteParams) *CommonReturn {
 			}
 		}
 	}
-
+	CleanRedisQuery(c)
 	res.Code = e.SUCCESS
 	return res
 }
@@ -129,7 +129,7 @@ func UserDeleteService(c *gin.Context, params UserDeleteParams) *CommonReturn {
 			return res
 		}
 	}
-
+	CleanRedisQuery(c)
 	res.Code = e.SUCCESS
 	return res
 }

@@ -1,9 +1,37 @@
 package feedback
 
+import (
+	"go-server-template/model/user"
+)
+
+type QueryParams struct {
+	Id           []string `json:"id"`
+	UserId       []string `json:"user_id"`
+	TopicId      int      `json:"topic_id"`
+	FeedbackType int      `json:"feedback_type"`
+	Grade        int      `json:"grade"`
+	CreateAt     []string `json:"create_at"` // 创建时间
+	DeleteAt     []string `json:"delete_at"`
+	UpdateAt     []string `json:"update_at"`
+	PageNum      int      `json:"pageNum"`
+	PageSize     int      `json:"pageSize"`
+	IsUse        string   `json:"is_use"`
+}
+
+type UserQueryParams struct {
+	Id           []string `json:"id"`
+	TopicId      int      `json:"topic_id"`
+	FeedbackType int      `json:"feedback_type"`
+	Grade        int      `json:"grade"`
+	CreateAt     []string `json:"create_at"` // 创建时间
+	DeleteAt     []string `json:"delete_at"`
+	UpdateAt     []string `json:"update_at"`
+	IsUse        string   `json:"is_use"`
+}
+
 type CreateParams struct {
 	TopicId        int    `json:"topic_id"`
 	FeedbackType   int    `json:"feedback_type"`
-	FacebackAnswer string `json:"faceback_answer"`
 	Content        string `json:"content"`
 	Grade          int    `json:"grade"`
 }
@@ -24,7 +52,7 @@ type DeleteParams struct {
 }
 
 type UserDeleteParams struct {
-	ID string `json:"id"`
+	ID []string `json:"id"`
 }
 
 type AnswerFeedbackParams struct {
@@ -34,7 +62,28 @@ type AnswerFeedbackParams struct {
 }
 
 type UserUpdateParams struct {
-	ID             int    `json:"id"`
-	Content        string `json:"content"`
-	Grade          int    `json:"grade"`
+	ID      int    `json:"id"`
+	Content string `json:"content"`
+	Grade   int    `json:"grade"`
+}
+
+type queryPaddingReturn struct {
+	Code int                    `json:"code"`
+	Data queryPaddingReturnData `json:"data"`
+}
+
+type queryPaddingReturnData struct {
+	Data           []userModel.UserFeedback `json:"data"`
+	PagingArgument PageArgument             `json:"pageArgument"`
+}
+
+type PageArgument struct {
+	Total    int64 `json:"total"`
+	PageNum  int   `json:"pageNum"`
+	PageSize int   `json:"pageSize"`
+}
+
+type CommonQueryReturn struct {
+	Code int                      `json:"code"`
+	Data []userModel.UserFeedback `json:"data"`
 }

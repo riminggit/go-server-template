@@ -2,22 +2,27 @@ package util
 
 import (
 	"encoding/json"
-	// "fmt"
-	"github.com/gin-gonic/gin"
-	userModel "go-server-template/model/user"
+	"strconv"
+	"go-server-template/model/user"
 	"go-server-template/pkg/app"
 	"go-server-template/pkg/e"
 	logging "go-server-template/pkg/log"
 	Redis "go-server-template/pkg/redis"
+	"github.com/gin-gonic/gin"
 )
 
-type userInfoReturn struct {
+type UserInfoReturn struct {
 	Code int
 	Data userModel.User
 }
 
-func GetUserInfo(c *gin.Context) *userInfoReturn {
-	res := &userInfoReturn{}
+type UserPrefixReturn struct {
+	UserData userModel.User
+	UserPrefix string
+}
+
+func GetUserInfo(c *gin.Context) *UserInfoReturn {
+	res := &UserInfoReturn{}
 	token := app.GetHeaderToken(c)
 
 	var userInfoRedis userModel.User
@@ -33,5 +38,16 @@ func GetUserInfo(c *gin.Context) *userInfoReturn {
 
 	res.Data = userInfoRedis
 	res.Code = e.SUCCESS
+	return res
+}
+
+
+func GetUserPrefix(c *gin.Context) *UserPrefixReturn {
+	res:= &UserPrefixReturn{}
+	userInfoRes := GetUserInfo(c)
+	userId := userInfoRes.Data.ID
+	// int转string
+	res.UserPrefix =  "user:" + strconv.Itoa(userId)
+	res.UserData = userInfoRes.Data
 	return res
 }

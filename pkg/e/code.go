@@ -17,6 +17,8 @@ const (
 	PASSWORD_MISTAKE               = 20009
 	USER_NOT_LOGIN                 = 20010
 	USER_LAYOUT_SUCCESS            = 20011
+	NOT_EDUIT_AUTH                 = 20021
+	NOT_DELETE_AUTH                = 20022
 
 	NO_DATA_EXISTS   = 30001
 	CREATE_DATA_FALE = 30002

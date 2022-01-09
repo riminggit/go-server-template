@@ -31,7 +31,7 @@ func AnswerFeedbackService(c *gin.Context, params AnswerFeedbackParams) *CommonR
 	} else {
 		res.Code = e.NO_DATA_EXISTS
 	}
-
+	CleanRedisQuery(c)
 	res.Code = e.SUCCESS
 	return res
 }
@@ -47,6 +47,8 @@ func UserUpdateService(c *gin.Context, params UserUpdateParams) *CommonReturn {
 		return res
 	}
 
+	queryInfo := &userModel.UserFeedback{}
+
 	if params.ID != 0 {
 		setData := userModel.UserFeedback{
 			IsUse:    1,
@@ -60,15 +62,21 @@ func UserUpdateService(c *gin.Context, params UserUpdateParams) *CommonReturn {
 		if params.Grade != 0 {
 			setData.IsRead = params.Grade
 		}
+		dbfunc := DB.DBLivingExample.Model(&userModel.UserFeedback{}).Where("id = ?", params.ID).Find(&queryInfo)
+		if queryInfo.UserId != userInfoRes.Data.ID {
+			res.Code = e.NOT_EDUIT_AUTH
+			return res
+		}
 
-		Res := DB.DBLivingExample.Model(&userModel.UserFeedback{}).Where("id = ?", params.ID).Where("user_id = ?", userInfoRes.Data.ID).Updates(setData)
+		Res := dbfunc.Updates(setData)
 		if Res.Error != nil {
 			res.Code = e.UPDATE_DATA_FALE
 		}
 	} else {
 		res.Code = e.NO_DATA_EXISTS
 	}
-
+	
+	CleanRedisQuery(c)
 	res.Code = e.SUCCESS
 	return res
 }
