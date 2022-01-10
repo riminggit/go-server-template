@@ -31,6 +31,9 @@ func UpdateService(c *gin.Context, params UpdateParams) *UpdateReturn {
 		if params.Remark != "" {
 			setData.Remark = params.Remark
 		}
+		if params.TopicType != "" {
+			setData.TopicType = params.TopicType
+		}
 
 		Res := DB.DBLivingExample.Model(&topicModel.TopicSet{}).Where("id = ?", params.ID).Updates(setData)
 		if Res.Error != nil {

@@ -10,6 +10,7 @@ type QueryTopicSetParams struct {
 	TopicSetIdList     string   `json:"topic_set_id_list"`
 	TopicSetDifficulty string   `json:"topic_set_difficulty"`
 	TopicSetLevel      string   `json:"topic_set_level"`
+	TopicType          string   `json:"topic_type"` // 练习：1  考试 ：2
 	CreateAt           []string `json:"create_at"`
 	DeleteAt           []string `json:"delete_at"`
 	UpdateAt           []string `json:"update_at"`

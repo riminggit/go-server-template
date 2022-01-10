@@ -48,14 +48,13 @@ type TopicReturnData struct {
 }
 
 type QueryTopicSimpleParams struct {
-	Id               string `json:"id"`
-	Title            string   `json:"title"` // 题目标题
-	IsUse            string   `json:"is_use"`
+	Id    string `json:"id"`
+	Title string `json:"title"` // 题目标题
+	IsUse string `json:"is_use"`
 }
 
-
 type TopicSimpleReturn struct {
-	Data           []topicModel.Topic `json:"data"`
+	Data []topicModel.Topic `json:"data"`
 }
 
 type queryTopicReturnRelation struct {
@@ -95,7 +94,7 @@ type queryTopicFromCompanyParams struct {
 }
 
 type queryTopicFromTagParams struct {
-	TagId    []string   `json:"tag_id"` // 标签id
+	TagId    []string `json:"tag_id"` // 标签id
 	CreateAt []string `json:"create_at"`
 	DeleteAt []string `json:"delete_at"`
 	UpdateAt []string `json:"update_at"`
@@ -104,7 +103,7 @@ type queryTopicFromTagParams struct {
 }
 
 type queryTopicFromTypeParams struct {
-	TypeId   []string   `json:"type_id"` // 分类id
+	TypeId   []string `json:"type_id"` // 分类id
 	CreateAt []string `json:"create_at"`
 	DeleteAt []string `json:"delete_at"`
 	UpdateAt []string `json:"update_at"`
@@ -125,4 +124,9 @@ type queryTopicNoPadingReturn struct {
 type queryTopicNoPadingRelationReturn struct {
 	Code int         `json:"code"`
 	Data []TopicData `json:"data"`
+}
+
+type QueryTopicCount struct {
+	Degree int `json:"degree"`
+	Level  int `json:"level"`
 }

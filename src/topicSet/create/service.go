@@ -28,6 +28,7 @@ func CreateService(c *gin.Context, params CreateParams) *CreateReturn {
 		TopicSetLevel:      params.TopicSetLevel,
 		Remark:             params.Remark,
 		CreateAt:           time.Now().Add(8 * time.Hour),
+		TopicType:			params.TopicType,
 		IsUse:              1,
 	}
 

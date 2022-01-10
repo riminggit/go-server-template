@@ -91,6 +91,7 @@ const (
 	POST_USER_CHANGE_PHONE     = "/change-phone"
 	POST_USER_LOGIN            = "/login"
 	POST_ADMIN_QUERY_USER_INFO = "/query-user-info"
+	POST_QUERY_USER_EXPERIENCE = "/query-user-experience"
 
 	// 微信相关
 	POST_USER_WX_LOGIN       = "/wxLogin"
@@ -101,4 +102,8 @@ const (
 	USER_TOPIC_PREFIX            = "/user-topic"
 	POST_USER_ADD_TOPIC_QUERY    = "/query-user-topic"
 	POST_USER_ANSWER_TOPIC_QUERY = "/query-user-answer-topic"
+
+	// 查询题目数量
+	QUERY_TOPIC_COUNT_BY_DEGREE = "/query-topic-count-by-degree"
+	QUERY_TOPIC_COUNT_BY_LEVEL  = "/query-topic-count-by-level"
 )

@@ -55,6 +55,10 @@ func QueryTopicSetService(c *gin.Context, params QueryTopicSetParams) *queryTopi
 		queryFun = queryFun.Where("topic_set_level = ?", params.TopicSetLevel)
 	}
 
+	if params.TopicType != "" {
+		queryFun = queryFun.Where("topic_type = ?", params.TopicType)
+	}
+
 	if len(params.CreateAt) > 0 {
 		queryFun = queryFun.Where("create_at between ? and ?", params.CreateAt[0], params.CreateAt[1])
 	}
@@ -129,6 +133,10 @@ func QueryTopicSetSimpleService(c *gin.Context, params QueryTopicSetParams) *que
 		queryFun = queryFun.Where("topic_set_level = ?", params.TopicSetLevel)
 	}
 
+	if params.TopicType != "" {
+		queryFun = queryFun.Where("topic_type = ?", params.TopicType)
+	}
+	
 	if len(params.CreateAt) > 0 {
 		queryFun = queryFun.Where("create_at between ? and ?", params.CreateAt[0], params.CreateAt[1])
 	}
