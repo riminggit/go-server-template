@@ -91,8 +91,10 @@ const (
 	POST_USER_CHANGE_PHONE     = "/change-phone"
 	POST_USER_LOGIN            = "/login"
 	POST_ADMIN_QUERY_USER_INFO = "/query-user-info"
-	POST_QUERY_USER_EXPERIENCE = "/query-user-experience"
+	POST_QUERY_USER_EXPERIENCE = "/query-user-experience"  // 管理员查询
+	POST_QUERY_USER_EXPERIENCE_FROM_USER = "/query-user-experience-from-user" // 用户查询
 
+	
 	// 微信相关
 	POST_USER_WX_LOGIN       = "/wxLogin"
 	POST_USER_WX_GET_OPEN_ID = "/wxapp-get-openid"

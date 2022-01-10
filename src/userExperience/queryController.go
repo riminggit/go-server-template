@@ -29,4 +29,16 @@ func QueryExperienceController(c *gin.Context) {
 }
 
 
+// @Summary 经验表
+// @Produce  json
+// @Param Authorization	header string false "Bearer 31a165baebe6dec616b1f8f3207b4273"
+// @Router /api/user/query-user-experience-from-user [post]
+func UserQueryExperienceController(c *gin.Context) {
+	appG := app.Gin{C: c}
+
+	result := UserQueryExperience(c)
+	appG.Response(http.StatusOK, result.Code, result.Data)
+}
+
+
 

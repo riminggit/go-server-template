@@ -5,7 +5,27 @@ import (
 	"go-server-template/model/user"
 	DB "go-server-template/pkg/db"
 	"go-server-template/pkg/e"
+	"go-server-template/pkg/utils"
 )
+
+func UserQueryExperience(c *gin.Context) *userQueryReturn {
+	res := &userQueryReturn{}
+	var queryInfo userModel.UserExperience
+	userInfoRes := util.GetUserInfo(c)
+	if userInfoRes.Code != e.SUCCESS {
+		res.Code = userInfoRes.Code
+		return res
+	}
+
+	queryFun := DB.DBLivingExample.Where("is_use = ?", 1)
+	queryFun = queryFun.Where("user_id = ?", userInfoRes.Data.ID)
+	queryFun.Model(&userModel.UserExperience{}).Find(&queryInfo)
+
+	res.Code = e.SUCCESS
+	res.Data = queryInfo
+
+	return res
+}
 
 func QueryUserExperience(c *gin.Context, params QueryParams) *queryReturn {
 	res := &queryReturn{}
@@ -22,6 +42,10 @@ func QueryUserExperience(c *gin.Context, params QueryParams) *queryReturn {
 
 	if params.Level != 0 {
 		queryFun = queryFun.Where("level = ?", params.Level)
+	}
+
+	if params.UserId != 0 {
+		queryFun = queryFun.Where("user_id = ?", params.UserId)
 	}
 
 	if len(params.CreateAt) > 0 {

@@ -10,7 +10,10 @@ import (
 
 func QueryUserRouter(g *gin.RouterGroup) {
 	adminAuth := authMiddleware.UserAuth()
-	g.POST(apiMap.POST_ADMIN_QUERY_USER_INFO, userQuery.QueryUserDataController)
 	g.POST(apiMap.POST_QUERY_USER_EXPERIENCE, adminAuth, userExperience.QueryExperienceController)
+
+	g.POST(apiMap.POST_ADMIN_QUERY_USER_INFO, userQuery.QueryUserDataController)
+	// 用户查询经验
+	g.POST(apiMap.POST_QUERY_USER_EXPERIENCE_FROM_USER, userExperience.UserQueryExperienceController)
 
 }
