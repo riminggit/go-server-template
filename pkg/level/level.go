@@ -6,18 +6,18 @@ const COEFFICIENT = 1
 // 经验体系设计
 // 可获取经验行为有：刷题、刷套题、考试、新增用户题目、看知识点
 const (
-	EASY      = 0
-	MIDDLE    = 1
-	HARD      = 2
-	HARD_MORE = 3
+	// EASY      = 0
+	// MIDDLE    = 1
+	// HARD      = 2
+	// HARD_MORE = 3
 
-	// PRIMARY           = 1
-	// MIDDLE_RANK       = 2
-	// ADVANCED          = 3
-	// SENIOR            = 4
-	// SPECIALIST        = 5
-	// SENIOR_SPECIALIST = 6
-	// RESEARCHER        = 7
+	PRIMARY           = 1
+	MIDDLE_RANK       = 2
+	ADVANCED          = 3
+	SENIOR            = 4
+	SPECIALIST        = 5
+	SENIOR_SPECIALIST = 6
+	RESEARCHER        = 7
 
 	// 不同题目经验值
 	EASY_EXPERIENCE      = BASE_EXPERIENCE * 2
@@ -44,9 +44,9 @@ const (
 	MIDDLE_RANK_EXPERIENCE_UP       = PRIMARY_EXPERIENCE_UP * 3
 	ADVANCED_EXPERIENCE_UP          = MIDDLE_RANK_EXPERIENCE_UP * 3.1
 	SENIOR_EXPERIENCE_UP            = ADVANCED_EXPERIENCE_UP * 3.2
-	SPECIALIST_EXPERIENCE_UP        = SENIOR_EXPERIENCE_UP * 3.4
+	SPECIALIST_EXPERIENCE_UP        = SENIOR_EXPERIENCE_UP * 3.5
 	SENIOR_SPECIALIST_EXPERIENCE_UP = SPECIALIST_EXPERIENCE_UP * 3.8
-	RESEARCHER_EXPERIENCE_UP        = SENIOR_SPECIALIST_EXPERIENCE_UP * 4.6
+	RESEARCHER_EXPERIENCE_UP        = SENIOR_SPECIALIST_EXPERIENCE_UP * 5
 
 	// 从高级开始对做的题目难度数量有要求
 	// 高级 => 资深  	  初级 50%  中级 50%  高级 30%

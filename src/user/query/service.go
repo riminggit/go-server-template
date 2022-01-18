@@ -2,6 +2,7 @@ package userQuery
 
 import (
 	"encoding/json"
+	"github.com/gin-gonic/gin"
 	projectConfig "go-server-template/config"
 	userModel "go-server-template/model/user"
 	"go-server-template/pkg/apiMap"
@@ -9,8 +10,27 @@ import (
 	"go-server-template/pkg/e"
 	logging "go-server-template/pkg/log"
 	Redis "go-server-template/pkg/redis"
-	"github.com/gin-gonic/gin"
 )
+
+// 用户查询自身信息，给其他接口调取用,例如登陆
+func QueryUserInfoSimple(c *gin.Context, userId int) *userQueryReturn {
+	res := &userQueryReturn{}
+	var queryInfo userModel.User
+
+	queryFun := DB.DBLivingExample.Where("is_use = ?", 1)
+	queryFun = queryFun.Where("user_id = ?", userId)
+	err := queryFun.Model(&userModel.UserExperience{}).Find(&queryInfo).Error
+
+	if err != nil {
+		res.Code = e.NO_DATA_EXISTS
+		return res
+	}
+
+	res.Code = e.SUCCESS
+	res.Data = queryInfo
+
+	return res
+}
 
 func QueryUserDataService(c *gin.Context, params QueryUserParams) *QueryUserReturnData {
 	res := &QueryUserReturnData{}

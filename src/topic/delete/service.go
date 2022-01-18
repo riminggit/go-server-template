@@ -8,7 +8,6 @@ import (
 	midTopicCompanyDelete "go-server-template/src/midTopicCompany/delete"
 	midTopicTagDelete "go-server-template/src/midTopicTag/delete"
 	midTopicTypeDelete "go-server-template/src/midTopicType/delete"
-
 	"github.com/gin-gonic/gin"
 )
 

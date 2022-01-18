@@ -1,5 +1,9 @@
 package userQuery
 
+import (
+	"go-server-template/model/user"
+)
+
 type QueryUserParams struct {
 	Email    string   `json:"email"`
 	NickName string   `json:"nick_name"`
@@ -50,4 +54,9 @@ type QueryUserReturnData struct {
 type UserReturnData struct {
 	Data           []QueryUserData `json:"data"`
 	PagingArgument PageArgument    `json:"pageArgument"`
+}
+
+type userQueryReturn struct {
+	Code int            `json:"code"`
+	Data userModel.User `json:"data"`
 }

@@ -27,6 +27,27 @@ func UserQueryExperience(c *gin.Context) *userQueryReturn {
 	return res
 }
 
+// 用户查询自身经验信息，给其他接口调取用
+func UserQueryExperienceSimple(c *gin.Context, userId int) *userQueryReturn {
+	res := &userQueryReturn{}
+	var queryInfo userModel.UserExperience
+
+	queryFun := DB.DBLivingExample.Where("is_use = ?", 1)
+	queryFun = queryFun.Where("user_id = ?", userId)
+	err := queryFun.Model(&userModel.UserExperience{}).Find(&queryInfo).Error
+
+	if err != nil {
+		res.Code = e.NO_DATA_EXISTS
+		return res
+	}
+
+	res.Code = e.SUCCESS
+	res.Data = queryInfo
+
+	return res
+}
+
+// 管理员查询用户信息
 func QueryUserExperience(c *gin.Context, params QueryParams) *queryReturn {
 	res := &queryReturn{}
 
@@ -37,7 +58,7 @@ func QueryUserExperience(c *gin.Context, params QueryParams) *queryReturn {
 
 	queryFun := DB.DBLivingExample.Where("is_use = ?", params.IsUse)
 	if len(params.Experience) > 0 {
-		queryFun = queryFun.Where("experience IN (?)", params.Experience[0], params.Experience[1])
+		queryFun = queryFun.Where("experience between ? and ?", params.Experience[0], params.Experience[1])
 	}
 
 	if params.Level != 0 {
@@ -60,10 +81,13 @@ func QueryUserExperience(c *gin.Context, params QueryParams) *queryReturn {
 		queryFun = queryFun.Where("update_at between ? and ?", params.UpdateAt[0], params.UpdateAt[1])
 	}
 
-	queryFun.Model(&userModel.UserExperience{}).Find(&queryInfo)
+	queryFun = queryFun.Limit(params.PageSize).Offset((params.PageNum - 1) * params.PageSize)
+	queryFun.Model(&userModel.UserExperience{}).Find(&queryInfo).Count(&res.Data.PagingArgument.Total)
 
+	res.Data.PagingArgument.PageNum = params.PageNum
+	res.Data.PagingArgument.PageSize = params.PageSize
+	res.Data.Data = queryInfo
 	res.Code = e.SUCCESS
-	res.Data = queryInfo
 
 	return res
 }
