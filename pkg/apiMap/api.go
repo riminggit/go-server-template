@@ -71,6 +71,7 @@ const (
 	POST_QUERY_TOPIC_TAG_MID_PADING             = "/query-topic/tag/mid/pading"
 	POST_QUERY_TOPIC_TYPE_MID_PADING            = "/query-topic/type/mid/pading"
 	POST_QUERY_TOPIC                            = "/query-topic"
+	POST_QUERY_TOPIC_RANDOM                     = "/query-topic-random"
 	POST_QUERY_TOPIC_SIMPLE                     = "/query-topic-simple"
 	POST_CREATE_TOPIC                           = "/create-topic"
 	POST_DELETE_TOPIC                           = "/delete-topic"
@@ -80,6 +81,7 @@ const (
 	POST_CREATE_TOPIC_SET                       = "/create-topic-set"
 	POST_DELETE_TOPIC_SET                       = "/delete-topic-set"
 	POST_UPDATE_TOPIC_SET                       = "/update-topic-set"
+	POST_QUERY_TOPIC_SET_RANDOM                 = "/query-topic-set-random"
 
 	// 用户控制
 	USER_COLLECT_PREFIX = "/userCollect"

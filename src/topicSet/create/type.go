@@ -13,3 +13,12 @@ type CreateReturn struct {
 	Code int      `json:"code"`
 	Data []string `json:"data"`
 }
+
+type ComputeReturn struct {
+	Code int               `json:"code"`
+	Data ComputeReturnData `json:"data"`
+}
+type ComputeReturnData struct {
+	Difficulty int `json:"difficulty"`
+	Level      int `json:"level"`
+}

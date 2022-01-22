@@ -1,13 +1,12 @@
 package topicSetCreate
 
 import (
-	topicModel "go-server-template/model/topic"
+	"go-server-template/model/topic"
 	DB "go-server-template/pkg/db"
 	"go-server-template/pkg/e"
 	logging "go-server-template/pkg/log"
 	"strings"
 	"time"
-
 	"github.com/gin-gonic/gin"
 )
 
@@ -15,20 +14,30 @@ func CreateService(c *gin.Context, params CreateParams) *CreateReturn {
 	res := &CreateReturn{}
 	res.Code = e.SUCCESS
 
+	manageResp := TopSetDifficultyAndLevelCompute(c, params.TopicSetIdList)
+
+	if manageResp.Code != e.SUCCESS {
+		res.Code = e.CREATE_DATA_FALE
+		return res
+	}
+
+	// 字符串分割为数组 strings.Split(s, sep string) []string
+
 	// 数组转字符串
 	var topicList string
 	if len(params.TopicSetIdList) > 0 {
+		// 数组转字符串
 		topicList = strings.Join(params.TopicSetIdList, ",")
 	}
 
 	createData := &topicModel.TopicSet{
 		TopicSetIdList:     topicList,
 		Name:               params.Name,
-		TopicSetDifficulty: params.TopicSetDifficulty,
-		TopicSetLevel:      params.TopicSetLevel,
+		TopicSetDifficulty: manageResp.Data.Difficulty,
+		TopicSetLevel:      manageResp.Data.Level,
 		Remark:             params.Remark,
 		CreateAt:           time.Now().Add(8 * time.Hour),
-		TopicType:			params.TopicType,
+		TopicType:          params.TopicType,
 		IsUse:              1,
 	}
 

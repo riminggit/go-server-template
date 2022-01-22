@@ -2,7 +2,7 @@ package topicQuery
 
 import (
 	"encoding/json"
-	"github.com/gin-gonic/gin"
+	"fmt"
 	"go-server-template/config"
 	"go-server-template/model/classify"
 	"go-server-template/model/company"
@@ -23,6 +23,8 @@ import (
 	"go-server-template/src/midTopicType/query"
 	"go-server-template/src/tag/query"
 	"strconv"
+
+	"github.com/gin-gonic/gin"
 )
 
 func QueryTopicService(c *gin.Context, params QueryTopicParams) *queryTopicReturn {
@@ -240,6 +242,7 @@ func QueryTopicRelationService(c *gin.Context, params QueryTopicParams) *queryTo
 
 func QueryTopicSimpleService(c *gin.Context, params QueryTopicSimpleParams) *TopicSimpleReturn {
 	res := &TopicSimpleReturn{}
+	res.Code = e.SUCCESS
 	var queryInfo []topicModel.Topic
 
 	dataRxpirationTime := projectConfig.AppConfig.BaseConfig.REDIS_COMMON_EXPIRATION_TIME
@@ -258,7 +261,7 @@ func QueryTopicSimpleService(c *gin.Context, params QueryTopicSimpleParams) *Top
 		return res
 	}
 
-	queryFun := DB.DBLivingExample.Where("is_use = ?", params.IsUse)
+	queryFun := DB.DBLivingExample.Where("is_use = ?", 1)
 	if len(params.Id) > 0 {
 		queryFun = queryFun.Where("id IN (?)", params.Id)
 	}
@@ -267,7 +270,13 @@ func QueryTopicSimpleService(c *gin.Context, params QueryTopicSimpleParams) *Top
 		queryFun = queryFun.Where("title = ?", params.Title)
 	}
 
-	queryFun.Model(&topicModel.Topic{}).Find(&queryInfo)
+	resp := queryFun.Model(&topicModel.Topic{}).Find(&queryInfo)
+	if resp.Error != nil {
+		res.Code = e.NO_DATA_EXISTS
+		return res
+	}
+
+	fmt.Println(queryInfo, "queryInfo")
 	Redis.SetValue(queryRedisParams, queryInfo, dataRxpirationTime)
 	res.Data = queryInfo
 

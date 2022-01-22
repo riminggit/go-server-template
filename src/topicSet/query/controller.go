@@ -58,3 +58,21 @@ func QueryTopicSetController(c *gin.Context) {
 	result := QueryTopicSetService(c, *jsonData)
 	appG.Response(http.StatusOK, result.Code, result.Data)
 }
+
+
+
+
+// @Summary 随机查询套题
+// @Produce  json
+// @Param Authorization	header string false "Bearer 31a165baebe6dec616b1f8f3207b4273"
+// @Router /api/topic/query-topic-set-random [get]
+func QueryTopicSetRandomController(c *gin.Context) {
+	appG := app.Gin{C: c}
+
+	jsonData := &QueryTopicSetRandomParams{
+		IsQueryByUserLevel:  c.Query("is_query_by_user_level"),
+	}
+
+	result := QueryTopicSetRandomService(c, *jsonData)
+	appG.Response(http.StatusOK, result.Code, result.Data)
+}

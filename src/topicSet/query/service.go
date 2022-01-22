@@ -10,11 +10,14 @@ import (
 	"go-server-template/pkg/e"
 	logging "go-server-template/pkg/log"
 	Redis "go-server-template/pkg/redis"
+	"go-server-template/src/topic/query"
+	"strings"
 )
 
 func QueryTopicSetService(c *gin.Context, params QueryTopicSetParams) *queryTopicSetReturn {
 	res := &queryTopicSetReturn{}
 	var queryInfo []topicModel.TopicSet
+	var queryInfoReturn []TopicInfoReturnData
 	var RGetData queryTopicSetReturnData
 
 	dataRxpirationTime := projectConfig.AppConfig.BaseConfig.REDIS_COMMON_EXPIRATION_TIME
@@ -78,9 +81,25 @@ func QueryTopicSetService(c *gin.Context, params QueryTopicSetParams) *queryTopi
 		return res
 	}
 
+	for _, item := range queryInfo {
+		topic := GetTopicData(c, item.TopicSetIdList)
+		helper := TopicInfoReturnData{
+			TopicList:          topic,
+			ID:                 item.ID,
+			Name:               item.Name,
+			TopicSetDifficulty: item.TopicSetDifficulty,
+			TopicSetIdList:     item.TopicSetIdList,
+			TopicSetLevel:      item.TopicSetLevel,
+			TopicType:          item.TopicType,
+			Remark:             item.Remark,
+			CreateAt:           item.CreateAt,
+		}
+		queryInfoReturn = append(queryInfoReturn, helper)
+	}
+
 	res.Data.PagingArgument.PageNum = params.PageNum
 	res.Data.PagingArgument.PageSize = params.PageSize
-	res.Data.Data = queryInfo
+	res.Data.Data = queryInfoReturn
 
 	RSetData := res.Data
 	Redis.SetValue(queryRedisParams, RSetData, dataRxpirationTime)
@@ -90,10 +109,11 @@ func QueryTopicSetService(c *gin.Context, params QueryTopicSetParams) *queryTopi
 	return res
 }
 
-
 func QueryTopicSetSimpleService(c *gin.Context, params QueryTopicSetParams) *queryTopicSetSimpleReturn {
 	res := &queryTopicSetSimpleReturn{}
+	res.Code = e.SUCCESS
 	var queryInfo []topicModel.TopicSet
+	var queryInfoReturn []TopicInfoReturnData
 
 	dataRxpirationTime := projectConfig.AppConfig.BaseConfig.REDIS_COMMON_EXPIRATION_TIME
 	redisParamsJson, _ := json.Marshal(params)
@@ -103,12 +123,11 @@ func QueryTopicSetSimpleService(c *gin.Context, params QueryTopicSetParams) *que
 	redisData := Redis.GetValue(queryRedisParams)
 
 	if redisData != "" {
-		err := json.Unmarshal([]byte(redisData), &queryInfo)
+		err := json.Unmarshal([]byte(redisData), &queryInfoReturn)
 		if err != nil {
 			logging.Debug(err)
 		}
-		res.Code = e.SUCCESS
-		res.Data = queryInfo
+		res.Data = queryInfoReturn
 		return res
 	}
 
@@ -136,7 +155,7 @@ func QueryTopicSetSimpleService(c *gin.Context, params QueryTopicSetParams) *que
 	if params.TopicType != "" {
 		queryFun = queryFun.Where("topic_type = ?", params.TopicType)
 	}
-	
+
 	if len(params.CreateAt) > 0 {
 		queryFun = queryFun.Where("create_at between ? and ?", params.CreateAt[0], params.CreateAt[1])
 	}
@@ -149,13 +168,43 @@ func QueryTopicSetSimpleService(c *gin.Context, params QueryTopicSetParams) *que
 		queryFun = queryFun.Where("update_at between ? and ?", params.UpdateAt[0], params.UpdateAt[1])
 	}
 
-	queryFun.Model(&topicModel.TopicSet{}).Find(&queryInfo)
+	resp := queryFun.Model(&topicModel.TopicSet{}).Find(&queryInfo)
+	if resp.Error != nil {
+		res.Code = e.NO_DATA_EXISTS
+		return res
+	}
 
-	res.Data = queryInfo
+	for _, item := range queryInfo {
+		topic := GetTopicData(c, item.TopicSetIdList)
+		helper := TopicInfoReturnData{
+			TopicList:          topic,
+			ID:                 item.ID,
+			Name:               item.Name,
+			TopicSetDifficulty: item.TopicSetDifficulty,
+			TopicSetIdList:     item.TopicSetIdList,
+			TopicSetLevel:      item.TopicSetLevel,
+			TopicType:          item.TopicType,
+			Remark:             item.Remark,
+			CreateAt:           item.CreateAt,
+		}
+		queryInfoReturn = append(queryInfoReturn, helper)
+	}
 
+	res.Data = queryInfoReturn
 	Redis.SetValue(queryRedisParams, queryInfo, dataRxpirationTime)
 
-	res.Code = e.SUCCESS
-
 	return res
+}
+
+// 获取套题对应的题目数据
+func GetTopicData(c *gin.Context, topicIdList string) []topicModel.Topic {
+
+	topId := strings.Split(topicIdList, ",")
+
+	queryParams := topicQuery.QueryTopicSimpleParams{
+		Id: topId,
+	}
+	topicInfo := topicQuery.QueryTopicSimpleService(c, queryParams)
+
+	return topicInfo.Data
 }

@@ -48,12 +48,12 @@ type TopicReturnData struct {
 }
 
 type QueryTopicSimpleParams struct {
-	Id    string `json:"id"`
-	Title string `json:"title"` // 题目标题
-	IsUse string `json:"is_use"`
+	Id    []string `json:"id"`
+	Title string   `json:"title"` // 题目标题
 }
 
 type TopicSimpleReturn struct {
+	Code int                `json:"code"`
 	Data []topicModel.Topic `json:"data"`
 }
 
@@ -129,4 +129,14 @@ type queryTopicNoPadingRelationReturn struct {
 type QueryTopicCount struct {
 	Degree int `json:"degree"`
 	Level  int `json:"level"`
+}
+
+type QueryTopicRandomParams struct {
+	IsQueryByUserLevel string   `json:"is_query_by_user_level"` // 0 否  1 是
+	Relation           []string `json:"relation"`               // 是否查询对应关系，参数有classify、tag、type、company
+}
+
+type QueryTopicRandomReturn struct {
+	Code int                `json:"code"`
+	Data topicModel.Topic `json:"data"`
 }

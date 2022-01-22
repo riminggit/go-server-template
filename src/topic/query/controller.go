@@ -241,3 +241,38 @@ func QueryTopicTypeController(c *gin.Context) {
 		appG.Response(http.StatusOK, result.Code, result.Data)
 	}
 }
+
+
+
+
+// @Summary 随机查询题目
+// @Produce  json
+// @Param Authorization	header string false "Bearer 31a165baebe6dec616b1f8f3207b4273"
+// @Router /api/topic/query-topic-random [post]
+func QueryTopicRandomController(c *gin.Context) {
+	// 做一下判断不允许传参过多
+	appG := app.Gin{C: c}
+
+	jsonString := app.GetPostJson(c)
+	jsonData := &QueryTopicRandomParams{}
+
+	// 如果是里面包含数组得用这个解析
+	err := codec.NewDecoderBytes([]byte(jsonString), new(codec.JsonHandle)).Decode(jsonData)
+	if err != nil {
+		logging.Debug(err)
+	}
+
+	httpCode, errCode := app.JsonValid(c, jsonData)
+	if errCode != e.SUCCESS {
+		appG.Response(httpCode, errCode, nil)
+		return
+	}
+
+	if len(jsonData.Relation) > 0 {
+		// result := QueryTopicFromTagRelationService(c, *jsonData)
+		// appG.Response(http.StatusOK, result.Code, result.Data)
+	} else {
+		result := QueryTopicRandomService(c, *jsonData)
+		appG.Response(http.StatusOK, result.Code, result.Data)
+	}
+}
