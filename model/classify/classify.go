@@ -3,7 +3,7 @@ package classifyModel
 import "time"
 
 type Classify struct {
-	ID           int       `json:"id" gorm:"column:id;AUTO_INCREMENT;comment:id;not null"` // id
+	ID           int       `json:"id" gorm:"type:bigint;column:id;comment:id;not null"` // id
 	ClassifyName string    `json:"classify_name" gorm:"type:varchar(30);not null;unique"`  // 类型名：html5、css、js等
 	ImgUrl       string    `json:"img_url" gorm:"type:varchar(255)"`                       // 分类素材URL
 	ImgSvg       string    `json:"img_svg" gorm:"type:text"`                               // 素材svg

@@ -6,7 +6,7 @@ import (
 
 type UserTestRecord struct {
 	ID             int       `json:"id" gorm:"column:id;AUTO_INCREMENT;comment:id;not null"` // id
-	UserId         int       `gorm:"type:int(11);not null"`                                  // 用户id
+	UserId         int       `gorm:"type:bigint;not null"`                                  // 用户id
 	Source         int       `gorm:"type:int(3);"`                                           // 考试成绩
 	TestAt         time.Time // 考试开始时间
 	TestEnd        time.Time // 考试结束时间

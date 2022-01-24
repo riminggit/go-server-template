@@ -1,4 +1,4 @@
-package topicQuery
+package topicSetQuery
 
 import (
 	"github.com/gin-gonic/gin"
@@ -10,12 +10,12 @@ import (
 	"strconv"
 )
 
-func QueryTopicAllCount(c *gin.Context) int64 {
+func QueryTopicSetAllCount(c *gin.Context) int64 {
 
 	var count int64
 	dataRxpirationTime := projectConfig.AppConfig.BaseConfig.REDIS_COMMON_EXPIRATION_TIME
 
-	interfaceName := apiMap.GetRedisPrefixName(apiMap.TOPIC_ALL_COUNT)
+	interfaceName := apiMap.GetRedisPrefixName(apiMap.TOPIC_SET_ALL_COUNT)
 	queryRedisParams := interfaceName
 
 	redisData := Redis.GetValue(queryRedisParams)
@@ -25,17 +25,17 @@ func QueryTopicAllCount(c *gin.Context) int64 {
 		return intData
 	}
 
-	DB.DBLivingExample.Where("is_use = ?", 1).Model(&topicModel.Topic{}).Count(&count)
+	DB.DBLivingExample.Where("is_use = ?", 1).Model(&topicModel.TopicSet{}).Count(&count)
 	Redis.SetValue(queryRedisParams, count, dataRxpirationTime)
 	return count
 }
 
-func QueryTopicIDMin(c *gin.Context) int {
+func QueryTopicSetIDMin(c *gin.Context) int {
 
 	var count int
 	dataRxpirationTime := projectConfig.AppConfig.BaseConfig.REDIS_COMMON_EXPIRATION_TIME
 
-	interfaceName := apiMap.GetRedisPrefixName(apiMap.TOPIC_ID_MIN)
+	interfaceName := apiMap.GetRedisPrefixName(apiMap.TOPIC_SET_ID_MIN)
 	queryRedisParams := interfaceName
 
 	redisData := Redis.GetValue(queryRedisParams)
@@ -45,7 +45,7 @@ func QueryTopicIDMin(c *gin.Context) int {
 		return intData
 	}
 
-	DB.DBLivingExample.Raw("SELECT MIN(id) FROM topic WHERE is_use = ?", 1).Scan(&count)
+	DB.DBLivingExample.Raw("SELECT MIN(id) FROM topic_set WHERE is_use = ?", 1).Scan(&count)
 	Redis.SetValue(queryRedisParams, count, dataRxpirationTime)
 	return count
 }

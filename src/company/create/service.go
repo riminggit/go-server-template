@@ -4,6 +4,7 @@ import (
 	companyModel "go-server-template/model/company"
 	DB "go-server-template/pkg/db"
 	"go-server-template/pkg/e"
+	"go-server-template/pkg/snowflake"
 	"strconv"
 	"time"
 
@@ -38,6 +39,7 @@ func CreateService(c *gin.Context, params CreateParams) *CreateReturn {
 			}
 		} else {
 			setData := companyModel.Company{
+				ID:          snowflake.GenerateID(1),
 				CompanyName: item.CompanyName,
 				ImgUrl:      item.ImgUrl,
 				ImgSvg:      item.ImgSvg,

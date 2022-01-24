@@ -1,13 +1,13 @@
 package classifyTypeCreate
 
 import (
+	"github.com/gin-gonic/gin"
 	typeModel "go-server-template/model/type"
 	DB "go-server-template/pkg/db"
 	"go-server-template/pkg/e"
+	"go-server-template/pkg/snowflake"
 	"strconv"
 	"time"
-
-	"github.com/gin-gonic/gin"
 )
 
 func CreateService(c *gin.Context, params CreateParams) *CreateReturn {
@@ -37,6 +37,7 @@ func CreateService(c *gin.Context, params CreateParams) *CreateReturn {
 			}
 		} else {
 			setData := typeModel.Type{
+				ID:         snowflake.GenerateID(1),
 				ClassifyId: item.ClassifyId,
 				TypeName:   item.TypeName,
 				Rank:       item.Rank,

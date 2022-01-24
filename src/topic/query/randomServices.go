@@ -1,13 +1,11 @@
 package topicQuery
 
 import (
-	"fmt"
-	"go-server-template/model/topic"
+	topicModel "go-server-template/model/topic"
 	DB "go-server-template/pkg/db"
 	"go-server-template/pkg/e"
 	util "go-server-template/pkg/utils"
 	"go-server-template/src/sections"
-
 	"github.com/gin-gonic/gin"
 )
 
@@ -15,44 +13,43 @@ func QueryTopicRandomService(c *gin.Context, params QueryTopicRandomParams) *Que
 	res := &QueryTopicRandomReturn{}
 	res.Code = e.SUCCESS
 	var queryInfo topicModel.Topic
-	var querySql string
+
 	queryCount := "1"
 	tableName := `topic`
 
-	querySqlHelper := util.RandSql(tableName, queryCount)
+	queryFun := DB.DBLivingExample
 
 	if params.IsQueryByUserLevel == "1" {
 		sqlHelper := sections.JudgeQueryCondition(c, queryCount, tableName, "level")
 		if sqlHelper != "" {
-			querySql = sqlHelper
+			queryFun = queryFun.Raw(sqlHelper).Scan(&queryInfo)
 		} else {
-			querySql = querySqlHelper
+			queryInfo = randData(c)
 		}
 	} else {
-		querySql = querySqlHelper
+		queryInfo = randData(c)
 	}
-
-	fmt.Println(querySql, "querySql")
-	queryFun := DB.DBLivingExample.Raw(querySql).Scan(&queryInfo)
-
-	// a := DB.DBLivingExample.Model(&topicModel.Topic{}).
 
 	if queryFun.Error != nil {
 		res.Code = e.NO_DATA_EXISTS
 		return res
 	}
 	if queryInfo.ID == 0 {
-		querySql = querySqlHelper
-		queryFunAgain := DB.DBLivingExample.Raw(querySql).Scan(&queryInfo)
-		if queryFunAgain.Error != nil {
-			res.Code = e.NO_DATA_EXISTS
-			return res
-		}
+		sqlHelper := util.RandSqlCommon(tableName, queryCount)
+		DB.DBLivingExample.Raw(sqlHelper).Scan(&queryInfo)
 	}
-
-	fmt.Println(queryInfo, "querySqlHelper")
 
 	res.Data = queryInfo
 
 	return res
+}
+
+func randData(c *gin.Context) topicModel.Topic {
+	var data topicModel.Topic
+	count := QueryTopicAllCount(c)
+	minId := QueryTopicIDMin(c)
+	getID := util.RandNumC(int(count), minId)
+	sqlHelper := "SELECT * FROM topic WHERE is_use = 1 AND id = ?"
+	DB.DBLivingExample.Raw(sqlHelper, getID).Scan(&data)
+	return data
 }

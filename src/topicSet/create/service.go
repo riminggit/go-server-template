@@ -1,13 +1,14 @@
 package topicSetCreate
 
 import (
+	"github.com/gin-gonic/gin"
 	"go-server-template/model/topic"
 	DB "go-server-template/pkg/db"
 	"go-server-template/pkg/e"
 	logging "go-server-template/pkg/log"
+	"go-server-template/pkg/snowflake"
 	"strings"
 	"time"
-	"github.com/gin-gonic/gin"
 )
 
 func CreateService(c *gin.Context, params CreateParams) *CreateReturn {
@@ -31,6 +32,7 @@ func CreateService(c *gin.Context, params CreateParams) *CreateReturn {
 	}
 
 	createData := &topicModel.TopicSet{
+		ID:                 snowflake.GenerateID(1),
 		TopicSetIdList:     topicList,
 		Name:               params.Name,
 		TopicSetDifficulty: manageResp.Data.Difficulty,

@@ -82,6 +82,10 @@ const (
 	POST_DELETE_TOPIC_SET                       = "/delete-topic-set"
 	POST_UPDATE_TOPIC_SET                       = "/update-topic-set"
 	POST_QUERY_TOPIC_SET_RANDOM                 = "/query-topic-set-random"
+	TOPIC_ALL_COUNT                             = "/topic-all-count"
+	TOPIC_ID_MIN                                = "/topic-id-min"
+	TOPIC_SET_ALL_COUNT                         = "/topic-set-all-count"
+	TOPIC_SET_ID_MIN                           = "/topic-set-id-min"
 
 	// 用户控制
 	USER_COLLECT_PREFIX = "/userCollect"

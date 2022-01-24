@@ -1,13 +1,13 @@
 package tagCreate
 
 import (
+	"github.com/gin-gonic/gin"
 	tagModel "go-server-template/model/tag"
 	DB "go-server-template/pkg/db"
 	"go-server-template/pkg/e"
+	"go-server-template/pkg/snowflake"
 	"strconv"
 	"time"
-
-	"github.com/gin-gonic/gin"
 )
 
 func CreateService(c *gin.Context, params CreateParams) *CreateReturn {
@@ -36,6 +36,7 @@ func CreateService(c *gin.Context, params CreateParams) *CreateReturn {
 			}
 		} else {
 			setData := tagModel.Tag{
+				ID:       snowflake.GenerateID(1),
 				TagName:  item.TagName,
 				CreateAt: time.Now().Add(8 * time.Hour),
 				IsUse:    1,

@@ -2,12 +2,11 @@ package topicSetQuery
 
 // 随机查询套题 ,根据参数决定是否根据用户等级来查询套题
 import (
-	topicModel "go-server-template/model/topic"
+	"go-server-template/model/topic"
 	DB "go-server-template/pkg/db"
 	"go-server-template/pkg/e"
-	util "go-server-template/pkg/utils"
 	"go-server-template/src/sections"
-
+	util "go-server-template/pkg/utils"
 	"github.com/gin-gonic/gin"
 )
 
@@ -19,10 +18,10 @@ func QueryTopicSetRandomService(c *gin.Context, params QueryTopicSetRandomParams
 	var querySql string
 	tableName := `topic_set`
 
-	querySqlHelper := util.RandSql(tableName, queryCount)
+	querySqlHelper := util.RandSql(tableName,queryCount)
 
 	if params.IsQueryByUserLevel == "1" {
-		sqlHelper := sections.JudgeQueryCondition(c, queryCount, tableName, "topic_set_level")
+		sqlHelper := sections.JudgeQueryCondition(c, queryCount, tableName,"topic_set")
 		if sqlHelper != "" {
 			querySql = sqlHelper
 		} else {
@@ -31,6 +30,7 @@ func QueryTopicSetRandomService(c *gin.Context, params QueryTopicSetRandomParams
 	} else {
 		querySql = querySqlHelper
 	}
+
 
 	queryFun := DB.DBLivingExample.Raw(querySql).Scan(&queryInfo)
 

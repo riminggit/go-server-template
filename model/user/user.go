@@ -7,7 +7,7 @@ import (
 // 文档https://gorm.io/zh_CN/docs/conventions.html
 
 type User struct {
-	ID        int       `json:"id" gorm:"column:id;AUTO_INCREMENT;comment:id;not null"` // 自增
+	ID        int       `json:"id" gorm:"column:id;comment:id;not null"` // 自增
 	Email     string    `json:"email" gorm:"type:varchar(50);index;"`                   // 唯一索引
 	NickName  string    `json:"nick_name" gorm:"type:varchar(100);uniqueIndex;"`
 	Password  string    `json:"password" gorm:"type:varchar(255)"`

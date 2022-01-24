@@ -3,7 +3,7 @@ package companyModel
 import "time"
 
 type Company struct {
-	ID          int       `json:"id" gorm:"column:id;AUTO_INCREMENT;comment:id;not null"` // id
+	ID          int       `json:"id" gorm:"type:bigint;column:id;comment:id;not null"` // id
 	CompanyName string    `json:"company_name" gorm:"type:varchar(50);not null;unique"`   // 公司名
 	ImgUrl      string    `json:"img_url" gorm:"type:varchar(255)"`                       // 素材URL
 	ImgSvg      string    `json:"img_svg" gorm:"type:text"`
