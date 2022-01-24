@@ -21,9 +21,9 @@ func UpdateService(c *gin.Context, params UpdateParams) *UpdateReturn {
 			IsUse:              params.IsUse,
 		}
 
-		if len(params.TopicSetIdList) > 0 {
-			topicList := strings.Join(params.TopicSetIdList, ",")
-			setData.TopicSetIdList = topicList
+		if len(params.TopicIdList) > 0 {
+			topicList := strings.Join(params.TopicIdList, ",")
+			setData.TopicIdList = topicList
 		}
 		if params.Name != "" {
 			setData.Name = params.Name

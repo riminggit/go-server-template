@@ -141,7 +141,7 @@ func JudgeQueryCondition(c *gin.Context, queryCount string, table string, queryW
 
 	if condition != "" {
 		// 根据条件随机查询
-		return "SELECT * FROM " + table + " WHERE " + queryWhere + " = " + condition + "AND is_use = 1 ORDER BY RAND() LIMIT " + queryCount
+		return "SELECT * FROM " + table + " WHERE " + queryWhere + " = " + condition + " AND is_use = 1 ORDER BY RAND() LIMIT " + queryCount
 	} else {
 		return ""
 	}

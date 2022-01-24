@@ -2,16 +2,17 @@ package topicSetQuery
 
 import (
 	"encoding/json"
-	"github.com/gin-gonic/gin"
-	"go-server-template/config"
-	"go-server-template/model/topic"
+	projectConfig "go-server-template/config"
+	topicModel "go-server-template/model/topic"
 	"go-server-template/pkg/apiMap"
 	DB "go-server-template/pkg/db"
 	"go-server-template/pkg/e"
 	logging "go-server-template/pkg/log"
 	Redis "go-server-template/pkg/redis"
-	"go-server-template/src/topic/query"
+	topicQuery "go-server-template/src/topic/query"
 	"strings"
+
+	"github.com/gin-gonic/gin"
 )
 
 func QueryTopicSetService(c *gin.Context, params QueryTopicSetParams) *queryTopicSetReturn {
@@ -46,8 +47,8 @@ func QueryTopicSetService(c *gin.Context, params QueryTopicSetParams) *queryTopi
 		queryFun = queryFun.Where("name = ?", params.Name)
 	}
 
-	if params.TopicSetIdList != "" {
-		queryFun = queryFun.Where("topic_set_id_list = ?", params.TopicSetIdList)
+	if params.TopicIdList != "" {
+		queryFun = queryFun.Where("topic_id_list = ?", params.TopicIdList)
 	}
 
 	if params.TopicSetDifficulty != "" {
@@ -82,13 +83,13 @@ func QueryTopicSetService(c *gin.Context, params QueryTopicSetParams) *queryTopi
 	}
 
 	for _, item := range queryInfo {
-		topic := GetTopicData(c, item.TopicSetIdList)
+		topic := GetTopicData(c, item.TopicIdList)
 		helper := TopicInfoReturnData{
 			TopicList:          topic,
 			ID:                 item.ID,
 			Name:               item.Name,
 			TopicSetDifficulty: item.TopicSetDifficulty,
-			TopicSetIdList:     item.TopicSetIdList,
+			TopicIdList:        item.TopicIdList,
 			TopicSetLevel:      item.TopicSetLevel,
 			TopicType:          item.TopicType,
 			Remark:             item.Remark,
@@ -140,8 +141,8 @@ func QueryTopicSetSimpleService(c *gin.Context, params QueryTopicSetParams) *que
 		queryFun = queryFun.Where("name = ?", params.Name)
 	}
 
-	if params.TopicSetIdList != "" {
-		queryFun = queryFun.Where("topic_set_id_list = ?", params.TopicSetIdList)
+	if params.TopicIdList != "" {
+		queryFun = queryFun.Where("topic_id_list = ?", params.TopicIdList)
 	}
 
 	if params.TopicSetDifficulty != "" {
@@ -175,13 +176,13 @@ func QueryTopicSetSimpleService(c *gin.Context, params QueryTopicSetParams) *que
 	}
 
 	for _, item := range queryInfo {
-		topic := GetTopicData(c, item.TopicSetIdList)
+		topic := GetTopicData(c, item.TopicIdList)
 		helper := TopicInfoReturnData{
 			TopicList:          topic,
 			ID:                 item.ID,
 			Name:               item.Name,
 			TopicSetDifficulty: item.TopicSetDifficulty,
-			TopicSetIdList:     item.TopicSetIdList,
+			TopicIdList:        item.TopicIdList,
 			TopicSetLevel:      item.TopicSetLevel,
 			TopicType:          item.TopicType,
 			Remark:             item.Remark,

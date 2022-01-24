@@ -1,14 +1,14 @@
 package topicSetQuery
 
 import (
-	"go-server-template/model/topic"
+	topicModel "go-server-template/model/topic"
 	"time"
 )
 
 type QueryTopicSetParams struct {
 	Id                 []string `json:"id"`
 	Name               string   `json:"name"`
-	TopicSetIdList     string   `json:"topic_set_id_list"`
+	TopicIdList        string   `json:"topic_id_list"`
 	TopicSetDifficulty string   `json:"topic_set_difficulty"`
 	TopicSetLevel      string   `json:"topic_set_level"`
 	TopicType          string   `json:"topic_type"` // 练习：1  考试 ：2
@@ -42,9 +42,9 @@ type queryTopicSetSimpleReturn struct {
 }
 
 type TopicInfoReturnData struct {
-	ID                 int                `json:"id" `                  // id
+	ID                 int              `json:"id" `                  // id
 	Name               string             `json:"name" `                // 套题名称
-	TopicSetIdList     string             `json:"topic_set_id_list"`    // 题目id列表
+	TopicIdList        string             `json:"topic_id_list"`        // 题目id列表
 	TopicSetDifficulty int                `json:"topic_set_difficulty"` // 题目难度，由所有的题目难度指数相加后除题目数
 	TopicSetLevel      int                `json:"topic_set_level"`      // 题目等级，由所有的题目等级指数相加后除题目数
 	TopicType          string             `json:"topic_type" `          // 练习：1  考试 ：2

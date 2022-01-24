@@ -7,7 +7,7 @@ import (
 type UserAnswerTopicRecord struct {
 	ID               int       `json:"id" gorm:"column:id;AUTO_INCREMENT;comment:id;not null"` // id
 	UserId           int       `json:"user_id" gorm:"type:bigint;not null"`                   // 用户id
-	TopicIdList      string    `json:"topic_id_list" gorm:"type:varchar(100);"`                // 题目id列表
+	TopicIdList      string    `json:"topic_id_list" gorm:"type:text;"`                // 题目id列表
 	TopicSetId       string    `json:"topic_set_id" gorm:"type:bigint;"`                      // 套题id
 	AnswerStart      time.Time `json:"answer_start"`                                           // 答题开始时间
 	AnswerEnd        time.Time `json:"answer_end"`                                             // 答题结束时间

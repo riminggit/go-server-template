@@ -1,21 +1,22 @@
 package topicSetCreate
 
 import (
-	"github.com/gin-gonic/gin"
-	"go-server-template/model/topic"
+	topicModel "go-server-template/model/topic"
 	DB "go-server-template/pkg/db"
 	"go-server-template/pkg/e"
 	logging "go-server-template/pkg/log"
 	"go-server-template/pkg/snowflake"
 	"strings"
 	"time"
+
+	"github.com/gin-gonic/gin"
 )
 
 func CreateService(c *gin.Context, params CreateParams) *CreateReturn {
 	res := &CreateReturn{}
 	res.Code = e.SUCCESS
 
-	manageResp := TopSetDifficultyAndLevelCompute(c, params.TopicSetIdList)
+	manageResp := TopSetDifficultyAndLevelCompute(c, params.TopicIdList)
 
 	if manageResp.Code != e.SUCCESS {
 		res.Code = e.CREATE_DATA_FALE
@@ -26,14 +27,14 @@ func CreateService(c *gin.Context, params CreateParams) *CreateReturn {
 
 	// 数组转字符串
 	var topicList string
-	if len(params.TopicSetIdList) > 0 {
+	if len(params.TopicIdList) > 0 {
 		// 数组转字符串
-		topicList = strings.Join(params.TopicSetIdList, ",")
+		topicList = strings.Join(params.TopicIdList, ",")
 	}
 
 	createData := &topicModel.TopicSet{
 		ID:                 snowflake.GenerateID(1),
-		TopicSetIdList:     topicList,
+		TopicIdList:        topicList,
 		Name:               params.Name,
 		TopicSetDifficulty: manageResp.Data.Difficulty,
 		TopicSetLevel:      manageResp.Data.Level,

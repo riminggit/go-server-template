@@ -1,13 +1,13 @@
 package classifyCreate
 
 import (
+	"github.com/gin-gonic/gin"
 	classifyModel "go-server-template/model/classify"
 	DB "go-server-template/pkg/db"
 	"go-server-template/pkg/e"
+	"go-server-template/pkg/snowflake"
 	"strconv"
 	"time"
-	"go-server-template/pkg/snowflake"
-	"github.com/gin-gonic/gin"
 )
 
 func CreateClassifyService(c *gin.Context, params CreateParams) *CreateReturn {
@@ -22,7 +22,6 @@ func CreateClassifyService(c *gin.Context, params CreateParams) *CreateReturn {
 		if len(classifyInfo) > 0 {
 			hasOld = true
 			updateData := classifyModel.Classify{
-				ID:               snowflake.GenerateID(1),
 				ImgUrl:   item.ImgUrl,
 				ImgSvg:   item.ImgSvg,
 				Rank:     item.Rank,
@@ -39,6 +38,7 @@ func CreateClassifyService(c *gin.Context, params CreateParams) *CreateReturn {
 			}
 		} else {
 			setData := classifyModel.Classify{
+				ID:           snowflake.GenerateID(1),
 				ClassifyName: item.ClassifyName,
 				ImgUrl:       item.ImgUrl,
 				ImgSvg:       item.ImgSvg,
