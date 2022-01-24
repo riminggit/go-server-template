@@ -1,11 +1,11 @@
 package topicQuery
 
 import (
-	"go-server-template/model/classify"
-	"go-server-template/model/company"
-	"go-server-template/model/tag"
-	"go-server-template/model/topic"
-	"go-server-template/model/type"
+	classifyModel "go-server-template/model/classify"
+	companyModel "go-server-template/model/company"
+	tagModel "go-server-template/model/tag"
+	topicModel "go-server-template/model/topic"
+	typeModel "go-server-template/model/type"
 )
 
 type PageArgument struct {
@@ -137,6 +137,6 @@ type QueryTopicRandomParams struct {
 }
 
 type QueryTopicRandomReturn struct {
-	Code int                `json:"code"`
+	Code int              `json:"code"`
 	Data topicModel.Topic `json:"data"`
 }
