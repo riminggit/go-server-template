@@ -2,14 +2,15 @@ package midTopicTagQuery
 
 import (
 	"encoding/json"
-	"github.com/gin-gonic/gin"
-	"go-server-template/config"
-	"go-server-template/model/topic"
+	projectConfig "go-server-template/config"
+	topicModel "go-server-template/model/topic"
 	"go-server-template/pkg/apiMap"
 	DB "go-server-template/pkg/db"
 	"go-server-template/pkg/e"
 	logging "go-server-template/pkg/log"
 	Redis "go-server-template/pkg/redis"
+
+	"github.com/gin-gonic/gin"
 )
 
 func QueryTopicTagMid(c *gin.Context, params QueryTopicTagMidParams) *QueryTopicTagMidReturn {
@@ -34,7 +35,7 @@ func QueryTopicTagMid(c *gin.Context, params QueryTopicTagMidParams) *QueryTopic
 		return res
 	}
 
-	queryFun := DB.DBLivingExample.Where("is_use = ?")
+	queryFun := DB.DBLivingExample
 	if len(params.Id) > 0 {
 		queryFun = queryFun.Where("id IN (?)", params.Id)
 	}

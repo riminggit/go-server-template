@@ -6,7 +6,6 @@ import (
 	"go-server-template/pkg/e"
 	util "go-server-template/pkg/utils"
 	"go-server-template/src/sections"
-
 	"github.com/gin-gonic/gin"
 )
 

@@ -85,7 +85,8 @@ const (
 	TOPIC_ALL_COUNT                             = "/topic-all-count"
 	TOPIC_ID_MIN                                = "/topic-id-min"
 	TOPIC_SET_ALL_COUNT                         = "/topic-set-all-count"
-	TOPIC_SET_ID_MIN                           = "/topic-set-id-min"
+	TOPIC_SET_ID_MIN                            = "/topic-set-id-min"
+	GET_A_DAILY_TOPIC                           = "/a-daily-topic"
 
 	// 用户控制
 	USER_COLLECT_PREFIX = "/userCollect"

@@ -140,3 +140,8 @@ type QueryTopicRandomReturn struct {
 	Code int              `json:"code"`
 	Data topicModel.Topic `json:"data"`
 }
+
+type QueryADailyTopicReturn struct {
+	Code int              `json:"code"`
+	Data TopicData `json:"data"`
+}

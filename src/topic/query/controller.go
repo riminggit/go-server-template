@@ -1,13 +1,14 @@
 package topicQuery
 
 import (
-	"github.com/gin-gonic/gin"
-	"github.com/ugorji/go/codec"
-	"go-server-template/config"
+	projectConfig "go-server-template/config"
 	"go-server-template/pkg/app"
 	"go-server-template/pkg/e"
-	"go-server-template/pkg/log"
+	logging "go-server-template/pkg/log"
 	"net/http"
+
+	"github.com/gin-gonic/gin"
+	"github.com/ugorji/go/codec"
 )
 
 // @Summary 查询题目
@@ -242,9 +243,6 @@ func QueryTopicTypeController(c *gin.Context) {
 	}
 }
 
-
-
-
 // @Summary 随机查询题目
 // @Produce  json
 // @Param Authorization	header string false "Bearer 31a165baebe6dec616b1f8f3207b4273"
@@ -268,11 +266,19 @@ func QueryTopicRandomController(c *gin.Context) {
 		return
 	}
 
-	if len(jsonData.Relation) > 0 {
-		// result := QueryTopicFromTagRelationService(c, *jsonData)
-		// appG.Response(http.StatusOK, result.Code, result.Data)
-	} else {
-		result := QueryTopicRandomService(c, *jsonData)
-		appG.Response(http.StatusOK, result.Code, result.Data)
-	}
+	result := QueryTopicRandomService(c, *jsonData)
+	appG.Response(http.StatusOK, result.Code, result.Data)
+
+}
+
+// @Summary 查询每日一题
+// @Produce  json
+// @Param Authorization	header string false "Bearer 31a165baebe6dec616b1f8f3207b4273"
+// @Router /api/topic/a-daily-topic [post]
+func QueryADailyTopicController(c *gin.Context) {
+	// 做一下判断不允许传参过多
+	appG := app.Gin{C: c}
+	result := GetADailyTopic(c)
+	appG.Response(http.StatusOK, result.Code, result.Data)
+
 }

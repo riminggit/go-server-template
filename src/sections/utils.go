@@ -6,7 +6,6 @@ import (
 	util "go-server-template/pkg/utils"
 	"go-server-template/src/userExperience"
 	"strconv"
-
 	"github.com/gin-gonic/gin"
 )
 

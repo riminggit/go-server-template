@@ -65,6 +65,7 @@ var ApiName = map[string]string{
 	POST_CREATE_TOPIC_SET:                "新建套题",
 	POST_DELETE_TOPIC_SET:                "删除套题",
 	POST_UPDATE_TOPIC_SET:                "更新套题",
+	GET_A_DAILY_TOPIC:                    "每日一题",
 
 	USER_COLLECT_PREFIX: "用户控制操作接口前缀",
 
