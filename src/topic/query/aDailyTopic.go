@@ -60,7 +60,7 @@ func GetADailyTopic(c *gin.Context) *QueryADailyTopicReturn {
 }
 
 func GetADailyTopicRand(c *gin.Context) *TopicData {
-	res := &TopicData{}
+	result := &TopicData{}
 	topicData := &topicModel.Topic{}
 	queryCount := "1"
 	tableName := `topic`
@@ -156,11 +156,11 @@ func GetADailyTopicRand(c *gin.Context) *TopicData {
 		}
 	}
 
-	res = &returnData
+	result = &returnData
 
-	if res.ID == 0 {
-		res = GetADailyTopicRand(c)
+	if result.ID == 0 {
+		result = GetADailyTopicRand(c)
 	}
 
-	return res
+	return result
 }

@@ -2,11 +2,11 @@ package userRouter
 
 import (
 	"github.com/gin-gonic/gin"
-	"go-server-template/src/loginAndLayout"
+	"go-server-template/src/loginAndExit"
 	"go-server-template/pkg/apiMap"
 )
 
 func UserLoginRouter(g *gin.RouterGroup) {
-	g.POST(apiMap.POST_USER_WX_LOGIN, userLoginAndLayout.UserWXLoginController)
-	g.POST(apiMap.POST_USER_LOGIN, userLoginAndLayout.LoginController)
+	g.POST(apiMap.POST_USER_WX_LOGIN, userloginAndExit.UserWXLoginController)
+	g.POST(apiMap.POST_USER_LOGIN, userloginAndExit.LoginController)
 }

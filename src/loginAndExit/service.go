@@ -1,4 +1,4 @@
-package userLoginAndLayout
+package userloginAndExit
 
 import (
 	"encoding/json"
@@ -10,6 +10,7 @@ import (
 	"go-server-template/pkg/e"
 	logging "go-server-template/pkg/log"
 	Redis "go-server-template/pkg/redis"
+	"go-server-template/pkg/snowflake"
 	util "go-server-template/pkg/utils"
 	"strconv"
 	"time"
@@ -66,6 +67,7 @@ func UserWXLoginService(c *gin.Context, params WXUserCreateParams) *LoginReturnD
 		err := DB.DBLivingExample.Table("user").Where("openid = ?", params.Openid).First(&userInfo).Error
 		if err != nil {
 			params.CreateAt = time.Now()
+			params.ID = snowflake.GenerateID(1)
 			result := DB.DBLivingExample.Table("user").Create(params)
 			if result.Error != nil {
 				logging.Error(result.Error)

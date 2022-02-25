@@ -1,10 +1,10 @@
-package userLoginAndLayout
+package userloginAndExit
 
 import (
 	"encoding/json"
 	"go-server-template/pkg/app"
 	"go-server-template/pkg/e"
-	"go-server-template/pkg/log"
+	logging "go-server-template/pkg/log"
 	"net/http"
 
 	"github.com/gin-gonic/gin"
