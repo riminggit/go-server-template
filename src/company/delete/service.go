@@ -1,12 +1,13 @@
 package companyDelete
 
 import (
-	"github.com/gin-gonic/gin"
-	"go-server-template/model/company"
+	companyModel "go-server-template/model/company"
 	DB "go-server-template/pkg/db"
 	"go-server-template/pkg/e"
-	"go-server-template/src/company/helper"
-	"time"
+	util "go-server-template/pkg/utils"
+	companyHelper "go-server-template/src/company/helper"
+
+	"github.com/gin-gonic/gin"
 )
 
 func DeleteService(c *gin.Context, params DeleteParams) *DeleteReturn {
@@ -26,7 +27,7 @@ func DeleteService(c *gin.Context, params DeleteParams) *DeleteReturn {
 			}
 		}
 	} else {
-		setData := map[string]interface{}{"is_use": 0, "DeleteAt": time.Now().Add(8 * time.Hour)}
+		setData := map[string]interface{}{"is_use": 0, "DeleteAt": util.GetNowTimeUnix()}
 		if len(params.IDList) > 0 {
 			delErr := DB.DBLivingExample.Model(&companyModel.Company{}).Where("id IN ?", params.IDList).Updates(setData).Error
 			if delErr != nil {

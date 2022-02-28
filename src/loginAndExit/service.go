@@ -13,7 +13,6 @@ import (
 	"go-server-template/pkg/snowflake"
 	util "go-server-template/pkg/utils"
 	"strconv"
-	"time"
 
 	"github.com/gin-gonic/gin"
 )
@@ -60,13 +59,13 @@ func UserWXLoginService(c *gin.Context, params WXUserCreateParams) *LoginReturnD
 		res.Code = e.INVALID_PARAMS
 		return res
 	} else {
-		params.UpdateAt = time.Now()
+		params.UpdateAt = util.GetNowTimeUnix()
 		// 查询用户信息
 		var userInfo userModel.User
 		// 获取第一条匹配的记录
 		err := DB.DBLivingExample.Table("user").Where("openid = ?", params.Openid).First(&userInfo).Error
 		if err != nil {
-			params.CreateAt = time.Now()
+			params.CreateAt = util.GetNowTimeUnix()
 			params.ID = snowflake.GenerateID(1)
 			result := DB.DBLivingExample.Table("user").Create(params)
 			if result.Error != nil {
@@ -102,7 +101,7 @@ func UserWXLoginService(c *gin.Context, params WXUserCreateParams) *LoginReturnD
 		// 更新用户登陆信息记录表
 		var recordParam userModel.UserLoginRecord
 		recordParam.ComeFrom = "WX"
-		recordParam.LoginAt = time.Now()
+		recordParam.LoginAt = util.GetNowTimeUnix()
 		recordParam.UserId = userInfo.ID
 
 		recordCreateResult := DB.DBLivingExample.Table("user_login_record").Create(&recordParam)
@@ -191,7 +190,7 @@ func LoginService(c *gin.Context, params LoginParams) *LoginReturnData {
 
 		recordParam := &userModel.UserLoginRecord{
 			ComeFrom: params.ComeFrom,
-			LoginAt:  time.Now(),
+			LoginAt:  util.GetNowTimeUnix(),
 			UserId:   userInfo.ID,
 		}
 

@@ -3,7 +3,7 @@ package userTopicRead
 import (
 	userModel "go-server-template/model/user"
 	DB "go-server-template/pkg/db"
-	"time"
+	util "go-server-template/pkg/utils"
 
 	"github.com/gin-gonic/gin"
 	"gorm.io/gorm"
@@ -13,7 +13,7 @@ func UpdateUserTopicReadSimple(params *UpdateSimpleParams, c *gin.Context, tx *g
 	updataParams := userModel.UserTopicRead{
 		IsRead:   1,
 		ReadNum:  params.ReadNum + 1,
-		UpdateAt: time.Now().Add(8 * time.Hour),
+		UpdateAt: util.GetNowTimeUnix(),
 	}
 
 	up := DB.DBLivingExample.Model(&userModel.UserExperience{})

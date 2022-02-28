@@ -31,7 +31,7 @@ import (
 // @Param pageNum query int false "pageNum"
 // @Param pageSize query int false "pageSize"
 // @Router /api/user-topic/query-user-answer-topic [post]
-func QueryUserAnswerTopicController(c *gin.Context) {
+func Controller(c *gin.Context) {
 	appG := app.Gin{C: c}
 
 	jsonString := app.GetPostJson(c)

@@ -1,13 +1,14 @@
 package classifyCreate
 
 import (
-	"github.com/gin-gonic/gin"
 	classifyModel "go-server-template/model/classify"
 	DB "go-server-template/pkg/db"
 	"go-server-template/pkg/e"
 	"go-server-template/pkg/snowflake"
+	util "go-server-template/pkg/utils"
 	"strconv"
-	"time"
+
+	"github.com/gin-gonic/gin"
 )
 
 func CreateClassifyService(c *gin.Context, params CreateParams) *CreateReturn {
@@ -25,7 +26,7 @@ func CreateClassifyService(c *gin.Context, params CreateParams) *CreateReturn {
 				ImgUrl:   item.ImgUrl,
 				ImgSvg:   item.ImgSvg,
 				Rank:     item.Rank,
-				UpdateAt: time.Now().Add(8 * time.Hour),
+				UpdateAt: util.GetNowTimeUnix(),
 				IsUse:    1,
 			}
 			updateErr := DB.DBLivingExample.Model(&classifyModel.Classify{}).Where("id = ?", classifyInfo[0].ID).Updates(updateData).Error
@@ -43,7 +44,7 @@ func CreateClassifyService(c *gin.Context, params CreateParams) *CreateReturn {
 				ImgUrl:       item.ImgUrl,
 				ImgSvg:       item.ImgSvg,
 				Rank:         item.Rank,
-				CreateAt:     time.Now().Add(8 * time.Hour),
+				CreateAt:     util.GetNowTimeUnix(),
 			}
 			createData = append(createData, setData)
 		}

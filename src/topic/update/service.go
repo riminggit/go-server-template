@@ -4,11 +4,11 @@ import (
 	topicModel "go-server-template/model/topic"
 	DB "go-server-template/pkg/db"
 	"go-server-template/pkg/e"
+	util "go-server-template/pkg/utils"
 	midTopicClassifyUpdate "go-server-template/src/midTopicClassify/update"
 	midTopicCompanyUpdate "go-server-template/src/midTopicCompany/update"
 	midTopicTagUpdate "go-server-template/src/midTopicTag/update"
 	midTopicTypeUpdate "go-server-template/src/midTopicType/update"
-	"time"
 
 	"github.com/gin-gonic/gin"
 )
@@ -26,7 +26,7 @@ func UpdateService(c *gin.Context, params UpdateParams) *UpdateReturn {
 		}
 	}()
 
-	updateTime := time.Now().Add(8 * time.Hour)
+	updateTime := util.GetNowTimeUnix()
 
 	updateData := &topicModel.Topic{
 		Degree:           params.Degree,

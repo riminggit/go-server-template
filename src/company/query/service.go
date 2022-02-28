@@ -2,13 +2,14 @@ package companyQuery
 
 import (
 	"encoding/json"
-	"go-server-template/config"
-	"go-server-template/model/company"
+	projectConfig "go-server-template/config"
+	companyModel "go-server-template/model/company"
 	"go-server-template/pkg/apiMap"
 	DB "go-server-template/pkg/db"
 	"go-server-template/pkg/e"
 	logging "go-server-template/pkg/log"
 	Redis "go-server-template/pkg/redis"
+
 	"github.com/gin-gonic/gin"
 )
 

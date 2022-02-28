@@ -1,9 +1,10 @@
 package userExperience
 
 import (
-	"go-server-template/model/user"
+	userModel "go-server-template/model/user"
+	util "go-server-template/pkg/utils"
+
 	"gorm.io/gorm"
-	"time"
 )
 
 // 用户新建账户的时候新建
@@ -14,7 +15,7 @@ func CreateService(userId int, db *gorm.DB) error {
 		UserId:     userId,
 		Experience: 0,
 		Level:      1,
-		CreateAt:   time.Now().Add(8 * time.Hour),
+		CreateAt:   util.GetNowTimeUnix(),
 		IsUse:      1,
 	}
 

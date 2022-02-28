@@ -6,8 +6,8 @@ import (
 	"go-server-template/pkg/e"
 	logging "go-server-template/pkg/log"
 	"go-server-template/pkg/snowflake"
+	util "go-server-template/pkg/utils"
 	"strings"
-	"time"
 
 	"github.com/gin-gonic/gin"
 )
@@ -34,12 +34,13 @@ func CreateService(c *gin.Context, params CreateParams) *CreateReturn {
 
 	createData := &topicModel.TopicSet{
 		ID:                 snowflake.GenerateID(1),
+		TopicNum:           len(params.TopicIdList),
 		TopicIdList:        topicList,
 		Name:               params.Name,
 		TopicSetDifficulty: manageResp.Data.Difficulty,
 		TopicSetLevel:      manageResp.Data.Level,
 		Remark:             params.Remark,
-		CreateAt:           time.Now().Add(8 * time.Hour),
+		CreateAt:           util.GetNowTimeUnix(),
 		TopicType:          params.TopicType,
 		IsUse:              1,
 	}

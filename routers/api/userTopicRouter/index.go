@@ -10,5 +10,6 @@ import (
 func UserTopicInitRouter(r *gin.RouterGroup) {
 	userTopic := r.Group(apiMap.USER_TOPIC_PREFIX)
 	userTopic.Use(JWTMiddleware.JWT())
-	QueryUserTopicRouter(userTopic)
+	UserAddTopic(userTopic)
+	UserAnswerRecord(userTopic)
 }

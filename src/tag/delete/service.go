@@ -1,12 +1,13 @@
 package tagDelete
 
 import (
-	"github.com/gin-gonic/gin"
-	"go-server-template/model/tag"
+	tagModel "go-server-template/model/tag"
 	DB "go-server-template/pkg/db"
 	"go-server-template/pkg/e"
-	"go-server-template/src/tag/helper"
-	"time"
+	util "go-server-template/pkg/utils"
+	tagHelper "go-server-template/src/tag/helper"
+
+	"github.com/gin-gonic/gin"
 )
 
 func DeleteService(c *gin.Context, params DeleteParams) *DeleteReturn {
@@ -26,7 +27,7 @@ func DeleteService(c *gin.Context, params DeleteParams) *DeleteReturn {
 			}
 		}
 	} else {
-		setData := map[string]interface{}{"is_use": 0, "DeleteAt": time.Now().Add(8 * time.Hour)}
+		setData := map[string]interface{}{"is_use": 0, "DeleteAt": util.GetNowTimeUnix()}
 		if len(params.IDList) > 0 {
 			delErr := DB.DBLivingExample.Model(&tagModel.Tag{}).Where("id IN ?", params.IDList).Updates(setData).Error
 			if delErr != nil {

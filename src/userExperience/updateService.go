@@ -1,14 +1,13 @@
 package userExperience
 
 import (
-	"github.com/gin-gonic/gin"
-	"go-server-template/model/user"
+	userModel "go-server-template/model/user"
 	DB "go-server-template/pkg/db"
-	"go-server-template/pkg/utils"
-	"gorm.io/gorm"
-	"time"
-)
+	util "go-server-template/pkg/utils"
 
+	"github.com/gin-gonic/gin"
+	"gorm.io/gorm"
+)
 
 // 用户新增经验
 func UserAddExExperience(params UpdateParams, c *gin.Context, tx *gorm.DB) bool {
@@ -22,7 +21,7 @@ func UserAddExExperience(params UpdateParams, c *gin.Context, tx *gorm.DB) bool 
 	canAddEx := JudgeUserCanAddExperience(&queryInfo, experienceAdd)
 
 	setData := userModel.UserExperience{
-		UpdateAt: time.Now().Add(8 * time.Hour),
+		UpdateAt: util.GetNowTimeUnix(),
 	}
 
 	if canAddEx.CanAddEx {
@@ -42,20 +41,19 @@ func UserAddExExperience(params UpdateParams, c *gin.Context, tx *gorm.DB) bool 
 	return res
 }
 
-
 // 用户考试成功后修改经验数据
-func UserTestSuccessCanAddExperience(c *gin.Context,tx *gorm.DB,userId int) error {
+func UserTestSuccessCanAddExperience(c *gin.Context, tx *gorm.DB, userId int) error {
 	var Err error
 
 	queryInfo := UserQueryExperienceSimple(c, userId).Data
 	canAddEx := JudgeUserCanAddExperience(&queryInfo, 0)
 	setData := userModel.UserExperience{
-	  UpdateAt: time.Now().Add(8 * time.Hour),
+		UpdateAt: util.GetNowTimeUnix(),
 	}
 	if !canAddEx.CanAddEx {
 		setData.Level = queryInfo.Level + 1
 		setData.CanTest = 0
-	} 
+	}
 
 	up := DB.DBLivingExample.Model(&userModel.UserExperience{})
 	up = up.Where("user_id = ?", userId)

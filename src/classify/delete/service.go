@@ -1,12 +1,13 @@
 package classifyDelete
 
 import (
-	"go-server-template/model/classify"
+	classifyModel "go-server-template/model/classify"
 	DB "go-server-template/pkg/db"
 	"go-server-template/pkg/e"
-	"time"
+	util "go-server-template/pkg/utils"
+	classifyHelper "go-server-template/src/classify/helper"
+
 	"github.com/gin-gonic/gin"
-	"go-server-template/src/classify/helper"
 )
 
 func DeleteClassifyService(c *gin.Context, params DeleteParams) *DeleteReturn {
@@ -26,7 +27,7 @@ func DeleteClassifyService(c *gin.Context, params DeleteParams) *DeleteReturn {
 			}
 		}
 	} else {
-		setData := map[string]interface{}{"is_use": 0,"DeleteAt": time.Now().Add(8 * time.Hour),}
+		setData := map[string]interface{}{"is_use": 0, "DeleteAt": util.GetNowTimeUnix()}
 		if len(params.IDList) > 0 {
 			delErr := DB.DBLivingExample.Model(&classifyModel.Classify{}).Where("id IN ?", params.IDList).Updates(setData).Error
 			if delErr != nil {
@@ -43,7 +44,7 @@ func DeleteClassifyService(c *gin.Context, params DeleteParams) *DeleteReturn {
 
 	// 清除查询的redis缓存
 	classifyHelper.CleanRedisQuery()
-	
+
 	res.Code = e.SUCCESS
 	return res
 }

@@ -1,8 +1,9 @@
 package app
 
 import (
-	"github.com/gin-gonic/gin"
 	"go-server-template/pkg/e"
+
+	"github.com/gin-gonic/gin"
 )
 
 type Gin struct {
@@ -27,6 +28,14 @@ func (g *Gin) Response(httpCode, errCode int, data interface{}) {
 		Code: errCode,
 		Msg:  e.GetMsg(errCode),
 		Data: data,
+	})
+	return
+}
+
+func (g *Gin) SimpleResponse(httpCode, errCode int, msg string) {
+	g.C.JSON(httpCode, Response{
+		Code: errCode,
+		Msg:  msg,
 	})
 	return
 }

@@ -1,8 +1,6 @@
 package userTopicRead
 
 import (
-	"time"
-
 	"github.com/gin-gonic/gin"
 
 	// DB "go-server-template/pkg/db"
@@ -33,14 +31,14 @@ func CreateUserTopicRead(params CreateParams, c *gin.Context, tx *gorm.DB) error
 			TopicId:  params.TopicId,
 			IsRead:   1,
 			ReadNum:  1,
-			CreateAt: time.Now().Add(8 * time.Hour),
+			CreateAt: util.GetNowTimeUnix(),
 		}
 		CreateErr.Create(createParams)
 	} else {
 		updateParams := userModel.UserTopicRead{
 			IsRead:   1,
 			ReadNum:  userRecord.ReadNum + 1,
-			UpdateAt: time.Now().Add(8 * time.Hour),
+			UpdateAt: util.GetNowTimeUnix(),
 		}
 		CreateErr.Updates(updateParams)
 	}

@@ -1,16 +1,17 @@
 package topicCreate
 
 import (
-	"github.com/gin-gonic/gin"
 	topicModel "go-server-template/model/topic"
 	DB "go-server-template/pkg/db"
 	"go-server-template/pkg/e"
 	"go-server-template/pkg/snowflake"
+	util "go-server-template/pkg/utils"
 	midTopicClassifyCreate "go-server-template/src/midTopicClassify/create"
 	midTopicCompanyCreate "go-server-template/src/midTopicCompany/create"
 	midTopicTagCreate "go-server-template/src/midTopicTag/create"
 	midTopicTypeCreate "go-server-template/src/midTopicType/create"
-	"time"
+
+	"github.com/gin-gonic/gin"
 )
 
 func CreateService(c *gin.Context, params CreateParams) *CreateReturn {
@@ -26,7 +27,7 @@ func CreateService(c *gin.Context, params CreateParams) *CreateReturn {
 		}
 	}()
 
-	createTime := time.Now().Add(8 * time.Hour)
+	createTime := util.GetNowTimeUnix()
 
 	createData := &topicModel.Topic{
 		ID:               snowflake.GenerateID(1),

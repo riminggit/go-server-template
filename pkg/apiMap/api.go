@@ -78,6 +78,7 @@ const (
 	POST_UPDATE_TOPIC                           = "/update-topic"
 	POST_QUERY_TOPIC_SET                        = "/query-topic-set"
 	POST_QUERY_TOPIC_SET_SIMPLE                 = "/query-topic-set-simple"
+	POST_QUERY_TOPIC_SET_SIMPLE_SINGLE          = "/query-topic-set-simple-single"
 	POST_CREATE_TOPIC_SET                       = "/create-topic-set"
 	POST_DELETE_TOPIC_SET                       = "/delete-topic-set"
 	POST_UPDATE_TOPIC_SET                       = "/update-topic-set"
@@ -107,9 +108,11 @@ const (
 	POST_USER_WX_DNCRYPT     = "/wxapp-dncrypt"
 
 	// 用户题目
-	USER_TOPIC_PREFIX            = "/user-topic"
-	POST_USER_ADD_TOPIC_QUERY    = "/query-user-topic"
-	POST_USER_ANSWER_TOPIC_QUERY = "/query-user-answer-topic"
+	USER_TOPIC_PREFIX             = "/user-topic"
+	POST_USER_ADD_TOPIC_QUERY     = "/query-user-topic"
+	POST_USER_ANSWER_TOPIC_QUERY  = "/query-user-answer-topic"
+	POST_USER_ANSWER_TOPIC_CREATE = "/create-user-answer-topic"
+	POST_USER_ANSWER_TOPIC_UPDATE = "/update-user-answer-topic"
 
 	// 查询题目数量
 	QUERY_TOPIC_COUNT_BY_DEGREE = "/query-topic-count-by-degree"

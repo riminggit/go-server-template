@@ -1,12 +1,13 @@
 package feedback
 
 import (
-	"github.com/gin-gonic/gin"
-	"go-server-template/model/user"
+	userModel "go-server-template/model/user"
 	DB "go-server-template/pkg/db"
 	"go-server-template/pkg/e"
 	logging "go-server-template/pkg/log"
-	"time"
+	util "go-server-template/pkg/utils"
+
+	"github.com/gin-gonic/gin"
 )
 
 func DeleteService(c *gin.Context, params DeleteParams) *CommonReturn {
@@ -62,7 +63,7 @@ func DeleteService(c *gin.Context, params DeleteParams) *CommonReturn {
 			}
 		}
 	} else {
-		setData := map[string]interface{}{"is_use": 0, "DeleteAt": time.Now().Add(8 * time.Hour)}
+		setData := map[string]interface{}{"is_use": 0, "DeleteAt": util.GetNowTimeUnix()}
 		if len(params.ID) > 0 {
 			delErr := DB.DBLivingExample.Model(&userModel.UserFeedback{}).Where("id IN ?", params.ID).Updates(setData).Error
 			if delErr != nil {
@@ -120,7 +121,7 @@ func DeleteService(c *gin.Context, params DeleteParams) *CommonReturn {
 func UserDeleteService(c *gin.Context, params UserDeleteParams) *CommonReturn {
 	res := &CommonReturn{}
 
-	setData := map[string]interface{}{"is_use": 0, "DeleteAt": time.Now().Add(8 * time.Hour)}
+	setData := map[string]interface{}{"is_use": 0, "DeleteAt": util.GetNowTimeUnix()}
 	if len(params.ID) > 0 {
 		delErr := DB.DBLivingExample.Model(&userModel.UserFeedback{}).Where("id IN ?", params.ID).Updates(setData).Error
 		if delErr != nil {

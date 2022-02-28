@@ -25,8 +25,8 @@ type User struct {
 	Iv        string    `json:"iv" gorm:"type:varchar(255)"`
 	IsAdmin   int       `json:"is_admin" gorm:"type:int(3);default:0"`
 	Birthday  time.Time `json:"birthday" gorm:"type:date;"`
-	CreateAt  time.Time `json:"create_at"`
-	DeleteAt  time.Time `json:"delete_at"`
-	UpdateAt  time.Time `json:"update_at"`
+	CreateAt  int64     `json:"create_at"`
+	DeleteAt  int64     `json:"delete_at"`
+	UpdateAt  int64     `json:"update_at"`
 	IsUse     int       `json:"is_use" gorm:"type:int(3);default:1"`
 }

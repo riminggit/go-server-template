@@ -4,8 +4,8 @@ import (
 	topicModel "go-server-template/model/topic"
 	DB "go-server-template/pkg/db"
 	"go-server-template/pkg/e"
+	util "go-server-template/pkg/utils"
 	"strings"
-	"time"
 
 	"github.com/gin-gonic/gin"
 )
@@ -15,7 +15,7 @@ func UpdateService(c *gin.Context, params UpdateParams) *UpdateReturn {
 
 	if params.ID != 0 {
 		setData := topicModel.TopicSet{
-			UpdateAt:           time.Now().Add(8 * time.Hour),
+			UpdateAt:           util.GetNowTimeUnix(),
 			TopicSetDifficulty: params.TopicSetDifficulty,
 			TopicSetLevel:      params.TopicSetLevel,
 			IsUse:              params.IsUse,
@@ -24,6 +24,7 @@ func UpdateService(c *gin.Context, params UpdateParams) *UpdateReturn {
 		if len(params.TopicIdList) > 0 {
 			topicList := strings.Join(params.TopicIdList, ",")
 			setData.TopicIdList = topicList
+			setData.TopicNum = len(params.TopicIdList)
 		}
 		if params.Name != "" {
 			setData.Name = params.Name

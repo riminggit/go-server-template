@@ -44,5 +44,5 @@ func InitDBGorm() {
 	DBLivingExample = db
 
 	// 自动同步库
-	AutoMigrateDBGorm(db)
+	// AutoMigrateDBGorm(db)
 }

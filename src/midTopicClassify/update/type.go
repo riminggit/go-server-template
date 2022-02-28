@@ -1,9 +1,7 @@
 package midTopicClassifyUpdate
 
-import "time"
-
 type UpdateParams struct {
-	TopicId    int      `json:"topic_id"`
+	TopicId    int   `json:"topic_id"`
 	ClassifyId []int `json:"classify_id"`
-	UpdateAt   time.Time
+	UpdateAt   int64
 }

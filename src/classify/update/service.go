@@ -1,12 +1,13 @@
 package classifyUpdate
 
 import (
-	"go-server-template/model/classify"
+	classifyModel "go-server-template/model/classify"
 	DB "go-server-template/pkg/db"
 	"go-server-template/pkg/e"
+	util "go-server-template/pkg/utils"
+	classifyHelper "go-server-template/src/classify/helper"
 	"strconv"
-	"time"
-	"go-server-template/src/classify/helper"
+
 	"github.com/gin-gonic/gin"
 )
 
@@ -17,7 +18,7 @@ func UpdateClassifyService(c *gin.Context, params UpdateParams) *UpdateReturn {
 	for index, item := range params.Data {
 		if item.ID != 0 {
 			setData := classifyModel.Classify{
-				UpdateAt: time.Now().Add(8 * time.Hour),
+				UpdateAt: util.GetNowTimeUnix(),
 			}
 			if item.ClassifyName != "" {
 				setData.ClassifyName = item.ClassifyName

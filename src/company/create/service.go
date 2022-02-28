@@ -5,8 +5,8 @@ import (
 	DB "go-server-template/pkg/db"
 	"go-server-template/pkg/e"
 	"go-server-template/pkg/snowflake"
+	util "go-server-template/pkg/utils"
 	"strconv"
-	"time"
 
 	"github.com/gin-gonic/gin"
 )
@@ -26,7 +26,7 @@ func CreateService(c *gin.Context, params CreateParams) *CreateReturn {
 				CompanyName: item.CompanyName,
 				ImgUrl:      item.ImgUrl,
 				ImgSvg:      item.ImgSvg,
-				UpdateAt:    time.Now().Add(8 * time.Hour),
+				UpdateAt:    util.GetNowTimeUnix(),
 				IsUse:       1,
 			}
 			updateErr := DB.DBLivingExample.Model(&companyModel.Company{}).Where("id = ?", queryInfo[0].ID).Updates(updateData).Error
@@ -43,7 +43,7 @@ func CreateService(c *gin.Context, params CreateParams) *CreateReturn {
 				CompanyName: item.CompanyName,
 				ImgUrl:      item.ImgUrl,
 				ImgSvg:      item.ImgSvg,
-				CreateAt:    time.Now().Add(8 * time.Hour),
+				CreateAt:    util.GetNowTimeUnix(),
 				IsUse:       1,
 			}
 			createData = append(createData, setData)

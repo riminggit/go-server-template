@@ -1,14 +1,14 @@
 package tagUpdate
 
-
 import (
-	"github.com/gin-gonic/gin"
-	"go-server-template/model/tag"
+	tagModel "go-server-template/model/tag"
 	DB "go-server-template/pkg/db"
 	"go-server-template/pkg/e"
-	"go-server-template/src/tag/helper"
+	util "go-server-template/pkg/utils"
+	tagHelper "go-server-template/src/tag/helper"
 	"strconv"
-	"time"
+
+	"github.com/gin-gonic/gin"
 )
 
 func UpdateService(c *gin.Context, params UpdateParams) *UpdateReturn {
@@ -18,7 +18,7 @@ func UpdateService(c *gin.Context, params UpdateParams) *UpdateReturn {
 	for index, item := range params.Data {
 		if item.ID != 0 {
 			setData := tagModel.Tag{
-				UpdateAt: time.Now().Add(8 * time.Hour),
+				UpdateAt: util.GetNowTimeUnix(),
 			}
 			if item.TagName != "" {
 				setData.TagName = item.TagName

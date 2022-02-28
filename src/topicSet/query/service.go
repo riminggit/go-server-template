@@ -39,8 +39,8 @@ func QueryTopicSetService(c *gin.Context, params QueryTopicSetParams) *queryTopi
 	}
 
 	queryFun := DB.DBLivingExample.Where("is_use = ?", params.IsUse)
-	if len(params.Id) > 0 {
-		queryFun = queryFun.Where("id IN (?)", params.Id)
+	if len(params.ID) > 0 {
+		queryFun = queryFun.Where("id IN (?)", params.ID)
 	}
 
 	if params.Name != "" {
@@ -133,8 +133,8 @@ func QueryTopicSetSimpleService(c *gin.Context, params QueryTopicSetParams) *que
 	}
 
 	queryFun := DB.DBLivingExample.Where("is_use = ?", params.IsUse)
-	if len(params.Id) > 0 {
-		queryFun = queryFun.Where("id IN (?)", params.Id)
+	if len(params.ID) > 0 {
+		queryFun = queryFun.Where("id IN (?)", params.ID)
 	}
 
 	if params.Name != "" {
@@ -191,6 +191,51 @@ func QueryTopicSetSimpleService(c *gin.Context, params QueryTopicSetParams) *que
 		queryInfoReturn = append(queryInfoReturn, helper)
 	}
 
+	res.Data = queryInfoReturn
+	Redis.SetValue(queryRedisParams, queryInfo, dataRxpirationTime)
+
+	return res
+}
+
+func QueryTopicSetSimpleSingleService(c *gin.Context, params QueryTopicSetSingleParams) *QueryTopicSetSingleReturn {
+	res := &QueryTopicSetSingleReturn{}
+	res.Code = e.SUCCESS
+	var queryInfo topicModel.TopicSet
+	var queryInfoReturn TopicInfoReturnData
+
+	dataRxpirationTime := projectConfig.AppConfig.BaseConfig.REDIS_COMMON_EXPIRATION_TIME
+	redisParamsJson, _ := json.Marshal(params)
+	interfaceName := apiMap.GetRedisPrefixName(apiMap.POST_QUERY_TOPIC_SET_SIMPLE_SINGLE)
+	queryRedisParams := interfaceName + string(redisParamsJson)
+
+	redisData := Redis.GetValue(queryRedisParams)
+
+	if redisData != "" {
+		err := json.Unmarshal([]byte(redisData), &queryInfoReturn)
+		if err != nil {
+			logging.Debug(err)
+		}
+		res.Data = queryInfoReturn
+		return res
+	}
+
+	queryFun := DB.DBLivingExample.Where("is_use = ?", 1)
+	if params.ID > 0 {
+		queryFun = queryFun.Where("id = ?", params.ID)
+	}
+
+	if params.Name != "" {
+		queryFun = queryFun.Where("name = ?", params.Name)
+	}
+
+
+	resp := queryFun.Model(&topicModel.TopicSet{}).First(&queryInfo)
+	if resp.Error != nil {
+		res.Code = e.NO_DATA_EXISTS
+		return res
+	}
+
+	
 	res.Data = queryInfoReturn
 	Redis.SetValue(queryRedisParams, queryInfo, dataRxpirationTime)
 

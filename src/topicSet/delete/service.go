@@ -1,12 +1,13 @@
 package topicSetDelete
 
 import (
-	"github.com/gin-gonic/gin"
-	"go-server-template/model/topic"
+	topicModel "go-server-template/model/topic"
 	DB "go-server-template/pkg/db"
 	"go-server-template/pkg/e"
 	logging "go-server-template/pkg/log"
-	"time"
+	util "go-server-template/pkg/utils"
+
+	"github.com/gin-gonic/gin"
 )
 
 func DeleteService(c *gin.Context, params DeleteParams) *DeleteReturn {
@@ -28,7 +29,7 @@ func DeleteService(c *gin.Context, params DeleteParams) *DeleteReturn {
 			}
 		}
 	} else {
-		setData := map[string]interface{}{"is_use": 0, "DeleteAt": time.Now().Add(8 * time.Hour)}
+		setData := map[string]interface{}{"is_use": 0, "DeleteAt": util.GetNowTimeUnix()}
 		if len(params.IDList) > 0 {
 			delErr := DB.DBLivingExample.Model(&topicModel.TopicSet{}).Where("id IN ?", params.IDList).Updates(setData).Error
 			if delErr != nil {

@@ -1,13 +1,14 @@
 package tagCreate
 
 import (
-	"github.com/gin-gonic/gin"
 	tagModel "go-server-template/model/tag"
 	DB "go-server-template/pkg/db"
 	"go-server-template/pkg/e"
 	"go-server-template/pkg/snowflake"
+	util "go-server-template/pkg/utils"
 	"strconv"
-	"time"
+
+	"github.com/gin-gonic/gin"
 )
 
 func CreateService(c *gin.Context, params CreateParams) *CreateReturn {
@@ -23,7 +24,7 @@ func CreateService(c *gin.Context, params CreateParams) *CreateReturn {
 			hasOld = true
 			updateData := tagModel.Tag{
 				TagName:  item.TagName,
-				UpdateAt: time.Now().Add(8 * time.Hour),
+				UpdateAt: util.GetNowTimeUnix(),
 				IsUse:    1,
 			}
 			updateErr := DB.DBLivingExample.Model(&tagModel.Tag{}).Where("id = ?", queryInfo[0].ID).Updates(updateData).Error
@@ -38,7 +39,7 @@ func CreateService(c *gin.Context, params CreateParams) *CreateReturn {
 			setData := tagModel.Tag{
 				ID:       snowflake.GenerateID(1),
 				TagName:  item.TagName,
-				CreateAt: time.Now().Add(8 * time.Hour),
+				CreateAt: util.GetNowTimeUnix(),
 				IsUse:    1,
 			}
 			createData = append(createData, setData)
