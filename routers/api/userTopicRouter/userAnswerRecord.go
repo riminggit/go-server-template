@@ -3,6 +3,7 @@ package userTopicRouter
 import (
 	"go-server-template/pkg/apiMap"
 	userAnswerTopicCreate "go-server-template/src/userAnswerTopic/create"
+	userAnswerTopicDelete "go-server-template/src/userAnswerTopic/delete"
 	userAnswerTopicQuery "go-server-template/src/userAnswerTopic/query"
 	userAnswerTopicUpdate "go-server-template/src/userAnswerTopic/update"
 
@@ -16,4 +17,7 @@ func UserAnswerRecord(g *gin.RouterGroup) {
 	g.POST(apiMap.POST_USER_ANSWER_TOPIC_CREATE, userAnswerTopicCreate.Controller)
 	// 修改用户答题记录
 	g.POST(apiMap.POST_USER_ANSWER_TOPIC_UPDATE, userAnswerTopicUpdate.Controller)
+	// 用户删除用户答题记录
+	g.POST(apiMap.POST_USER_ANSWER_TOPIC_DELETE, userAnswerTopicDelete.Controller)
+
 }

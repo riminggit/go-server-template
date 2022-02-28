@@ -6,6 +6,7 @@ import (
 	"go-server-template/pkg/e"
 	util "go-server-template/pkg/utils"
 	topicSetQuery "go-server-template/src/topicSet/query"
+
 	"github.com/gin-gonic/gin"
 )
 
@@ -14,6 +15,12 @@ func CreateService(c *gin.Context, params UserAnswerTopicCreateParams) *CreateRe
 	res.Code = e.SUCCESS
 	res.Msg = "记录新增成功"
 
+	if params.TopicIdList == "" && params.TopicSetId == 0 {
+		res.Code = e.CREATE_DATA_FALE
+		res.Msg = "题目或套题不可为空"
+		return res
+	}
+
 	userInfoRes := util.GetUserInfo(c)
 	if userInfoRes.Code != e.SUCCESS {
 		res.Code = e.CREATE_DATA_FALE
@@ -21,18 +28,14 @@ func CreateService(c *gin.Context, params UserAnswerTopicCreateParams) *CreateRe
 		return res
 	}
 
+	DBFun := DB.DBLivingExample.Model(&userModel.UserAnswerTopicRecord{})
+
 	userAnswerTopicRecord := &userModel.UserAnswerTopicRecord{
 		UserId:      userInfoRes.Data.ID,
 		IsAchieve:   0,
 		CreateAt:    util.GetNowTimeUnix(),
 		IsUse:       1,
 		AnswerStart: util.GetNowTimeUnix(),
-	}
-
-	if params.TopicIdList == "" && params.TopicSetId == 0 {
-		res.Code = e.CREATE_DATA_FALE
-		res.Msg = "题目或套题不可为空"
-		return res
 	}
 
 	if params.TopicSetId > 0 {
@@ -68,7 +71,17 @@ func CreateService(c *gin.Context, params UserAnswerTopicCreateParams) *CreateRe
 		userAnswerTopicRecord.Remark = params.Remark
 	}
 
-	err := DB.DBLivingExample.Model(&userModel.UserAnswerTopicRecord{}).Create(userAnswerTopicRecord).Error
+	// 查询数据，存在则更新，不存在则新增
+	queryRecord := &userModel.UserAnswerTopicRecord{}
+	DBFun.Where("user_id = ?", userInfoRes.Data.ID).Where("topic_set_id = ?", params.TopicSetId).Find(&queryRecord)
+
+	var err error
+	if queryRecord.ID > 0 {
+		err = DBFun.Updates(userAnswerTopicRecord).Error
+	} else {
+		err = DBFun.Create(userAnswerTopicRecord).Error
+	}
+
 	if err != nil {
 		res.Code = e.CREATE_DATA_FALE
 		res.Msg = err.Error()

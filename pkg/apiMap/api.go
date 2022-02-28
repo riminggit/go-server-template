@@ -113,6 +113,7 @@ const (
 	POST_USER_ANSWER_TOPIC_QUERY  = "/query-user-answer-topic"
 	POST_USER_ANSWER_TOPIC_CREATE = "/create-user-answer-topic"
 	POST_USER_ANSWER_TOPIC_UPDATE = "/update-user-answer-topic"
+	POST_USER_ANSWER_TOPIC_DELETE = "/delete-user-answer-topic"
 
 	// 查询题目数量
 	QUERY_TOPIC_COUNT_BY_DEGREE = "/query-topic-count-by-degree"
