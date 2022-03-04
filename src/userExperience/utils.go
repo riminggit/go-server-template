@@ -73,3 +73,14 @@ func JudgeEXADD(levelExMax int, ex int, exAdd int) bool {
 	}
 	return res
 }
+
+
+func ExalculateTopicSet(params UpdateTopicSetParams) int {
+	experience := 0
+
+	if params.Level != 0 {
+		experience = experience + level.TOPIC_SET_COEFFICIENT * params.Level
+	}
+
+	return experience
+}

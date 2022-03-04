@@ -73,6 +73,7 @@ const (
 	POST_QUERY_TOPIC                            = "/query-topic"
 	POST_QUERY_TOPIC_RANDOM                     = "/query-topic-random"
 	POST_QUERY_TOPIC_SIMPLE                     = "/query-topic-simple"
+	POST_QUERY_TOPIC_SIMPLE_SINGLE              = "/query-topic-simple-single"
 	POST_CREATE_TOPIC                           = "/create-topic"
 	POST_DELETE_TOPIC                           = "/delete-topic"
 	POST_UPDATE_TOPIC                           = "/update-topic"
@@ -114,6 +115,8 @@ const (
 	POST_USER_ANSWER_TOPIC_CREATE = "/create-user-answer-topic"
 	POST_USER_ANSWER_TOPIC_UPDATE = "/update-user-answer-topic"
 	POST_USER_ANSWER_TOPIC_DELETE = "/delete-user-answer-topic"
+
+	POST_USER_TOPIC_READ_RECORD_CREATE = "/create-user-topic-read-record"
 
 	// 查询题目数量
 	QUERY_TOPIC_COUNT_BY_DEGREE = "/query-topic-count-by-degree"

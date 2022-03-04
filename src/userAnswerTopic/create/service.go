@@ -6,6 +6,7 @@ import (
 	"go-server-template/pkg/e"
 	util "go-server-template/pkg/utils"
 	topicSetQuery "go-server-template/src/topicSet/query"
+	"go-server-template/src/userExperience"
 
 	"github.com/gin-gonic/gin"
 )
@@ -85,6 +86,18 @@ func CreateService(c *gin.Context, params UserAnswerTopicCreateParams) *CreateRe
 	if err != nil {
 		res.Code = e.CREATE_DATA_FALE
 		res.Msg = err.Error()
+	}
+
+	addExParams := &userExperience.UpdateTopicSetParams{
+		UserId: userInfoRes.Data.ID,
+		Level: params.TopicLevel,
+	}
+
+	ExRes := userExperience.UserAddExExperienceTopicSet(*addExParams, c)
+
+	if !ExRes {
+		res.Code = e.CREATE_DATA_FALE
+		res.Msg = "记录新增失败"
 	}
 
 	return res

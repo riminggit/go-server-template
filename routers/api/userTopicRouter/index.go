@@ -12,4 +12,5 @@ func UserTopicInitRouter(r *gin.RouterGroup) {
 	userTopic.Use(JWTMiddleware.JWT())
 	UserAddTopic(userTopic)
 	UserAnswerRecord(userTopic)
+	UserTopicReadRecord(userTopic)
 }

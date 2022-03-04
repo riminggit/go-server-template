@@ -52,6 +52,16 @@ type QueryTopicSimpleParams struct {
 	Title string   `json:"title"` // 题目标题
 }
 
+type QueryTopicSimpleSingleParams struct {
+	Id    int `json:"id"`
+	Title string `json:"title"` // 题目标题
+}
+
+type TopicSimpleSingleReturn struct {
+	Code int              `json:"code"`
+	Data topicModel.Topic `json:"data"`
+}
+
 type TopicSimpleReturn struct {
 	Code int                `json:"code"`
 	Data []topicModel.Topic `json:"data"`
@@ -142,6 +152,6 @@ type QueryTopicRandomReturn struct {
 }
 
 type QueryADailyTopicReturn struct {
-	Code int              `json:"code"`
+	Code int       `json:"code"`
 	Data TopicData `json:"data"`
 }

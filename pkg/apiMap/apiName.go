@@ -82,6 +82,8 @@ var ApiName = map[string]string{
 	USER_TOPIC_PREFIX:            "用户题目接口前缀",
 	POST_USER_ADD_TOPIC_QUERY:    "用户题目查询接口",
 	POST_USER_ANSWER_TOPIC_QUERY: "用户答题记录查询",
+
+	POST_USER_TOPIC_READ_RECORD_CREATE: "新增用户读题记录",
 }
 
 func GetApiName(code string) string {

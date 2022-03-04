@@ -2,7 +2,7 @@ package level
 
 const BASE_EXPERIENCE = 1
 const COEFFICIENT = 1
-
+const TOPIC_SET_COEFFICIENT = 5
 // 经验体系设计
 // 可获取经验行为有：刷题、刷套题、考试、新增用户题目、看知识点
 const (

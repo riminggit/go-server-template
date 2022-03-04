@@ -6,10 +6,9 @@ import (
 	util "go-server-template/pkg/utils"
 
 	"github.com/gin-gonic/gin"
-	"gorm.io/gorm"
 )
 
-func UpdateUserTopicReadSimple(params *UpdateSimpleParams, c *gin.Context, tx *gorm.DB) {
+func UpdateUserTopicReadSimple(params *UpdateSimpleParams, c *gin.Context) {
 	updataParams := userModel.UserTopicRead{
 		IsRead:   1,
 		ReadNum:  params.ReadNum + 1,
@@ -18,8 +17,6 @@ func UpdateUserTopicReadSimple(params *UpdateSimpleParams, c *gin.Context, tx *g
 
 	up := DB.DBLivingExample.Model(&userModel.UserExperience{})
 	up = up.Where("user_id = ?", params.UserId).Where("topic_id = ?", params.TopicId)
-	up = up.Updates(updataParams)
-	if up.Error != nil {
-		tx.Rollback()
-	}
+	up.Updates(updataParams)
+
 }
