@@ -84,6 +84,11 @@ var ApiName = map[string]string{
 	POST_USER_ANSWER_TOPIC_QUERY: "用户答题记录查询",
 
 	POST_USER_TOPIC_READ_RECORD_CREATE: "新增用户读题记录",
+
+	POST_COLOR_ADD:    "新增颜色",
+	POST_COLOR_QUERY:  "查询颜色",
+	POST_COLOR_UPDATE: "更新颜色",
+	POST_COLOR_DELETE: "删除颜色",
 }
 
 func GetApiName(code string) string {

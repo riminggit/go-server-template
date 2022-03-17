@@ -9,6 +9,7 @@ import (
 	"go-server-template/model/topic"
 	"go-server-template/model/type"
 	"go-server-template/model/user"
+	"go-server-template/model/utils"
 	"gorm.io/gorm"
 )
 
@@ -40,6 +41,7 @@ func AutoMigrateDBGorm(DB *gorm.DB) {
 	DB.Table("knowledge_calssify").AutoMigrate(&knowledgeModel.KnowledgeClassify{})
 	DB.Table("knowledge_topic").AutoMigrate(&knowledgeModel.KnowledgeTopic{})
 	DB.Table("knowledge_type").AutoMigrate(&knowledgeModel.KnowledgeType{})
+	DB.Table("color").AutoMigrate(&utils.Color{})
 
 	// DB.Create(&userModel.User{Email: "123456789"})
 }

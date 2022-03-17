@@ -12,6 +12,7 @@ import (
 	Redis "go-server-template/pkg/redis"
 	"go-server-template/pkg/snowflake"
 	util "go-server-template/pkg/utils"
+	"go-server-template/src/userExperience"
 	"strconv"
 
 	"github.com/gin-gonic/gin"
@@ -20,8 +21,6 @@ import (
 func LayoutService(c *gin.Context) *LayoutReturnData {
 	res := &LayoutReturnData{}
 	token := app.GetHeaderToken(c)
-
-	fmt.Println(token, "token")
 
 	res.Code = e.USER_LAYOUT_SUCCESS
 	if token != "" {
@@ -36,84 +35,91 @@ func LayoutService(c *gin.Context) *LayoutReturnData {
 	return res
 }
 
-func UserWXLoginService(c *gin.Context, params WXUserCreateParams) *LoginReturnData {
+func UserWXLoginService(c *gin.Context, params userModel.User) *LoginReturnData {
 	res := &LoginReturnData{}
-	token := app.GetHeaderToken(c)
 
-	if token != "" {
-		userInfoRedis := Redis.GetValue(token)
-		if userInfoRedis != "" {
-			userInfoJsonData := &userModel.User{}
-			err := json.Unmarshal([]byte(userInfoRedis), userInfoJsonData)
-			if err != nil {
-				logging.Debug(err)
-			}
-			res.Code = e.IS_LOGIN
-			res.Token = token
-			return res
-		}
+	checkRes := CheckLogin(c)
+
+	if checkRes.Code == e.IS_LOGIN {
+		res.Code = checkRes.Code
+		res.Token = checkRes.Token
+		res.UserInfo = checkRes.UserInfo
+		fmt.Println(checkRes.UserInfo, "checkRes.UserInfo")
+		return res
 	}
 
 	// 判断结构体如果为空
-	if params == (WXUserCreateParams{}) {
+	if params == (userModel.User{}) {
 		res.Code = e.INVALID_PARAMS
 		return res
-	} else {
-		params.UpdateAt = util.GetNowTimeUnix()
-		// 查询用户信息
-		var userInfo userModel.User
-		// 获取第一条匹配的记录
-		err := DB.DBLivingExample.Table("user").Where("openid = ?", params.Openid).First(&userInfo).Error
-		if err != nil {
-			params.CreateAt = util.GetNowTimeUnix()
-			params.ID = snowflake.GenerateID(1)
-			result := DB.DBLivingExample.Table("user").Create(params)
-			if result.Error != nil {
-				logging.Error(result.Error)
-				res.Code = e.CREATE_DATA_FALE
-				return res
-			}
-		}
-		// } else {
-		// 更新同步
-		// DB.DBLivingExample.Table("user").Where("openid = ?", params.Openid).Updates(params)
-		// }
+	}
 
-		// 生成token
-		newToken, tokenErr := util.GenerateToken(userInfo.NickName, userInfo.Openid)
-		if tokenErr != nil {
-			res.Code = e.ERROR_AUTH_TOKEN
-			logging.Error(tokenErr)
-			return res
-		}
-
-		userLayoutTime := projectConfig.AppConfig.UserConfig.USER_LOGIN_EXPIRATION_TIME
-		// 将用户信息存入redis
-		Redis.SetValue(newToken, userInfo, userLayoutTime)
-
-		if strconv.Itoa(userInfo.ID) == "" {
-			queryErr := DB.DBLivingExample.Table("user").Where("openid = ?", params.Openid).First(&userInfo).Error
-			if queryErr != nil {
-				logging.Error(queryErr)
-			}
-		}
-
-		// 更新用户登陆信息记录表
-		var recordParam userModel.UserLoginRecord
-		recordParam.ComeFrom = "WX"
-		recordParam.LoginAt = util.GetNowTimeUnix()
-		recordParam.UserId = userInfo.ID
-
-		recordCreateResult := DB.DBLivingExample.Table("user_login_record").Create(&recordParam)
-		if recordCreateResult.Error != nil {
-			logging.Error(recordCreateResult.Error)
-		}
-
-		res.Token = newToken
-		res.Code = e.SUCCESS
-
+	// 判断openId为空
+	if params.Openid == "" {
+		res.Code = e.INVALID_PARAMS
 		return res
 	}
+
+	// 查询用户信息
+	var userInfo userModel.User
+	// 获取第一条匹配的记录
+	err := DB.DBLivingExample.Table("user").Where("openid = ?", params.Openid).Find(&userInfo).Error
+	if err != nil || userInfo.ID == 0 {
+		params.CreateAt = util.GetNowTimeUnix()
+		params.ID = snowflake.GenerateID(1)
+		result := DB.DBLivingExample.Table("user").Create(&params)
+		userExperience.CreateServiceNoAffair(params.ID)
+		if result.Error != nil {
+			logging.Error(result.Error)
+			res.Code = e.CREATE_DATA_FALE
+			return res
+		}
+		res.UserInfo = params
+	} else {
+		if CheckNeedUpdate(c, &userInfo, &params) {
+			params.UpdateAt = util.GetNowTimeUnix()
+			// 更新同步
+			DB.DBLivingExample.Table("user").Where("openid = ?", params.Openid).Updates(&params)
+			res.UserInfo = params
+		} else {
+			res.UserInfo = userInfo
+		}
+	}
+
+	// 生成token
+	newToken, tokenErr := util.GenerateToken(userInfo.NickName, userInfo.Openid)
+	if tokenErr != nil {
+		res.Code = e.ERROR_AUTH_TOKEN
+		logging.Error(tokenErr)
+		return res
+	}
+
+	userLayoutTime := projectConfig.AppConfig.UserConfig.USER_LOGIN_EXPIRATION_TIME
+	// 将用户信息存入redis
+	Redis.SetValue(newToken, userInfo, userLayoutTime)
+
+	if strconv.Itoa(userInfo.ID) == "" {
+		queryErr := DB.DBLivingExample.Table("user").Where("openid = ?", params.Openid).Find(&userInfo).Error
+		if queryErr != nil {
+			logging.Error(queryErr)
+		}
+	}
+
+	// 更新用户登陆信息记录表
+	var recordParam userModel.UserLoginRecord
+	recordParam.ComeFrom = "WX"
+	recordParam.LoginAt = util.GetNowTimeUnix()
+	recordParam.UserId = userInfo.ID
+
+	recordCreateResult := DB.DBLivingExample.Table("user_login_record").Create(&recordParam)
+	if recordCreateResult.Error != nil {
+		logging.Error(recordCreateResult.Error)
+	}
+
+	res.Token = newToken
+	res.Code = e.SUCCESS
+	res.UserInfo = userInfo
+	return res
 }
 
 func LoginService(c *gin.Context, params LoginParams) *LoginReturnData {

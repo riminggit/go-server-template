@@ -2,6 +2,7 @@ package userloginAndExit
 
 import (
 	"encoding/json"
+	userModel "go-server-template/model/user"
 	"go-server-template/pkg/app"
 	"go-server-template/pkg/e"
 	logging "go-server-template/pkg/log"
@@ -40,7 +41,7 @@ func UserWXLoginController(c *gin.Context) {
 	appG := app.Gin{C: c}
 
 	jsonString := app.GetPostJson(c)
-	jsonData := &WXUserCreateParams{}
+	jsonData := &userModel.User{}
 	err := json.Unmarshal([]byte(jsonString), jsonData)
 	if err != nil {
 		logging.Debug(err)
@@ -57,6 +58,7 @@ func UserWXLoginController(c *gin.Context) {
 	var returnData interface{}
 	resData := WXLoginResultData{}
 	resData.Token = result.Token
+	resData.UserInfo = result.UserInfo
 	if result.Code == e.SUCCESS {
 		returnData = resData
 	}

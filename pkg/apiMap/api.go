@@ -121,4 +121,12 @@ const (
 	// 查询题目数量
 	QUERY_TOPIC_COUNT_BY_DEGREE = "/query-topic-count-by-degree"
 	QUERY_TOPIC_COUNT_BY_LEVEL  = "/query-topic-count-by-level"
+
+	// 工具类接口
+	// 颜色
+	UTILS_PREFIX      = "/utils"
+	POST_COLOR_ADD    = "/add-color"
+	POST_COLOR_QUERY  = "/query-color"
+	POST_COLOR_UPDATE = "/update-color"
+	POST_COLOR_DELETE = "/delete-color"
 )

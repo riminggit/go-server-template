@@ -1,16 +1,18 @@
 package api
 
 import (
-	"github.com/gin-gonic/gin"
-	"go-server-template/routers/api/classifyRouter"
-	"go-server-template/routers/api/userRouter"
-	"go-server-template/routers/api/typeRouter"
-	"go-server-template/routers/api/companyRouter"
-	"go-server-template/routers/api/tagRouter"
-	"go-server-template/routers/api/userTopicRouter"
-	"go-server-template/routers/api/topicRouter"
-	"go-server-template/routers/api/feedbackRouter"
 	"go-server-template/pkg/apiMap"
+	"go-server-template/routers/api/classifyRouter"
+	"go-server-template/routers/api/companyRouter"
+	"go-server-template/routers/api/feedbackRouter"
+	"go-server-template/routers/api/tagRouter"
+	"go-server-template/routers/api/topicRouter"
+	"go-server-template/routers/api/typeRouter"
+	"go-server-template/routers/api/userRouter"
+	"go-server-template/routers/api/userTopicRouter"
+	"go-server-template/routers/api/utils"
+
+	"github.com/gin-gonic/gin"
 )
 
 func InitApi(r *gin.Engine) {
@@ -23,4 +25,5 @@ func InitApi(r *gin.Engine) {
 	userTopicRouter.UserTopicInitRouter(api)
 	topicRouter.TopicInitRouter(api)
 	feedbackRouter.FeedbackInitRouter(api)
+	utils.UtilsInitRouter(api)
 }

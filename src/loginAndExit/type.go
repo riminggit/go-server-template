@@ -41,9 +41,15 @@ type LoginReturnData struct {
 }
 
 type WXLoginResultData struct {
-	Token string `json:"token"`
+	Token    string         `json:"token"`
+	UserInfo userModel.User `json:"userInfo"`
 }
 
 type LayoutReturnData struct {
 	Code int `json:"code"`
+}
+
+type CheckToken struct {
+	Token string `json:"token"`
+	Code  int    `json:"code"`
 }

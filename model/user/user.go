@@ -9,7 +9,7 @@ import (
 type User struct {
 	ID        int       `json:"id" gorm:"type:bigint;column:id;comment:id;not null"` // id
 	Email     string    `json:"email" gorm:"type:varchar(50);index;"`                // 唯一索引
-	NickName  string    `json:"nick_name" gorm:"type:varchar(100);uniqueIndex;"`
+	NickName  string    `json:"nick_name" gorm:"type:varchar(100);"`
 	Password  string    `json:"password" gorm:"type:varchar(255)"`
 	Phone     string    `json:"phone" gorm:"type:varchar(13);index;"`
 	AvatarUrl string    `json:"avatar_url" gorm:"type:varchar(255)"`
